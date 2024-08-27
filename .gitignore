@@ -1,0 +1,7 @@
+## Git Ignore Files ##
+
+# OS Waste File
+*.DS_Store
+
+# VSCode Waste File
+*.vscode
