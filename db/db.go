@@ -11,9 +11,11 @@ import (
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
+// # MongoDB Client and Collection Variables 
 var client *mongo.Client
 var collection *mongo.Collection
 
+// # Initialize MongoDB Connection
 func init() {
 	// # Load Env Variables
 	env.LoadEnv()
@@ -49,6 +51,7 @@ func init() {
 
 // # SaveURL : Save a new URL to the MongoDB collection
 func SaveURL(url models.URL) error {
+	// # Insert URL into the MongoDB collection
 	_, err := collection.InsertOne(context.TODO(), url)
 	return err
 }
@@ -56,9 +59,12 @@ func SaveURL(url models.URL) error {
 // # GetURL : Get a URL from the MongoDB collection
 func GetURL(id string) (models.URL, error) {
 	var url models.URL
+	// # Find URL by ID in the MongoDB collection and Decode it into URL Model Object 
 	err := collection.FindOne(context.TODO(), map[string]string{"id": id}).Decode(&url)
 	if err != nil {
+		// # URL Not Found and Returned Error
 		return models.URL{}, err
 	}
+	// # URL Found and Returned URL
 	return url, nil
 }
