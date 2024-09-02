@@ -35,14 +35,14 @@ The server will start listening on port `8080` by default. You can change the po
 To shorten a URL, send a POST request to the `/shorten` endpoint with a JSON payload containing the original URL:
 
 ```sh
-curl -X POST http://localhost:8080/shorten -H "Content-Type: application/json" -d '{"url": "https://example.com"}'
+curl -X POST http://localhost:8080/shorten -H "Content-Type: application/json" -d '{"url": "https://www.linkedin.com/username"}'
 ```
 
 The response will contain a JSON object with the shortened URL:
 
 ```json
 {
-    "short_url": "https://www.linkedin.com/in/encoding"
+  "short_url": "a2352b"
 }
 ```
 
@@ -51,7 +51,7 @@ The response will contain a JSON object with the shortened URL:
 To redirect to the original URL, visit the shortened URL in your browser or send a GET request to the `/redirect/{id}` endpoint, where `{id}` is the shortened URL ID:
 
 ```sh
-curl http://localhost:8080/redirect/abcdef
+curl http://localhost:8080/redirect/a2352b
 ```
 
 This will redirect you to the original URL associated with the shortened URL.
