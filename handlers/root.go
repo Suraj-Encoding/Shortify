@@ -5,6 +5,8 @@ import (
 	"net/http"
 )
 
+// # RootPageURL handles requests to the root URL
 func RootPageURL(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "⚙️ Welcome to the Shortify ⚙️")
+	// # Send a welcome message to the client
+	fmt.Fprintf(w, "🚀 Welcome to Shortify 🚀")
 }
