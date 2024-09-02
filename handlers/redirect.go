@@ -5,11 +5,13 @@ import (
 	"shortify/db"
 )
 
+// # RedirectURLHandler : Redirect to the original URL from the short URL
 func RedirectURLHandler(w http.ResponseWriter, r *http.Request) {
 	id := r.URL.Path[len("/redirect/"):]
 	url, err := db.GetURL(id)
 	if err != nil {
-		http.Error(w, "Invalid request", http.StatusNotFound)
+		// # Invalid Request 
+		http.Error(w, "🚫 Invalid Request!", http.StatusNotFound)
 		return
 	}
 	http.Redirect(w, r, url.OriginalURL, http.StatusFound)
