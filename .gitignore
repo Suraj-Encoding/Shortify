@@ -5,3 +5,6 @@
 
 # VSCode Waste File
 *.vscode
+
+# Environment Variables
+*.env
