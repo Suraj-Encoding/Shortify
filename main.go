@@ -2,6 +2,8 @@ package main
 
 import (
 	"fmt"
+	"os"
+	"strings"
 	"net/http"
 	"shortify/handlers"
 	"shortify/env"
@@ -14,6 +16,10 @@ func main() {
 	// # Get Port
 	port := env.GetEnv("PORT", "3000")
 
+	// # Build Server URL with Port
+	serverURI := os.Getenv("SERVER_URI")
+	serverURI = strings.Replace(serverURI, "{PORT}", port, 1)
+
 	// # Routes
 	http.HandleFunc("/", handlers.RootPageURL)
 	http.HandleFunc("/shorten", handlers.ShortURLHandler)
@@ -21,7 +27,7 @@ func main() {
 
 	// # Start Server
 	fmt.Printf("🚀 Server is running...\n")
-	fmt.Printf("🔗 Link : http://localhost:%s\n", port)
+	fmt.Printf("🔗 Link : %s\n", serverURI)
 	err := http.ListenAndServe(":"+port, nil)
 	if err != nil {
 		// # Start Server Error
