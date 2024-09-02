@@ -42,7 +42,7 @@ The response will contain a JSON object with the shortened URL:
 
 ```json
 {
-  "short_url": "a2352b"
+  "short_url": "http://localhost:8080/redirect/a2352b"
 }
 ```
 
