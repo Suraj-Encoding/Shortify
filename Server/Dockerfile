@@ -1,35 +1,38 @@
 ## Dockerfile : For Go Application ##
 
-## Stage-I: Build the Go application 
+## Stage 1: Build the Go application
 
-# Start from the latest golang base image (alpine) 
+# Start from the latest golang base image (alpine)
 FROM golang:1.23.0-alpine3.20 AS build
 
-# Make new directory as app
-RUN mkdir /app
-
-# Copy the current directory contents into the container at /app
-ADD . /app
-
-# Set the Current Working Directory inside the container
+# Set `app` as a CWD inside the container
 WORKDIR /app
 
-# Copy go.mod and go.sum files to the workspace
+# Copy go.mod and go.sum files first to leverage Docker layer caching
 COPY go.mod go.sum ./
 
-# Download all the dependencies using `tidy` command
-RUN go mod tidy 
+# Download all dependencies using tidy command
+RUN go mod tidy
 
 # Copy the rest of the application code
 COPY . .
 
-## Stage-II: Run the Go app 
-
 # Build the Go app
 RUN go build -o main .
+
+## Stage 2: Run the Go application
+
+# Use a minimal base image to keep the image size small
+FROM alpine:3.20
+
+# Set `app` as a CWD inside the container
+WORKDIR /app
+
+# Copy the built binary from the build stage
+COPY --from=build /app/main .
 
 # Expose port 3000 to the outside world
 EXPOSE 3000
 
 # Run the binary program
-CMD ["/app/main"]
+CMD ["./main"]
