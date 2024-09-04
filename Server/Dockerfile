@@ -28,11 +28,8 @@ FROM alpine:3.20
 # Set `app` as a CWD inside the container
 WORKDIR /app
 
-# Copy the built binary from the build stage
-COPY --from=build /app/main .
-
 # Expose port 3000 to the outside world
 EXPOSE 3000
 
 # Run the binary program
-CMD ["./main"]
+CMD ["/app/main"]
