@@ -8,3 +8,6 @@
 
 # Environment Variables
 *.env
+
+# AWS EC2 Instance Secret Key-Value Pair
+*/key
