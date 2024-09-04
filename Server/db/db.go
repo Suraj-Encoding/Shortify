@@ -1,27 +1,38 @@
 package db
 
 import (
+	"context"
 	"fmt"
 	"log"
-	"context"
+	"os"
 	"shortify/env"
 	"shortify/models"
+	"strings"
 
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
-// # MongoDB Client and Collection Variables 
+// # MongoDB Client and Collection Variables
 var client *mongo.Client
 var collection *mongo.Collection
 
 // # Initialize MongoDB Connection
 func init() {
+
 	// # Load Env Variables
 	env.LoadEnv()
 
-	// # Get MongoDB URL, DB Name, and Collection Name
-	mongoURI := env.GetEnv("MONGO_URI", "mongodb://localhost:27017")
+	// # Get DB User and DB Password
+	dbUser := env.GetEnv("DB_USER", "User")
+	dbPass := env.GetEnv("DB_PASS", "Password")
+
+	// # Build MongoDB URI with DB User and DB Password
+	mongoURI := os.Getenv("MONGO_URI")
+	mongoURI = strings.Replace(mongoURI, "{DB_USER}", dbUser, 1)
+	mongoURI = strings.Replace(mongoURI, "{DB_PASS}", dbPass, 1)
+
+	// # Get DB Name and Collection Name
 	dbName := env.GetEnv("DB_NAME", "Shortify")
 	collectionName := env.GetEnv("COLLECTION_NAME", "Links")
 
@@ -45,8 +56,8 @@ func init() {
 	collection = client.Database(dbName).Collection(collectionName)
 
 	// # MongoDB Connection Successful
-    fmt.Printf("🕸️  %s Server Connected!\n", dbName)
-    fmt.Printf("🕸️  %s Database Connected!\n", dbName)
+	fmt.Printf("🕸️  %s Server Connected!\n", dbName)
+	fmt.Printf("🕸️  %s Database Connected!\n", dbName)
 }
 
 // # SaveURL : Save a new URL to the MongoDB collection
@@ -59,7 +70,7 @@ func SaveURL(url models.URL) error {
 // # GetURL : Get a URL from the MongoDB collection
 func GetURL(id string) (models.URL, error) {
 	var url models.URL
-	// # Find URL by ID in the MongoDB collection and Decode it into URL Model Object 
+	// # Find URL by ID in the MongoDB collection and Decode it into URL Model Object
 	err := collection.FindOne(context.TODO(), map[string]string{"id": id}).Decode(&url)
 	if err != nil {
 		// # URL Not Found and Returned Error

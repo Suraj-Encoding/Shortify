@@ -2,14 +2,15 @@ package main
 
 import (
 	"fmt"
-	"os"
-	"strings"
 	"net/http"
-	"shortify/handlers"
+	"os"
 	"shortify/env"
+	"shortify/handlers"
+	"strings"
 )
 
 func main() {
+
 	// # Load Env Variables
 	env.LoadEnv()
 
