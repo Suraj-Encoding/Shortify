@@ -5,3 +5,6 @@
 
 # VSCode Waste File
 *.vscode
+
+# AWS EC2 Instance Secret Key-Value Pair
+*/key
