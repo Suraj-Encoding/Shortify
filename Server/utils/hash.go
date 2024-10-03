@@ -1,14 +1,14 @@
 package utils
 
 import (
-	"log"
-	"os"
-	"strings"
 	"crypto/md5"
 	"encoding/hex"
+	"log"
+	"os"
 	"shortify/db"
-	"shortify/models"
 	"shortify/env"
+	"shortify/models"
+	"strings"
 )
 
 // # GenerateShortURL : Generate a short URL from the original URL
@@ -39,9 +39,9 @@ func CreateURL(originalURL string) string {
 
 	// # Form URL Model Object
 	url := models.URL{
-		ID:           id,
-		OriginalURL:  originalURL,
-		ShortURL:     shortURL,
+		ID:          id,
+		OriginalURL: originalURL,
+		ShortURL:    shortURL,
 	}
 	// # Save URL
 	err := db.SaveURL(url)

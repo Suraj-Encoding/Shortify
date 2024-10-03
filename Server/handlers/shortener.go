@@ -17,15 +17,15 @@ func ShortURLHandler(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "🚫 Invalid Request Body!", http.StatusBadRequest)
 		return
 	}
-    
+
 	// # Create a new short URL
 	shortURL := utils.CreateURL(data.URL)
 	response := struct {
-		// # Short URL Response Object 
+		// # Short URL Response Object
 		ShortURL string `json:"short_url"`
 	}{ShortURL: shortURL}
-   
-	// # Send the response with the short URL to the client 
+
+	// # Send the response with the short URL to the client
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(response)
 }
