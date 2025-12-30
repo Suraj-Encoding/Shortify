@@ -1,0 +1,31 @@
+/* ## App Global CSS ## */
+
+/* # Tailwind CSS # */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* # Scrollbar CSS # */
+
+/* Firefox */
+* {
+  scrollbar-width: auto;
+  scrollbar-color: #5b8be0 #ffffff;
+}
+
+/* Chrome | Edge | Safari */
+*::-webkit-scrollbar {
+  width: 12px;
+  height: 20px;
+}
+
+*::-webkit-scrollbar-track {
+  background: transparent;
+  margin: 10px;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: #5b8be0;
+  border-radius: 10px;
+  border: 3px solid black;
+}

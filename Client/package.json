@@ -1,0 +1,40 @@
+{
+  "name": "shortify",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "keywords": [
+    "Suraj-Encoding",
+    "Shortify",
+    "Next",
+    "Clerk"
+  ],
+  "dependencies": {
+    "@clerk/nextjs": "latest",
+    "next": "15.5.9",
+    "react": "latest",
+    "react-dom": "latest",
+    "react-toastify": "latest",
+    "react-tooltip": "latest",
+    "sharp": "latest",
+    "styled-components": "latest"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4.1.18",
+    "@types/node": "latest",
+    "@types/react": "latest",
+    "@types/react-dom": "latest",
+    "@wojtekmaj/react-hooks": "latest",
+    "autoprefixer": "^10.4.23",
+    "eslint": "latest",
+    "eslint-config-next": "latest",
+    "postcss": "^8.5.6",
+    "tailwindcss": "^4.1.18",
+    "typescript": "latest"
+  }
+}
