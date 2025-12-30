@@ -21,14 +21,15 @@ func SetAppResponse(w http.ResponseWriter, response any) {
 }
 
 // # Set 'App Error'
-func SetAppError(w http.ResponseWriter, errMsg string, statusCode int) {
-	w.WriteHeader(statusCode) // # "error status code" #
+func SetAppError(w http.ResponseWriter, errRes *schema.Error) {
+	w.WriteHeader(errRes.StatusCode) // # "error status code" #
 
 	encoder := json.NewEncoder(w)
 
 	err := &schema.AppError{
-		Success: false,
-		Error:   errMsg,
+		Success:    false,
+		Error:      errRes.Message,
+		StatusCode: errRes.StatusCode,
 	}
 
 	encoder.Encode(err)

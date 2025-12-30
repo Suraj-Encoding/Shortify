@@ -8,6 +8,7 @@ type AppResponse struct {
 
 // # App 'Error' Schema
 type AppError struct {
-	Success bool `json:"success"` // # "false"
-	Error   any  `json:"error"`
+	Success    bool   `json:"success"` // # "false"
+	Error      string `json:"error"`
+	StatusCode int    `json:"status_code"`
 }
