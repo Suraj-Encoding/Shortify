@@ -1,17 +1,16 @@
 package utils
 
 import (
+	"errors"
 	"fmt"
-	"shortify/schema"
 	"time"
 )
 
 // # Get 'Current System Time' in 'IST' Timezone
-func GetCurrentSystemTimeInIST() (*time.Time, *schema.Error) {
+func GetCurrentSystemTimeInIST() (*time.Time, error) {
 	// # Error 'Variables'
 	var err error
 	var errMsg string
-	var errRes schema.Error
 
 	// # Get the 'current system time'
 	currentSystemTime := time.Now()
@@ -23,11 +22,8 @@ func GetCurrentSystemTimeInIST() (*time.Time, *schema.Error) {
 	ISTTimezoneLocation, err := time.LoadLocation(ISTTimezone)
 	if err != nil {
 		errMsg = fmt.Sprintf("Failed to load the IST timezone location: %s", err.Error())
-		errRes = schema.Error{
-			StatusCode: 500,
-			Message:    errMsg,
-		}
-		return nil, &errRes
+		err = errors.New(errMsg)
+		return nil, err
 	}
 
 	// # Convert the 'current system time' to the 'IST' timezone
