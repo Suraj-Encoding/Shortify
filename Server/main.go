@@ -24,7 +24,10 @@ func main() {
 	serverURI = strings.Replace(serverURI, "{PORT}", port, 1)
 
 	// # Setup the 'Router'
-	router := router.SetupRouter()
+	r := router.SetupRouter()
+
+	// # Allow 'CORS'
+	corsHandler := router.AllowCORS(r)
 
 	// # Start the 'server'
 	fmt.Println("🚀 Server Is Running...")
@@ -32,7 +35,7 @@ func main() {
 
 	listenAddress := fmt.Sprintf(":%s", port)
 
-	err = http.ListenAndServe(listenAddress, router)
+	err = http.ListenAndServe(listenAddress, corsHandler)
 	if err != nil {
 		// # Start 'Server' Error
 		log.Fatal("🚫 Start Server Error: ", err)
