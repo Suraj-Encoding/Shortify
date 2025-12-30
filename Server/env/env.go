@@ -7,25 +7,27 @@ import (
 	"github.com/joho/godotenv"
 )
 
-
-// # Load Env
+// # Load 'Env'
 func LoadEnv() {
-	// # Load Env Variables
-	err := godotenv.Load()
+	var err error
+
+	// # Load the 'Env' variables
+	err = godotenv.Load()
 	if err != nil {
-		// # Load Env Error
-		fmt.Println("🚫 Load Env Error : ", err)
+		// # Load 'Env' Error
+		fmt.Println("🚫 Load Env Error: ", err)
 	}
 }
 
-// # Get Env
-func GetEnv(key, defaultValue string) string {
-	// # Get Value
-	value := os.Getenv(key)
-	if value == "" {
-		// # Return Default Value
-		return defaultValue
+// # Get 'Env'
+func GetEnv(envKey, defaultEnvValue string) string {
+	// # Get the 'Env' value
+	envValue := os.Getenv(envKey)
+	if envValue == "" {
+		// # Return the default 'Env' value
+		return defaultEnvValue
 	}
-	// # Return Value
-	return value
+
+	// # Return the 'Env' value
+	return envValue
 }
