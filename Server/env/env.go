@@ -3,6 +3,7 @@ package env
 import (
 	"fmt"
 	"os"
+	"shortify/utils"
 
 	"github.com/joho/godotenv"
 )
@@ -23,6 +24,7 @@ func LoadEnv() {
 func GetEnv(envKey string) string {
 	// # Get the 'Env' value
 	envValue := os.Getenv(envKey)
+	envValue = utils.GetTrimmedValue(envValue)
 	if envValue == "" {
 		// # Get 'Env' Error
 		fmt.Println("🚫 Get Env Error:", envKey)
