@@ -5,8 +5,9 @@ import (
 	"net/http"
 )
 
-// # Root 'Route': ["/"]
-func RootRoute(w http.ResponseWriter, r *http.Request) {
-	// # Send the 'welcome' message to the 'client'
-	fmt.Fprintf(w, "🚀 Welcome To Shortify! 🚀")
+// # Root 'Page': ["/"]
+// # Note: Send the "welcome" message to the 'client'
+func RootPage(w http.ResponseWriter, r *http.Request) {
+	const welcomeMessage string = "🚀 Welcome to Shortify - Modern URL Shortener 🚀"
+	fmt.Fprintf(w, welcomeMessage)
 }

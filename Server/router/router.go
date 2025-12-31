@@ -11,8 +11,9 @@ func SetupRouter() *mux.Router {
 	// # Get the new 'mux' router 'instance'
 	router := mux.NewRouter()
 
-	// # Root 'Route': Get the server 'welcome' message: ["/"]
-	router.HandleFunc("/", api.RootRoute).Methods("GET")
+	// # Redirect 'Route'
+	// # Note: Redirect to the 'Destination URL'
+	router.HandleFunc("/", api.RedirectURL).Methods("GET")
 
 	// # API 'Base Path'
 	APIBasePath := "/api/v1"
