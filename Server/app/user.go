@@ -81,7 +81,7 @@ func CreateUser(clerkUser *schema.ClerkUser) (*string, error) {
 		ClerkUserID: utils.GetTrimmedValue(clerkUser.ID),
 		FirstName:   utils.GetStringValue(clerkUser.FirstName),
 		LastName:    utils.GetStringValue(clerkUser.LastName),
-		Email:       utils.GetStringValue(clerkUser.Username),
+		Email:       utils.GetStringValue(clerkUser.EmailAddresss[0].EmailAddress),
 		CreatedAt:   time,
 		CreatedBy:   createdBy,
 	}
@@ -154,9 +154,9 @@ func UpdateUser(clerkUser *schema.ClerkUser) (*string, error) {
 			unset["last_name"] = 1
 		}
 	}
-	if clerkUser.Username != nil {
-		if utils.GetStringValue(clerkUser.Username) != "" {
-			set["email"] = utils.GetStringValue(clerkUser.Username)
+	if clerkUser.EmailAddresss[0].EmailAddress != nil {
+		if utils.GetStringValue(clerkUser.EmailAddresss[0].EmailAddress) != "" {
+			set["email"] = utils.GetStringValue(clerkUser.EmailAddresss[0].EmailAddress)
 		} else {
 			unset["email"] = 1
 		}

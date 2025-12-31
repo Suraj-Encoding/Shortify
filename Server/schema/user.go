@@ -1,12 +1,15 @@
 package schema
 
+type EmailAddress struct {
+	EmailAddress *string `json:"email_address"`
+}
 type ClerkUser struct {
 	// # "Create" & "Update" #
-	ID        string  `json:"id"`
-	FirstName *string `json:"first_name"`
-	LastName  *string `json:"last_name"`
-	Username  *string `json:"username"`
-	ImageURL  *string `json:"image_url"`
+	ID            string          `json:"id"`
+	FirstName     *string         `json:"first_name"`
+	LastName      *string         `json:"last_name"`
+	ImageURL      *string         `json:"image_url"`
+	EmailAddresss []*EmailAddress `json:"email_addresses"`
 
 	// # "Delete" #
 	Deleted bool   `json:"deleted"` // # "false" #
