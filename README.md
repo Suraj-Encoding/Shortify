@@ -1,61 +1,108 @@
-<!-- # URL Shortener Readme # -->
+# 🕸️ Welcome To Shortify - Modern URL Shortener 🕸️
 
-# URL Shortener
+Shortify is a modern, full‑stack URL shortening service built with Go (backend), MongoDB (data store), Clerk (authentication), and Next.js (frontend). It's designed for rapid development and production readiness with clean APIs and a polished UI.
 
-A simple URL shortening service built in Go
+---
 
-## Overview
+## Tech Stack
 
-This project provides a basic URL-shortening service implemented in Go. It allows users to shorten long URLs into more manageable and shareable links. The service also includes a redirect feature to redirect users from the shortened URL to the original long URL.
+- **Backend:** Go
+- **Database:** MongoDB
+- **Auth:** Clerk
+- **Frontend:** Next.js
 
-## Installation
+---
 
-To use the URL shortener, you need to have Go installed on your system. You can download and install Go from the [official Go website](https://go.dev/).
+## Key Features
 
-Clone the repository to your local machine:
+- Shorten URLs into vanity links (username + slug)
+- Fast redirect service for shortened links
+- User management and authentication via Clerk
+- MongoDB for reliable storage of users and links
+- Next.js frontend with responsive UI and Clerk integration
 
-```sh
+---
+
+## Project Structure (high level)
+
+- `Server/` — Go backend, API handlers, app logic and MongoDB integration
+- `Client/` — Next.js frontend, components, and Clerk auth routes
+- `README.md` — This file
+
+---
+
+## Quick Start
+
+Prerequisites:
+
+- Go 1.20+ installed
+- MongoDB accessible (local or hosted)
+- Clerk account and API keys (for auth)
+
+1. Clone the repo
+
+```bash
 git clone https://github.com/Suraj-Encoding/Shortify.git
+cd Shortify
 ```
 
-## Usage
+2. Backend: configure environment
 
-### Running the Server
+- Copy or create `Server/.env` (or set env vars) with MongoDB URI, Clerk keys, and other settings used by `Server/env`.
 
-Navigate to the project directory and run the following command to start the server:
+3. Run the backend
 
-```sh
-go run main.go
+```bash
+cd Server
+go build ./...
+./main
 ```
 
-The server will start listening on port `8080` by default. You can change the port in the `main.go` file if needed.
+4. Frontend: install and run
 
-### Shortening a URL
-
-To shorten a URL, send a POST request to the `/shorten` endpoint with a JSON payload containing the original URL:
-
-```sh
-curl -X POST http://localhost:8080/shorten -H "Content-Type: application/json" -d '{"url": "https://www.linkedin.com/username"}'
+```bash
+cd Client
+npm install
+npm run dev
 ```
 
-The response will contain a JSON object with the shortened URL:
+The frontend typically runs on `http://localhost:3000` and the backend on `http://localhost:8080` (configurable).
 
-```json
-{
-  "short_url": "http://localhost:8080/redirect/a2352b"
-}
-```
+---
 
-### Redirecting to the Original URL
+## Common Endpoints
 
-To redirect to the original URL, visit the shortened URL in your browser or send a GET request to the `/redirect/{id}` endpoint, where `{id}` is the shortened URL ID:
+- Redirect (public): `GET /{username}/{slug}` — redirects to the destination URL
+- API base: `/api/v1`
+  - User webhook: `POST /api/v1/user/webhook` (Clerk)
+  - Update username: `PUT /api/v1/user/username`
+  - Links CRUD: under `/api/v1/link`
 
-```sh
-curl http://localhost:8080/redirect/a2352b
-```
+---
 
-This will redirect you to the original URL associated with the shortened URL.
+## Testing & Development Tips
+
+- Use `curl -v http://localhost:8080/alice/abc123` to test redirects.
+- Run `go build ./...` to check for backend compile errors.
+- Ensure Clerk webhooks point to the server's `/api/v1/user/webhook` during integration.
+
+---
 
 ## Contributing
 
-Contributions are welcome! Feel free to fork the repository and submit pull requests.
+Contributions welcome — open issues or submit PRs. Follow these steps:
+
+1. Fork the repo
+2. Create a feature branch
+3. Make changes and run `go build` and `npm run dev` locally
+4. Open a PR with a clear description
+
+---
+
+## License
+
+This project uses the license in the repository. Feel free to adapt as needed.
+
+---
+
+Enjoy Shortify — let me know if you want a README badge, deployment guide, or CI steps added.
