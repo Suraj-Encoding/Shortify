@@ -394,6 +394,12 @@ func GetUser(filter bson.M) (*model.User, error) {
 			return nil, err
 		}
 	}
+	if user.IsDeleted {
+		utils.LogError(err, "App.GetUser")
+		errMsg = "User is already deleted"
+		err = errors.New(errMsg)
+		return nil, err
+	}
 
 	return &user, nil
 }
@@ -408,7 +414,11 @@ func GetUsers() ([]*model.User, error) {
 	collection := db.GetMongoCollection(model.UserColl)
 
 	// # Base 'Filter'
-	filter := bson.M{} // # "Empty" Filter
+	filter := bson.M{
+		"is_deleted": bson.M{
+			"$ne": true, // # Exclude the 'deleted' users
+		},
+	}
 
 	var users []*model.User
 
