@@ -23,8 +23,31 @@ func CreateLink(clerkUserID string, link *schema.Link) (*string, error) {
 	var errMsg string
 	var successMsg string
 
+	// # Get the 'Server' variable from the 'Env'
+	deployedServerURL := env.GetEnv("DEPLOYED_SERVER_URL")
+	if deployedServerURL == "" {
+		errMsg = "Empty deployed server URL found in the env file"
+		err = errors.New(errMsg)
+		return nil, err
+	}
+
 	// # Base 'Filter'
 	filter := bson.M{
+		"clerk_user_id": clerkUserID,
+		"slug":          utils.GetStringValue(link.Slug),
+	}
+
+	// # Check if the provided 'slug' is already 'assigned' to another 'link'
+	Link, err := GetLink(filter)
+	if Link != nil {
+		utils.LogError(err, "App.UpdateLink")
+		errMsg = "The provided slug is already assigned to another link. Please choose a different one."
+		err = errors.New(errMsg)
+		return nil, err
+	}
+
+	// # Base 'Filter'
+	filter = bson.M{
 		"clerk_user_id": clerkUserID,
 	}
 
@@ -32,14 +55,6 @@ func CreateLink(clerkUserID string, link *schema.Link) (*string, error) {
 	user, err := GetUser(filter)
 	if err != nil {
 		utils.LogError(err, "App.CreateLink")
-		return nil, err
-	}
-
-	// # Get the 'Server' variable from the 'Env'
-	deployedServerURL := env.GetEnv("DEPLOYED_SERVER_URL")
-	if deployedServerURL == "" {
-		errMsg = "Empty deployed server URL found in the env file"
-		err = errors.New(errMsg)
 		return nil, err
 	}
 
@@ -52,7 +67,7 @@ func CreateLink(clerkUserID string, link *schema.Link) (*string, error) {
 		return nil, err
 	}
 
-	Link := model.Link{
+	Link = &model.Link{
 		ID:             utils.GetNewObjectID(),
 		UserID:         user.ID,
 		ClerkUserID:    user.ClerkUserID,
@@ -60,7 +75,7 @@ func CreateLink(clerkUserID string, link *schema.Link) (*string, error) {
 		Title:          utils.GetStringValue(link.Title),
 		Description:    utils.GetStringValue(link.Description),
 		ServerURL:      deployedServerURL,
-		DestinationURL: utils.GetStringValue(link.URL),
+		DestinationURL: utils.GetStringValue(link.DestinationURL),
 		Slug:           utils.GetStringValue(link.Slug),
 		CreatedAt:      time,
 		CreatedBy:      utils.GetActionUser(clerkUserID),
@@ -70,7 +85,7 @@ func CreateLink(clerkUserID string, link *schema.Link) (*string, error) {
 	Link.ShortURL = shortURL
 
 	// # Insert the 'new link'
-	_, err = collection.InsertOne(ctx, &Link)
+	_, err = collection.InsertOne(ctx, Link)
 	if err != nil {
 		utils.LogError(err, "App.CreateLink")
 		errMsg = "Failed to create the new link"
@@ -132,9 +147,9 @@ func UpdateLink(clerkUserID string, link *schema.Link) (*string, error) {
 			unset["description"] = 1
 		}
 	}
-	if link.URL != nil {
-		if utils.GetStringValue(link.URL) != "" {
-			set["destination_url"] = utils.GetStringValue(link.URL)
+	if link.DestinationURL != nil {
+		if utils.GetStringValue(link.DestinationURL) != "" {
+			set["destination_url"] = utils.GetStringValue(link.DestinationURL)
 		} else {
 			unset["destination_url"] = 1
 		}
@@ -248,6 +263,12 @@ func GetLink(filter bson.M) (*model.Link, error) {
 			return nil, err
 		}
 	}
+	if link.IsUserDeleted {
+		utils.LogError(err, "App.GetLink")
+		errMsg = "User associated with the given link is already deleted"
+		err = errors.New(errMsg)
+		return nil, err
+	}
 
 	return &link, nil
 }
@@ -264,6 +285,9 @@ func GetLinks(clerkUserID string) ([]*model.Link, error) {
 	// # Base 'Filter'
 	filter := bson.M{
 		"clerk_user_id": clerkUserID,
+		"is_user_deleted": bson.M{
+			"$ne": true, // # Exclude the 'deleted' users
+		},
 	}
 
 	var links []*model.Link

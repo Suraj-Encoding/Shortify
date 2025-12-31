@@ -230,7 +230,7 @@ func DeleteUser(clerkUser *schema.ClerkUser) (*string, error) {
 
 	user := "clerk_webhook"
 
-	// # 1. Mark the 'user' as 'deleted'
+	// # 1. Mark the given 'user' as 'deleted'
 
 	// # Base 'Filter'
 	filter := bson.M{
@@ -290,16 +290,6 @@ func DeleteUser(clerkUser *schema.ClerkUser) (*string, error) {
 		err = errors.New(errMsg)
 		return nil, err
 	}
-	if res.MatchedCount == 0 {
-		errMsg = "User not found"
-		err = errors.New(errMsg)
-		return nil, err
-	}
-	if res.ModifiedCount == 0 {
-		errMsg = "No link of the given user marked as deleted"
-		err = errors.New(errMsg)
-		return nil, err
-	}
 
 	successMsg = "User deleted successfully!"
 
@@ -319,11 +309,11 @@ func UpdateUsername(clerkUserID, username string) (*string, error) {
 		"username": username,
 	}
 
-	// # Check if the provided 'username' already 'exists'
+	// # Check if the provided 'username' is already 'taken' by the another 'user'
 	user, err := GetUser(filter)
 	if user != nil {
 		utils.LogError(err, "App.UpdateUsername")
-		errMsg = "The provided username already exists. Please use a different username."
+		errMsg = "Username already taken. Please choose another one."
 		err = errors.New(errMsg)
 		return nil, err
 	}
@@ -404,6 +394,12 @@ func GetUser(filter bson.M) (*model.User, error) {
 			return nil, err
 		}
 	}
+	if user.IsDeleted {
+		utils.LogError(err, "App.GetUser")
+		errMsg = "User is already deleted"
+		err = errors.New(errMsg)
+		return nil, err
+	}
 
 	return &user, nil
 }
@@ -418,7 +414,11 @@ func GetUsers() ([]*model.User, error) {
 	collection := db.GetMongoCollection(model.UserColl)
 
 	// # Base 'Filter'
-	filter := bson.M{} // # "Empty" Filter
+	filter := bson.M{
+		"is_deleted": bson.M{
+			"$ne": true, // # Exclude the 'deleted' users
+		},
+	}
 
 	var users []*model.User
 

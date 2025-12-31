@@ -63,9 +63,9 @@ func CreateLink(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// # Validate the 'link' data
-	if link.URL == nil || utils.GetStringValue(link.URL) == "" {
+	if link.DestinationURL == nil || utils.GetStringValue(link.DestinationURL) == "" {
 		utils.LogError(err, "API.CreateLink")
-		errMsg = "Link URL cannot be empty"
+		errMsg = "Link destination URL cannot be empty"
 		errRes = schema.Error{
 			StatusCode: http.StatusBadRequest,
 			Message:    errMsg,
@@ -165,9 +165,9 @@ func UpdateLink(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// # Validate the 'link' data
-	if link.URL == nil || utils.GetStringValue(link.URL) == "" {
+	if link.DestinationURL == nil || utils.GetStringValue(link.DestinationURL) == "" {
 		utils.LogError(err, "API.UpdateLink")
-		errMsg = "Link URL cannot be empty"
+		errMsg = "Link destination URL cannot be empty"
 		errRes = schema.Error{
 			StatusCode: http.StatusBadRequest,
 			Message:    errMsg,
