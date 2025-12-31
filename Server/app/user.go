@@ -11,7 +11,6 @@ import (
 	"strings"
 
 	"go.mongodb.org/mongo-driver/bson"
-	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
@@ -77,6 +76,7 @@ func CreateUser(clerkUser *schema.ClerkUser) (*string, error) {
 	createdBy := "clerk_webhook"
 
 	user := model.User{
+		ID:          utils.GetNewObjectID(),
 		ClerkUserID: utils.GetTrimmedValue(clerkUser.ID),
 		FirstName:   utils.GetStringValue(clerkUser.FirstName),
 		LastName:    utils.GetStringValue(clerkUser.LastName),
@@ -97,9 +97,6 @@ func CreateUser(clerkUser *schema.ClerkUser) (*string, error) {
 
 	username := fmt.Sprintf("%s%s%d", strings.ToLower(user.FirstName), strings.ToLower(user.LastName), user.Code)
 	user.Username = username
-
-	userID := primitive.NewObjectID()
-	user.ID = &userID
 
 	// # Insert the 'new user'
 	_, err = collection.InsertOne(ctx, &user)
