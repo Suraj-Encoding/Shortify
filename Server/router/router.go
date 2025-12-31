@@ -1,7 +1,6 @@
 package router
 
 import (
-	"fmt"
 	"shortify/api"
 
 	"github.com/gorilla/mux"
@@ -22,10 +21,13 @@ func SetupRouter() *mux.Router {
 	APIV1 := router.PathPrefix(APIBasePath).Subrouter()
 
 	// # 'API' Version '1' Sub 'Routers'
-	WebhookV1 := APIV1.PathPrefix("/webhook").Subrouter()
+	UserV1 := APIV1.PathPrefix("/user").Subrouter()
 
-	// # 'Webhook' Routes
-	fmt.Println(WebhookV1)
+	// # 'User' Routes
+	UserV1.HandleFunc("/webhook", api.HandleClerkUserWebhook).Methods("POST")
+	UserV1.HandleFunc("/username", api.UpdateUsername).Methods("PUT")
+	UserV1.HandleFunc("/", api.GetUser).Methods("GET")
+	UserV1.HandleFunc("/all", api.GetUsers).Methods("GET")
 
 	// # Return the 'configured' mux 'router' instance
 	return router
