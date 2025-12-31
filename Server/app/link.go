@@ -60,7 +60,7 @@ func CreateLink(clerkUserID string, link *schema.Link) (*string, error) {
 		Title:          utils.GetStringValue(link.Title),
 		Description:    utils.GetStringValue(link.Description),
 		ServerURL:      deployedServerURL,
-		DestinationURL: utils.GetStringValue(link.URL),
+		DestinationURL: utils.GetStringValue(link.DestinationURL),
 		Slug:           utils.GetStringValue(link.Slug),
 		CreatedAt:      time,
 		CreatedBy:      utils.GetActionUser(clerkUserID),
@@ -132,9 +132,9 @@ func UpdateLink(clerkUserID string, link *schema.Link) (*string, error) {
 			unset["description"] = 1
 		}
 	}
-	if link.URL != nil {
-		if utils.GetStringValue(link.URL) != "" {
-			set["destination_url"] = utils.GetStringValue(link.URL)
+	if link.DestinationURL != nil {
+		if utils.GetStringValue(link.DestinationURL) != "" {
+			set["destination_url"] = utils.GetStringValue(link.DestinationURL)
 		} else {
 			unset["destination_url"] = 1
 		}
