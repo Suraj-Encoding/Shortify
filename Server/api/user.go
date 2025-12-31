@@ -53,7 +53,7 @@ func HandleClerkUserWebhook(w http.ResponseWriter, r *http.Request) {
 	var clerkUser *schema.ClerkUser
 	if clerkUserForm.Data == nil {
 		utils.LogError(err, "API.HandleClerkUserWebhook")
-		errMsg = "Empty clerk user request data found"
+		errMsg = "Empty clerk user data provided"
 		errRes = schema.Error{
 			StatusCode: 400,
 			Message:    errMsg,
@@ -106,7 +106,7 @@ func UpdateUsername(w http.ResponseWriter, r *http.Request) {
 
 	// # Get the 'clerk user ID' from the 'query params'
 	clerkUserID := r.URL.Query().Get("clerk_user_id")
-	clerkUserID = utils.GetStringValue(&clerkUserID)
+	clerkUserID = utils.GetTrimmedValue(clerkUserID)
 	if clerkUserID == "" {
 		errMsg = "Empty clerk user ID provided"
 		errRes = schema.Error{
@@ -119,7 +119,7 @@ func UpdateUsername(w http.ResponseWriter, r *http.Request) {
 
 	// # Get the 'username' from the 'query params'
 	username := r.URL.Query().Get("username")
-	username = utils.GetStringValue(&username)
+	username = utils.GetTrimmedValue(username)
 	if username == "" {
 		errMsg = "Empty username provided"
 		errRes = schema.Error{
@@ -154,7 +154,7 @@ func GetUser(w http.ResponseWriter, r *http.Request) {
 
 	// # Get the 'clerk user ID' from the 'query params'
 	clerkUserID := r.URL.Query().Get("clerk_user_id")
-	clerkUserID = utils.GetStringValue(&clerkUserID)
+	clerkUserID = utils.GetTrimmedValue(clerkUserID)
 	if clerkUserID == "" {
 		errMsg = "Empty clerk user ID provided"
 		errRes = schema.Error{
