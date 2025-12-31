@@ -47,9 +47,9 @@ cd Shortify
 git clone https://github.com/Suraj-Encoding/Shortify.git .
 ```
 
-2. Backend: configure environment
+2. Backend: configure application settings
 
-- Copy or create `Server/.env` (or set env vars) with MongoDB URI, Clerk keys, and other settings used by `Server/env`.
+- Configure the backend with your deployment-specific settings (database, auth, and server URL). See the Server package docs for details.
 
 3. Run the backend
 
@@ -91,6 +91,37 @@ The frontend typically runs on `http://localhost:3000` and the backend on `http:
 
 ---
 
+## Deployment
+
+Below are quick deployment flows for the frontend (Vercel) and backend (Render). These are minimal steps — adapt them for your environment and secrets manager.
+
+- Vercel (Frontend)
+
+  1. Create a Vercel project and connect it to this repository.
+  2. Set the Project Root to `Client` (or import as a monorepo and point the app to `Client`).
+  3. Build command: `npm run build`
+  4. Output directory: leave default (Next.js handled by Vercel).
+  5. Configure required settings and secrets in Vercel (Dashboard → Settings → Environment Variables).
+  6. Deploy — Vercel will run builds on every push.
+
+- Render (Backend)
+
+  1. Create a new Web Service on Render and connect it to the repository.
+  2. Set the root directory to `Server`.
+  3. Environment & Build:
+    - Build command: `go build main.go`
+    - Start command: `./main`
+  4. Configure required settings and secrets in Render (Service settings → Environment).
+  5. Deploy — Render will build and start the service; check logs for startup errors.
+
+Tips:
+
+- Use Vercel for the Next.js frontend (serverless/edge‑optimized) and Render (or similar) for the Go backend.
+- Keep production secrets in the platform's environment manager — never commit them.
+- If using webhooks (Clerk), configure callback URLs in Clerk to point to your deployed `POST /api/v1/user/webhook` endpoint.
+
+---
+
 ## Contributing
 
 Contributions welcome — open issues or submit PRs. Follow these steps:
@@ -108,4 +139,7 @@ This project uses the license in the repository. Feel free to adapt as needed.
 
 ---
 
-Enjoy Shortify — let me know if you want a README badge, deployment guide, or CI steps added.
+## Acknowledgments
+Enjoy Shortify — deployment and CI-CD guidance have been added above. Open an issue or PR if you want badges, examples, or more detailed deployment templates.
+
+---
