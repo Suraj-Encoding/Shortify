@@ -99,7 +99,7 @@ func UpdateLink(clerkUserID string, link *schema.Link) (*string, error) {
 
 	// # Check if the provided 'slug' already 'exists'
 	Link, err := GetLink(filter)
-	if Link != nil || err == nil {
+	if Link != nil {
 		utils.LogError(err, "App.UpdateLink")
 		errMsg = "The provided slug already exists. Please use a different slug."
 		err = errors.New(errMsg)

@@ -320,7 +320,7 @@ func UpdateUsername(clerkUserID, username string) (*string, error) {
 
 	// # Check if the provided 'username' already 'exists'
 	user, err := GetUser(filter)
-	if user != nil || err == nil {
+	if user != nil {
 		utils.LogError(err, "App.UpdateUsername")
 		errMsg = "The provided username already exists. Please use a different username."
 		err = errors.New(errMsg)
