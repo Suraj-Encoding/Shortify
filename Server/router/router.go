@@ -33,14 +33,14 @@ func SetupRouter() *mux.Router {
 	UserV1.HandleFunc("/webhook", api.HandleClerkUserWebhook).Methods("POST")
 	UserV1.HandleFunc("/username", api.UpdateUsername).Methods("PUT")
 	UserV1.HandleFunc("/", api.GetUser).Methods("GET")
-	UserV1.HandleFunc("/all", api.GetUsers).Methods("GET")
+	UserV1.HandleFunc("/list", api.GetUsers).Methods("GET")
 
 	// # 'Link' Routes
 	LinkV1.HandleFunc("/", api.CreateLink).Methods("POST")
 	LinkV1.HandleFunc("/", api.UpdateLink).Methods("PUT")
 	LinkV1.HandleFunc("/", api.DeleteLink).Methods("DELETE")
 	LinkV1.HandleFunc("/", api.GetLink).Methods("GET")
-	LinkV1.HandleFunc("/", api.GetLinks).Methods("GET")
+	LinkV1.HandleFunc("/list", api.GetLinks).Methods("GET")
 
 	// # Return the 'configured' mux 'router' instance
 	return router

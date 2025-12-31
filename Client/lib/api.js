@@ -21,7 +21,7 @@ export const userAPI = {
 
 export const linkAPI = {
     async getLinks(clerkUserId) {
-        const response = await fetch(`${API_BASE_URL}/link/?clerk_user_id=${clerkUserId}`);
+        const response = await fetch(`${API_BASE_URL}/link/list?clerk_user_id=${clerkUserId}`);
         const data = await response.json();
         if (!response.ok) throw new Error(data.message || 'Failed to fetch links');
         return data;
