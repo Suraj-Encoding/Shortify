@@ -248,6 +248,12 @@ func GetLink(filter bson.M) (*model.Link, error) {
 			return nil, err
 		}
 	}
+	if link.IsUserDeleted {
+		utils.LogError(err, "App.GetLink")
+		errMsg = "User associated with the given link is already deleted"
+		err = errors.New(errMsg)
+		return nil, err
+	}
 
 	return &link, nil
 }
@@ -264,6 +270,9 @@ func GetLinks(clerkUserID string) ([]*model.Link, error) {
 	// # Base 'Filter'
 	filter := bson.M{
 		"clerk_user_id": clerkUserID,
+		"is_user_deleted": bson.M{
+			"$ne": true, // # Exclude the 'deleted' users
+		},
 	}
 
 	var links []*model.Link
