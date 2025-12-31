@@ -22,6 +22,7 @@ func HandleClerkUserWebhook(w http.ResponseWriter, r *http.Request) {
 
 	contentLength := r.ContentLength
 	if contentLength == 0 {
+		utils.LogError(err, "API.HandleClerkUserWebhook")
 		errMsg = "Empty request body provided"
 		errRes = schema.Error{
 			StatusCode: 400,
@@ -39,7 +40,8 @@ func HandleClerkUserWebhook(w http.ResponseWriter, r *http.Request) {
 
 	err = decoder.Decode(&clerkUserForm)
 	if err != nil {
-		errMsg = fmt.Sprintf("Failed to decode the clerk user request body: %s", err.Error())
+		utils.LogError(err, "API.HandleClerkUserWebhook")
+		errMsg = "Failed to decode the clerk user request body"
 		errRes = schema.Error{
 			StatusCode: 400,
 			Message:    errMsg,
@@ -50,6 +52,7 @@ func HandleClerkUserWebhook(w http.ResponseWriter, r *http.Request) {
 
 	var clerkUser *schema.ClerkUser
 	if clerkUserForm.Data == nil {
+		utils.LogError(err, "API.HandleClerkUserWebhook")
 		errMsg = "Empty clerk user request data found"
 		errRes = schema.Error{
 			StatusCode: 400,
