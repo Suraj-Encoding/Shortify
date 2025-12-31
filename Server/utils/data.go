@@ -1,7 +1,6 @@
 package utils
 
 import (
-	"shortify/model"
 	"strings"
 )
 
@@ -14,15 +13,4 @@ func GetStringValue(value *string) string {
 		valueStr = ""
 	}
 	return valueStr
-}
-
-// # Get 'Action User'
-func GetActionUser(user *model.User) string {
-	var actionUser string
-	if user != nil {
-		actionUser = user.ClerkUserID
-	} else {
-		actionUser = "system"
-	}
-	return actionUser
 }
