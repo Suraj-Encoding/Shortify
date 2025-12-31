@@ -26,7 +26,7 @@ func HandleClerkUserWebhook(w http.ResponseWriter, r *http.Request) {
 		utils.LogError(err, "API.HandleClerkUserWebhook")
 		errMsg = "Empty request body provided for the clerk user webhook"
 		errRes = schema.Error{
-			StatusCode: 400,
+			StatusCode: http.StatusBadRequest,
 			Message:    errMsg,
 		}
 		utils.SetAppError(w, &errRes)
@@ -44,7 +44,7 @@ func HandleClerkUserWebhook(w http.ResponseWriter, r *http.Request) {
 		utils.LogError(err, "API.HandleClerkUserWebhook")
 		errMsg = "Failed to decode the clerk user request body"
 		errRes = schema.Error{
-			StatusCode: 400,
+			StatusCode: http.StatusBadRequest,
 			Message:    errMsg,
 		}
 		utils.SetAppError(w, &errRes)
@@ -56,7 +56,7 @@ func HandleClerkUserWebhook(w http.ResponseWriter, r *http.Request) {
 		utils.LogError(err, "API.HandleClerkUserWebhook")
 		errMsg = "Empty clerk user data provided"
 		errRes = schema.Error{
-			StatusCode: 400,
+			StatusCode: http.StatusBadRequest,
 			Message:    errMsg,
 		}
 		utils.SetAppError(w, &errRes)
@@ -72,7 +72,7 @@ func HandleClerkUserWebhook(w http.ResponseWriter, r *http.Request) {
 			err = errors.New(errMsg)
 			utils.LogError(err, "API.HandleClerkUserWebhook")
 			errRes = schema.Error{
-				StatusCode: 400,
+				StatusCode: http.StatusBadRequest,
 				Message:    errMsg,
 			}
 			utils.SetAppError(w, &errRes)
@@ -84,7 +84,7 @@ func HandleClerkUserWebhook(w http.ResponseWriter, r *http.Request) {
 			err = errors.New(errMsg)
 			utils.LogError(err, "API.HandleClerkUserWebhook")
 			errRes = schema.Error{
-				StatusCode: 400,
+				StatusCode: http.StatusBadRequest,
 				Message:    errMsg,
 			}
 			utils.SetAppError(w, &errRes)
@@ -95,7 +95,7 @@ func HandleClerkUserWebhook(w http.ResponseWriter, r *http.Request) {
 			err = errors.New(errMsg)
 			utils.LogError(err, "API.HandleClerkUserWebhook")
 			errRes = schema.Error{
-				StatusCode: 400,
+				StatusCode: http.StatusBadRequest,
 				Message:    errMsg,
 			}
 			utils.SetAppError(w, &errRes)
@@ -130,7 +130,7 @@ func HandleClerkUserWebhook(w http.ResponseWriter, r *http.Request) {
 		utils.LogError(err, "API.HandleClerkUserWebhook")
 		errMsg = err.Error()
 		errRes = schema.Error{
-			StatusCode: 500,
+			StatusCode: http.StatusInternalServerError,
 			Message:    errMsg,
 		}
 		utils.SetAppError(w, &errRes)
@@ -152,7 +152,7 @@ func UpdateUsername(w http.ResponseWriter, r *http.Request) {
 	if clerkUserID == "" {
 		errMsg = "Empty clerk user ID provided"
 		errRes = schema.Error{
-			StatusCode: 400,
+			StatusCode: http.StatusBadRequest,
 			Message:    errMsg,
 		}
 		utils.SetAppError(w, &errRes)
@@ -165,7 +165,7 @@ func UpdateUsername(w http.ResponseWriter, r *http.Request) {
 	if username == "" {
 		errMsg = "Empty username provided"
 		errRes = schema.Error{
-			StatusCode: 400,
+			StatusCode: http.StatusBadRequest,
 			Message:    errMsg,
 		}
 		utils.SetAppError(w, &errRes)
@@ -178,7 +178,7 @@ func UpdateUsername(w http.ResponseWriter, r *http.Request) {
 		utils.LogError(err, "API.UpdateUsername")
 		errMsg = err.Error()
 		errRes = schema.Error{
-			StatusCode: 500,
+			StatusCode: http.StatusInternalServerError,
 			Message:    errMsg,
 		}
 		utils.SetAppError(w, &errRes)
@@ -200,7 +200,7 @@ func GetUser(w http.ResponseWriter, r *http.Request) {
 	if clerkUserID == "" {
 		errMsg = "Empty clerk user ID provided"
 		errRes = schema.Error{
-			StatusCode: 400,
+			StatusCode: http.StatusBadRequest,
 			Message:    errMsg,
 		}
 		utils.SetAppError(w, &errRes)
@@ -218,7 +218,7 @@ func GetUser(w http.ResponseWriter, r *http.Request) {
 		utils.LogError(err, "API.GetUser")
 		errMsg = err.Error()
 		errRes = schema.Error{
-			StatusCode: 500,
+			StatusCode: http.StatusInternalServerError,
 			Message:    errMsg,
 		}
 		utils.SetAppError(w, &errRes)
@@ -240,7 +240,7 @@ func GetUsers(w http.ResponseWriter, r *http.Request) {
 		utils.LogError(err, "API.GetUsers")
 		errMsg = err.Error()
 		errRes = schema.Error{
-			StatusCode: 500,
+			StatusCode: http.StatusInternalServerError,
 			Message:    errMsg,
 		}
 		utils.SetAppError(w, &errRes)

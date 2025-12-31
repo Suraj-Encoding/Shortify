@@ -23,7 +23,7 @@ func CreateLink(w http.ResponseWriter, r *http.Request) {
 		utils.LogError(err, "API.CreateLink")
 		errMsg = "Empty request body provided for the create link"
 		errRes = schema.Error{
-			StatusCode: 400,
+			StatusCode: http.StatusBadRequest,
 			Message:    errMsg,
 		}
 		utils.SetAppError(w, &errRes)
@@ -41,7 +41,7 @@ func CreateLink(w http.ResponseWriter, r *http.Request) {
 		utils.LogError(err, "API.CreateLink")
 		errMsg = "Failed to decode the create link request body"
 		errRes = schema.Error{
-			StatusCode: 400,
+			StatusCode: http.StatusBadRequest,
 			Message:    errMsg,
 		}
 		utils.SetAppError(w, &errRes)
@@ -53,7 +53,7 @@ func CreateLink(w http.ResponseWriter, r *http.Request) {
 		utils.LogError(err, "API.CreateLink")
 		errMsg = "Empty link data provided"
 		errRes = schema.Error{
-			StatusCode: 400,
+			StatusCode: http.StatusBadRequest,
 			Message:    errMsg,
 		}
 		utils.SetAppError(w, &errRes)
@@ -67,7 +67,7 @@ func CreateLink(w http.ResponseWriter, r *http.Request) {
 		utils.LogError(err, "API.CreateLink")
 		errMsg = "Link URL cannot be empty"
 		errRes = schema.Error{
-			StatusCode: 400,
+			StatusCode: http.StatusBadRequest,
 			Message:    errMsg,
 		}
 		utils.SetAppError(w, &errRes)
@@ -77,7 +77,7 @@ func CreateLink(w http.ResponseWriter, r *http.Request) {
 		utils.LogError(err, "API.CreateLink")
 		errMsg = "Link slug cannot be empty"
 		errRes = schema.Error{
-			StatusCode: 400,
+			StatusCode: http.StatusBadRequest,
 			Message:    errMsg,
 		}
 		utils.SetAppError(w, &errRes)
@@ -90,7 +90,7 @@ func CreateLink(w http.ResponseWriter, r *http.Request) {
 	if clerkUserID == "" {
 		errMsg = "Empty clerk user ID provided"
 		errRes = schema.Error{
-			StatusCode: 400,
+			StatusCode: http.StatusBadRequest,
 			Message:    errMsg,
 		}
 		utils.SetAppError(w, &errRes)
@@ -103,7 +103,7 @@ func CreateLink(w http.ResponseWriter, r *http.Request) {
 		utils.LogError(err, "API.CreateLink")
 		errMsg = err.Error()
 		errRes = schema.Error{
-			StatusCode: 500,
+			StatusCode: http.StatusInternalServerError,
 			Message:    errMsg,
 		}
 		utils.SetAppError(w, &errRes)
@@ -125,7 +125,7 @@ func UpdateLink(w http.ResponseWriter, r *http.Request) {
 		utils.LogError(err, "API.UpdateLink")
 		errMsg = "Empty request body provided for the update link"
 		errRes = schema.Error{
-			StatusCode: 400,
+			StatusCode: http.StatusBadRequest,
 			Message:    errMsg,
 		}
 		utils.SetAppError(w, &errRes)
@@ -143,7 +143,7 @@ func UpdateLink(w http.ResponseWriter, r *http.Request) {
 		utils.LogError(err, "API.UpdateLink")
 		errMsg = "Failed to decode the update link request body"
 		errRes = schema.Error{
-			StatusCode: 400,
+			StatusCode: http.StatusBadRequest,
 			Message:    errMsg,
 		}
 		utils.SetAppError(w, &errRes)
@@ -155,7 +155,7 @@ func UpdateLink(w http.ResponseWriter, r *http.Request) {
 		utils.LogError(err, "API.UpdateLink")
 		errMsg = "Empty link data provided"
 		errRes = schema.Error{
-			StatusCode: 400,
+			StatusCode: http.StatusBadRequest,
 			Message:    errMsg,
 		}
 		utils.SetAppError(w, &errRes)
@@ -169,7 +169,7 @@ func UpdateLink(w http.ResponseWriter, r *http.Request) {
 		utils.LogError(err, "API.UpdateLink")
 		errMsg = "Link URL cannot be empty"
 		errRes = schema.Error{
-			StatusCode: 400,
+			StatusCode: http.StatusBadRequest,
 			Message:    errMsg,
 		}
 		utils.SetAppError(w, &errRes)
@@ -179,7 +179,7 @@ func UpdateLink(w http.ResponseWriter, r *http.Request) {
 		utils.LogError(err, "API.UpdateLink")
 		errMsg = "Link slug cannot be empty"
 		errRes = schema.Error{
-			StatusCode: 400,
+			StatusCode: http.StatusBadRequest,
 			Message:    errMsg,
 		}
 		utils.SetAppError(w, &errRes)
@@ -192,7 +192,7 @@ func UpdateLink(w http.ResponseWriter, r *http.Request) {
 	if clerkUserID == "" {
 		errMsg = "Empty clerk user ID provided"
 		errRes = schema.Error{
-			StatusCode: 400,
+			StatusCode: http.StatusBadRequest,
 			Message:    errMsg,
 		}
 		utils.SetAppError(w, &errRes)
@@ -205,7 +205,7 @@ func UpdateLink(w http.ResponseWriter, r *http.Request) {
 		utils.LogError(err, "API.UpdateLink")
 		errMsg = err.Error()
 		errRes = schema.Error{
-			StatusCode: 500,
+			StatusCode: http.StatusInternalServerError,
 			Message:    errMsg,
 		}
 		utils.SetAppError(w, &errRes)
@@ -227,7 +227,7 @@ func DeleteLink(w http.ResponseWriter, r *http.Request) {
 	if linkIDStr == "" {
 		errMsg = "Empty link ID provided"
 		errRes = schema.Error{
-			StatusCode: 400,
+			StatusCode: http.StatusBadRequest,
 			Message:    errMsg,
 		}
 		utils.SetAppError(w, &errRes)
@@ -240,7 +240,7 @@ func DeleteLink(w http.ResponseWriter, r *http.Request) {
 		utils.LogError(err, "API.DeleteLink")
 		errMsg = "Invalid link ID provided"
 		errRes = schema.Error{
-			StatusCode: 400,
+			StatusCode: http.StatusBadRequest,
 			Message:    errMsg,
 		}
 		utils.SetAppError(w, &errRes)
@@ -253,7 +253,7 @@ func DeleteLink(w http.ResponseWriter, r *http.Request) {
 		utils.LogError(err, "API.DeleteLink")
 		errMsg = err.Error()
 		errRes = schema.Error{
-			StatusCode: 500,
+			StatusCode: http.StatusInternalServerError,
 			Message:    errMsg,
 		}
 		utils.SetAppError(w, &errRes)
@@ -275,7 +275,7 @@ func GetLink(w http.ResponseWriter, r *http.Request) {
 	if linkIDStr == "" {
 		errMsg = "Empty link ID provided"
 		errRes = schema.Error{
-			StatusCode: 400,
+			StatusCode: http.StatusBadRequest,
 			Message:    errMsg,
 		}
 		utils.SetAppError(w, &errRes)
@@ -288,7 +288,7 @@ func GetLink(w http.ResponseWriter, r *http.Request) {
 		utils.LogError(err, "API.DeleteLink")
 		errMsg = "Invalid link ID provided"
 		errRes = schema.Error{
-			StatusCode: 400,
+			StatusCode: http.StatusBadRequest,
 			Message:    errMsg,
 		}
 		utils.SetAppError(w, &errRes)
@@ -306,7 +306,7 @@ func GetLink(w http.ResponseWriter, r *http.Request) {
 		utils.LogError(err, "API.GetLink")
 		errMsg = err.Error()
 		errRes = schema.Error{
-			StatusCode: 500,
+			StatusCode: http.StatusInternalServerError,
 			Message:    errMsg,
 		}
 		utils.SetAppError(w, &errRes)
@@ -328,7 +328,7 @@ func GetLinks(w http.ResponseWriter, r *http.Request) {
 	if clerkUserID == "" {
 		errMsg = "Empty clerk user ID provided"
 		errRes = schema.Error{
-			StatusCode: 400,
+			StatusCode: http.StatusBadRequest,
 			Message:    errMsg,
 		}
 		utils.SetAppError(w, &errRes)
@@ -341,7 +341,7 @@ func GetLinks(w http.ResponseWriter, r *http.Request) {
 		utils.LogError(err, "API.GetLinks")
 		errMsg = err.Error()
 		errRes = schema.Error{
-			StatusCode: 500,
+			StatusCode: http.StatusInternalServerError,
 			Message:    errMsg,
 		}
 		utils.SetAppError(w, &errRes)
