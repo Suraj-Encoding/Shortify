@@ -24,7 +24,7 @@ func HandleClerkUserWebhook(w http.ResponseWriter, r *http.Request) {
 	contentLength := r.ContentLength
 	if contentLength == 0 {
 		utils.LogError(err, "API.HandleClerkUserWebhook")
-		errMsg = "Empty request body provided"
+		errMsg = "Empty request body provided for the clerk user webhook"
 		errRes = schema.Error{
 			StatusCode: 400,
 			Message:    errMsg,

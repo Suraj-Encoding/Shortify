@@ -9,13 +9,13 @@ type ClerkUser struct {
 	ImageURL  *string `json:"image_url"`
 
 	// # "Delete" #
-	Deleted bool   `json:"deleted"`
-	Object  string `json:"object"`
+	Deleted bool   `json:"deleted"` // # "false" #
+	Object  string `json:"object"`  // # "user" #
 }
 
 type ClerkUserRequest struct {
 	InstanceID string     `json:"instance_id"`
-	Object     string     `json:"object"`
-	Type       string     `json:"type"`
-	Data       *ClerkUser `json:"data"`
+	Object     string     `json:"object"` // # "event" #
+	Type       string     `json:"type"`   // # "event type" #
+	Data       *ClerkUser `json:"data"`   // # "clerk user" #
 }
