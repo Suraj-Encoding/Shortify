@@ -77,7 +77,7 @@ func CreateUser(clerkUser *schema.ClerkUser) (*string, error) {
 	createdBy := "clerk_webhook"
 
 	user := model.User{
-		ClerkUserID: utils.GetStringValue(&clerkUser.ID),
+		ClerkUserID: utils.GetTrimmedValue(clerkUser.ID),
 		FirstName:   utils.GetStringValue(clerkUser.FirstName),
 		LastName:    utils.GetStringValue(clerkUser.LastName),
 		Email:       utils.GetStringValue(clerkUser.Username),
@@ -136,7 +136,7 @@ func UpdateUser(clerkUser *schema.ClerkUser) (*string, error) {
 
 	// # Base 'Filter'
 	filter := bson.M{
-		"clerk_user_id": utils.GetStringValue(&clerkUser.ID),
+		"clerk_user_id": utils.GetTrimmedValue(clerkUser.ID),
 	}
 
 	// # Base 'Set'
@@ -221,7 +221,7 @@ func DeleteUser(clerkUser *schema.ClerkUser) (*string, error) {
 
 	// # Base 'Filter'
 	filter := bson.M{
-		"clerk_user_id": utils.GetStringValue(&clerkUser.ID),
+		"clerk_user_id": utils.GetTrimmedValue(clerkUser.ID),
 	}
 
 	// # Base 'User Set'
@@ -301,7 +301,7 @@ func UpdateUsername(clerkUserID, username string) (*string, error) {
 	var errMsg string
 	var successMsg string
 
-	if utils.GetStringValue(&username) == "" {
+	if username == "" {
 		errMsg = "Empty username provided"
 		err = errors.New(errMsg)
 		return nil, err
@@ -309,7 +309,7 @@ func UpdateUsername(clerkUserID, username string) (*string, error) {
 
 	// # Base 'Filter'
 	filter := bson.M{
-		"username": utils.GetStringValue(&username),
+		"username": username,
 	}
 
 	// # Check if the provided 'username' already 'exists'
@@ -323,7 +323,7 @@ func UpdateUsername(clerkUserID, username string) (*string, error) {
 
 	// # Base 'Filter'
 	filter = bson.M{
-		"clerk_user_id": utils.GetStringValue(&clerkUserID),
+		"clerk_user_id": clerkUserID,
 	}
 
 	// # Get the 'user'
@@ -343,7 +343,7 @@ func UpdateUsername(clerkUserID, username string) (*string, error) {
 
 	// # Base 'Set'
 	set := bson.M{
-		"username":   utils.GetStringValue(&username),
+		"username":   username,
 		"updated_at": time,
 		"updated_by": utils.GetActionUser(user),
 	}
