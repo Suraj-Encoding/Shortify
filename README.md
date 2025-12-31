@@ -47,9 +47,15 @@ cd Shortify
 git clone https://github.com/Suraj-Encoding/Shortify.git .
 ```
 
-2. Backend: configure application settings
+2. Configure application settings (local & production)
 
-- Configure the backend with your deployment-specific settings (database, auth, and server URL). See the Server package docs for details.
+Before running the app locally or deploying, make sure your runtime configuration is in place:
+
+- Local development: copy `Server/.env.example` to `Server/.env` and `Client/.env.example` to `Client/.env`, then open those files and fill in values specific to your environment. Keep sensitive values out of version control.
+
+- Production: configure required settings and secrets in your hosting platform's environment manager (Vercel, Render, etc.). Ensure callback/webhook URLs (for Clerk and other services) point to your deployed URLs.
+
+Use the example files in `Server/.env.example` and `Client/.env.example` as the authoritative list of keys to provide; the README avoids enumerating individual variable names to keep configuration details centralized in the example files.
 
 3. Run the backend
 
