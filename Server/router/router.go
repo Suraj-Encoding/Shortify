@@ -15,6 +15,10 @@ func SetupRouter() *mux.Router {
 	// # Note: Redirect to the 'Destination URL'
 	router.HandleFunc("/", api.RedirectURL).Methods("GET")
 
+	// # Root 'Route'
+	// # Note: Send the "welcome" message to the 'client'
+	router.HandleFunc("/root", api.RootPage).Methods("GET")
+
 	// # API 'Base Path'
 	APIBasePath := "/api/v1"
 

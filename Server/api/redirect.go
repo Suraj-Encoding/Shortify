@@ -22,12 +22,6 @@ func RedirectURL(w http.ResponseWriter, r *http.Request) {
 	urlPathParts := strings.Split(urlPath, "/")
 	urlPathPartLength := len(urlPathParts)
 
-	// # Redirect to the 'Root Page'
-	if urlPathPartLength == 0 {
-		// # Root 'Page': ["/"]
-		RootPage(w, r)
-	}
-
 	if urlPathPartLength != 2 {
 		errMsg = "🚫 Invalid Request To Shortify!"
 		err = errors.New(errMsg)
