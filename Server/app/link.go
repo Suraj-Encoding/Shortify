@@ -23,6 +23,14 @@ func CreateLink(clerkUserID string, link *schema.Link) (*string, error) {
 	var errMsg string
 	var successMsg string
 
+	// # Get the 'Server' variable from the 'Env'
+	deployedServerURL := env.GetEnv("DEPLOYED_SERVER_URL")
+	if deployedServerURL == "" {
+		errMsg = "Empty deployed server URL found in the env file"
+		err = errors.New(errMsg)
+		return nil, err
+	}
+
 	// # Base 'Filter'
 	filter := bson.M{
 		"clerk_user_id": clerkUserID,
@@ -32,14 +40,6 @@ func CreateLink(clerkUserID string, link *schema.Link) (*string, error) {
 	user, err := GetUser(filter)
 	if err != nil {
 		utils.LogError(err, "App.CreateLink")
-		return nil, err
-	}
-
-	// # Get the 'Server' variable from the 'Env'
-	deployedServerURL := env.GetEnv("DEPLOYED_SERVER_URL")
-	if deployedServerURL == "" {
-		errMsg = "Empty deployed server URL found in the env file"
-		err = errors.New(errMsg)
 		return nil, err
 	}
 
