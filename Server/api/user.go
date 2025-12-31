@@ -101,6 +101,17 @@ func HandleClerkUserWebhook(w http.ResponseWriter, r *http.Request) {
 			utils.SetAppError(w, &errRes)
 			return
 		}
+		if clerkUser.EmailAddresss == nil || clerkUser.EmailAddresss[0] == nil || clerkUser.EmailAddresss[0].EmailAddress == nil || utils.GetStringValue(clerkUser.EmailAddresss[0].EmailAddress) == "" {
+			errMsg = "User email address cannot be empty"
+			err = errors.New(errMsg)
+			utils.LogError(err, "API.HandleClerkUserWebhook")
+			errRes = schema.Error{
+				StatusCode: http.StatusBadRequest,
+				Message:    errMsg,
+			}
+			utils.SetAppError(w, &errRes)
+			return
+		}
 	}
 
 	switch clerkUserForm.Type {
