@@ -1,7 +1,5 @@
-import { DataProp } from '../types/data';
-
 // # 'Data' Constant
-const Data: DataProp = {
+const Data = {
     name: "Suraj Dalvi",
     author: "Suraj Dalvi"
 };
