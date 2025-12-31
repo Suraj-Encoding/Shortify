@@ -20,6 +20,7 @@ func HandleClerkUserWebhook(w http.ResponseWriter, r *http.Request) {
 
 	var res *string
 
+	// # Get the 'clerk user' data from the 'request'
 	contentLength := r.ContentLength
 	if contentLength == 0 {
 		utils.LogError(err, "API.HandleClerkUserWebhook")
@@ -64,22 +65,63 @@ func HandleClerkUserWebhook(w http.ResponseWriter, r *http.Request) {
 		clerkUser = clerkUserForm.Data
 	}
 
+	// # Validate the 'clerk user' data
+	if clerkUserForm.Type == "user.deleted" {
+		if !clerkUser.Deleted || clerkUser.Object != "user" {
+			errMsg = "Invalid delete user request found"
+			err = errors.New(errMsg)
+			utils.LogError(err, "API.HandleClerkUserWebhook")
+			errRes = schema.Error{
+				StatusCode: 400,
+				Message:    errMsg,
+			}
+			utils.SetAppError(w, &errRes)
+			return
+		}
+	} else {
+		if clerkUser.FirstName == nil || utils.GetStringValue(clerkUser.FirstName) == "" {
+			errMsg = "User first name cannot be empty"
+			err = errors.New(errMsg)
+			utils.LogError(err, "API.HandleClerkUserWebhook")
+			errRes = schema.Error{
+				StatusCode: 400,
+				Message:    errMsg,
+			}
+			utils.SetAppError(w, &errRes)
+			return
+		}
+		if clerkUser.LastName == nil || utils.GetStringValue(clerkUser.LastName) == "" {
+			errMsg = "User last name cannot be empty"
+			err = errors.New(errMsg)
+			utils.LogError(err, "API.HandleClerkUserWebhook")
+			errRes = schema.Error{
+				StatusCode: 400,
+				Message:    errMsg,
+			}
+			utils.SetAppError(w, &errRes)
+			return
+		}
+	}
+
 	switch clerkUserForm.Type {
 	case "user.created":
 		{
+			// # Create the 'user'
 			res, err = app.CreateUser(clerkUser)
 		}
 	case "user.updated":
 		{
+			// # Update the 'user'
 			res, err = app.UpdateUser(clerkUser)
 		}
 	case "user.deleted":
 		{
+			// # Delete the 'user'
 			res, err = app.DeleteUser(clerkUser)
 		}
 	default:
 		{
-			errMsg = fmt.Sprintf("Invalid clerk user webhook type provided: %s", clerkUserForm.Type)
+			errMsg = fmt.Sprintf("Invalid clerk user webhook type '%s' provided", clerkUserForm.Type)
 			err = errors.New(errMsg)
 		}
 	}

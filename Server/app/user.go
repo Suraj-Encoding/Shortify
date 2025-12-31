@@ -217,12 +217,6 @@ func DeleteUser(clerkUser *schema.ClerkUser) (*string, error) {
 	var errMsg string
 	var successMsg string
 
-	if !clerkUser.Deleted {
-		errMsg = "Invalid delete user request"
-		err = errors.New(errMsg)
-		return nil, err
-	}
-
 	useeCollection := db.GetMongoCollection(model.UserColl)
 	linkCollection := db.GetMongoCollection(model.LinkColl)
 
