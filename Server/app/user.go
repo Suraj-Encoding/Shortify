@@ -319,12 +319,6 @@ func UpdateUsername(clerkUserID, username string) (*string, error) {
 	var errMsg string
 	var successMsg string
 
-	if username == "" {
-		errMsg = "Empty username provided"
-		err = errors.New(errMsg)
-		return nil, err
-	}
-
 	// # Base 'Filter'
 	filter := bson.M{
 		"username": username,
@@ -332,7 +326,7 @@ func UpdateUsername(clerkUserID, username string) (*string, error) {
 
 	// # Check if the provided 'username' already 'exists'
 	user, err := GetUser(filter)
-	if user != nil {
+	if user != nil || err == nil {
 		utils.LogError(err, "App.UpdateUsername")
 		errMsg = "The provided username already exists. Please use a different username."
 		err = errors.New(errMsg)
