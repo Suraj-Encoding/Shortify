@@ -230,7 +230,7 @@ func DeleteUser(clerkUser *schema.ClerkUser) (*string, error) {
 
 	user := "clerk_webhook"
 
-	// # 1. Mark the 'user' as 'deleted'
+	// # 1. Mark the given 'user' as 'deleted'
 
 	// # Base 'Filter'
 	filter := bson.M{
@@ -287,16 +287,6 @@ func DeleteUser(clerkUser *schema.ClerkUser) (*string, error) {
 	if err != nil {
 		utils.LogError(err, "App.DeleteUser")
 		errMsg = "Failed to mark all the links of the given user as deleted"
-		err = errors.New(errMsg)
-		return nil, err
-	}
-	if res.MatchedCount == 0 {
-		errMsg = "User not found"
-		err = errors.New(errMsg)
-		return nil, err
-	}
-	if res.ModifiedCount == 0 {
-		errMsg = "No link of the given user marked as deleted"
 		err = errors.New(errMsg)
 		return nil, err
 	}
