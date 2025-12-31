@@ -23,7 +23,7 @@ func RedirectURL(w http.ResponseWriter, r *http.Request) {
 	urlPathPartLength := len(urlPathParts)
 
 	if urlPathPartLength != 2 {
-		errMsg = "🚫 Invalid Request To Shortify!"
+		errMsg = "🚫 Invalid request to shortify!"
 		err = errors.New(errMsg)
 		utils.LogError(err, "API.RedirectURL")
 		errRes = schema.Error{
@@ -39,7 +39,7 @@ func RedirectURL(w http.ResponseWriter, r *http.Request) {
 	linkSlug := utils.GetTrimmedValue(urlPathParts[1])
 
 	if username == "" || linkSlug == "" {
-		errMsg = "🚫 Invalid Request To Shortify!"
+		errMsg = "🚫 Invalid request to shortify!"
 		err = errors.New(errMsg)
 		utils.LogError(err, "API.RedirectURL")
 		errRes = schema.Error{
@@ -54,7 +54,7 @@ func RedirectURL(w http.ResponseWriter, r *http.Request) {
 	destinationURL, err := app.GetDestinationURL(username, linkSlug)
 	if err != nil {
 		errMsg = err.Error()
-		errMsg = fmt.Sprintf("🚫 Invalid Request To Shortify: Failed to get the destination URL: %s", errMsg)
+		errMsg = fmt.Sprintf("🚫 Invalid request to shortify: Failed to get the destination URL: %s", errMsg)
 		err = errors.New(errMsg)
 		utils.LogError(err, "API.RedirectURL")
 		errRes = schema.Error{
