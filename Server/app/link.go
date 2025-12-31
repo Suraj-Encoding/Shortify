@@ -34,6 +34,21 @@ func CreateLink(clerkUserID string, link *schema.Link) (*string, error) {
 	// # Base 'Filter'
 	filter := bson.M{
 		"clerk_user_id": clerkUserID,
+		"slug":          utils.GetStringValue(link.Slug),
+	}
+
+	// # Check if the provided 'slug' is already 'assigned' to another 'link'
+	Link, err := GetLink(filter)
+	if Link != nil {
+		utils.LogError(err, "App.UpdateLink")
+		errMsg = "The provided slug is already assigned to another link. Please choose a different one."
+		err = errors.New(errMsg)
+		return nil, err
+	}
+
+	// # Base 'Filter'
+	filter = bson.M{
+		"clerk_user_id": clerkUserID,
 	}
 
 	// # Get the 'user'
@@ -52,7 +67,7 @@ func CreateLink(clerkUserID string, link *schema.Link) (*string, error) {
 		return nil, err
 	}
 
-	Link := model.Link{
+	Link = &model.Link{
 		ID:             utils.GetNewObjectID(),
 		UserID:         user.ID,
 		ClerkUserID:    user.ClerkUserID,
@@ -70,7 +85,7 @@ func CreateLink(clerkUserID string, link *schema.Link) (*string, error) {
 	Link.ShortURL = shortURL
 
 	// # Insert the 'new link'
-	_, err = collection.InsertOne(ctx, &Link)
+	_, err = collection.InsertOne(ctx, Link)
 	if err != nil {
 		utils.LogError(err, "App.CreateLink")
 		errMsg = "Failed to create the new link"
