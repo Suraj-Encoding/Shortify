@@ -1,4 +1,4 @@
-const API_BASE_URL = 'https://shortwave.onrender.com/api/v1';
+const API_BASE_URL = process.env.NEXT_PUBLIC_SHORTIFY_SERVER_BASE_URL;
 
 export const userAPI = {
     async getUser(clerkUserId) {
