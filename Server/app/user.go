@@ -50,8 +50,9 @@ func GenerateUserCode() (*int64, error) {
 			err = errors.New(errMsg)
 			return nil, err
 		}
+	} else {
+		userCode = (user.Code + 1)
 	}
-	userCode = (user.Code + 1)
 
 	return &userCode, nil
 }
