@@ -11,6 +11,7 @@ import (
 )
 
 // # Redirect 'URL'
+// # Note: Redirect the 'user' to the 'Destination URL' of the 'link'
 func RedirectURL(w http.ResponseWriter, r *http.Request) {
 	var err error
 	var errMsg string
