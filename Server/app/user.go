@@ -338,12 +338,6 @@ func UpdateUsername(clerkUserID, username string) (*string, error) {
 		"clerk_user_id": clerkUserID,
 	}
 
-	// # Get the 'user'
-	user, err = GetUser(filter)
-	if err != nil {
-		return nil, err
-	}
-
 	collection := db.GetMongoCollection(model.UserColl)
 
 	// # Get the 'current system time' in the 'IST' timezone
@@ -357,7 +351,7 @@ func UpdateUsername(clerkUserID, username string) (*string, error) {
 	set := bson.M{
 		"username":   username,
 		"updated_at": time,
-		"updated_by": utils.GetActionUser(user),
+		"updated_by": utils.GetActionUser(clerkUserID),
 	}
 
 	// # Base 'Update'

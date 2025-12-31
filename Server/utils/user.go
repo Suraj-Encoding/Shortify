@@ -1,12 +1,10 @@
 package utils
 
-import "shortify/model"
-
 // # Get 'Action User'
-func GetActionUser(user *model.User) string {
+func GetActionUser(clerkUserID string) string {
 	var actionUser string
-	if user != nil {
-		actionUser = user.ClerkUserID
+	if clerkUserID != "" {
+		actionUser = clerkUserID
 	} else {
 		actionUser = "system"
 	}
