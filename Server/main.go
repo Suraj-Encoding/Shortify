@@ -17,8 +17,8 @@ func main() {
 	env.LoadEnv()
 
 	// # Get the 'Server' variables from the 'Env'
-	serverURI := env.GetEnv("SERVER_URI", "server")
-	port := env.GetEnv("PORT", "port")
+	serverURI := env.GetEnv("SERVER_URI")
+	port := env.GetEnv("PORT")
 
 	// # Build the server 'URI' with the 'port'
 	serverURI = strings.Replace(serverURI, "{PORT}", port, 1)
@@ -38,6 +38,6 @@ func main() {
 	err = http.ListenAndServe(listenAddress, corsHandler)
 	if err != nil {
 		// # Start 'Server' Error
-		log.Fatal("🚫 Start Server Error: ", err)
+		log.Fatal("🚫 Start Server Error:", err)
 	}
 }

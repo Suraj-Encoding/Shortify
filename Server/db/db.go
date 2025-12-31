@@ -4,7 +4,6 @@ import (
 	"context"
 	"fmt"
 	"log"
-	"os"
 	env "shortify/env"
 	"strings"
 
@@ -24,12 +23,12 @@ func init() {
 	var err error
 
 	// # Get the 'DB' variables from the 'Env'
-	dbName := env.GetEnv("DB_NAME", "Database")
-	dbUser := env.GetEnv("DB_USER", "User")
-	dbPass := env.GetEnv("DB_PASS", "Password")
+	dbName := env.GetEnv("DB_NAME")
+	dbUser := env.GetEnv("DB_USER")
+	dbPass := env.GetEnv("DB_PASS")
 
-	// # Build MongoDB URI with DB User and DB Password
-	mongoURI := os.Getenv("MONGO_URI")
+	// # Build the 'MongoDB URI'
+	mongoURI := env.GetEnv("MONGO_URI")
 	mongoURI = strings.Replace(mongoURI, "{DB_USER}", dbUser, 1)
 	mongoURI = strings.Replace(mongoURI, "{DB_PASS}", dbPass, 1)
 	mongoURI = strings.Replace(mongoURI, "{DB_NAME}", dbName, 1)
@@ -39,7 +38,7 @@ func init() {
 	client, err = mongo.Connect(ctx, clientOptions)
 	if err != nil {
 		// # MongoDB 'Connection' Error
-		log.Fatal("🚫 MongoDB Connection Error: ", err)
+		log.Fatal("🚫 MongoDB Connection Error:", err)
 	}
 
 	// # Get the 'MongoDB' database
@@ -49,7 +48,7 @@ func init() {
 	err = client.Ping(ctx, nil)
 	if err != nil {
 		// # MongoDB 'Ping' Error
-		log.Fatal("🚫 MongoDB Ping Error: ", err)
+		log.Fatal("🚫 MongoDB Ping Error:", err)
 	}
 
 	// # MongoDB 'Connection' Successful

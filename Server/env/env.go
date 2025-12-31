@@ -15,17 +15,17 @@ func LoadEnv() {
 	err = godotenv.Load()
 	if err != nil {
 		// # Load 'Env' Error
-		fmt.Println("🚫 Load Env Error: ", err)
+		fmt.Println("🚫 Load Env Error:", err)
 	}
 }
 
 // # Get 'Env'
-func GetEnv(envKey, defaultEnvValue string) string {
+func GetEnv(envKey string) string {
 	// # Get the 'Env' value
 	envValue := os.Getenv(envKey)
 	if envValue == "" {
-		// # Return the default 'Env' value
-		return defaultEnvValue
+		// # Get 'Env' Error
+		fmt.Println("🚫 Get Env Error:", envKey)
 	}
 
 	// # Return the 'Env' value
