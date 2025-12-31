@@ -1,14 +1,18 @@
 package utils
 
-import (
-	"strings"
-)
+import "strings"
+
+// # Get 'Trimmed Value'
+func GetTrimmedValue(value string) string {
+	trimmedValue := strings.TrimSpace(value)
+	return trimmedValue
+}
 
 // # Get 'String Value'
 func GetStringValue(value *string) string {
 	var valueStr string
 	if value != nil {
-		valueStr = strings.TrimSpace(*value)
+		valueStr = GetTrimmedValue(*value)
 	} else {
 		valueStr = ""
 	}
