@@ -25,6 +25,8 @@ func init() {
 	// # Load the 'Env' variables
 	env.LoadEnv()
 
+	fmt.Println("#----------| 🚀 Welcome To Shortify - Modern URL Shortener 🚀 |----------#")
+
 	// # Get the 'DB' variables from the 'Env'
 	dbName := env.GetEnv("DB_NAME")
 	dbUser := env.GetEnv("DB_USER")
@@ -55,8 +57,8 @@ func init() {
 	}
 
 	// # MongoDB 'Connection' Successful
-	fmt.Printf("🕸️  %s Server Connected!\n", dbName)
-	fmt.Printf("🕸️  %s Database Connected!\n", dbName)
+	fmt.Println("🕸️  Server Connected!")
+	fmt.Println("🕸️  Database Connected!")
 }
 
 // # Get 'MongoDB' Collection

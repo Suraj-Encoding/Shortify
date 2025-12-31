@@ -31,7 +31,7 @@ func main() {
 
 	// # Start the 'server'
 	fmt.Println("🚀 Server Is Running...")
-	fmt.Println("🔗 Link:", serverURI)
+	fmt.Println("🔗 Server Link:", serverURI)
 
 	listenAddress := fmt.Sprintf(":%s", port)
 
