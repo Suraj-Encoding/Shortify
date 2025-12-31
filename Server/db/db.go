@@ -22,6 +22,9 @@ func init() {
 
 	var err error
 
+	// # Load the 'Env' variables
+	env.LoadEnv()
+
 	// # Get the 'DB' variables from the 'Env'
 	dbName := env.GetEnv("DB_NAME")
 	dbUser := env.GetEnv("DB_USER")

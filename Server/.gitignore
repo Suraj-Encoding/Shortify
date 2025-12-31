@@ -1,10 +1,13 @@
 ## Git Ignore Files ##
 
-# OS Waste File
+# 'OS Waste' File
 *.DS_Store
 
-# VSCode Waste File
+# 'VSCode Waste' File
 *.vscode
 
-# Environment Variables
+# 'Env' File
 *.env
+
+# 'Excutable' File
+*main
