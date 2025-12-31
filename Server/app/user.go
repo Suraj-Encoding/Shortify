@@ -139,31 +139,52 @@ func UpdateUser(clerkUser *schema.ClerkUser) (*string, error) {
 		"clerk_user_id": utils.GetTrimmedValue(clerkUser.ID),
 	}
 
-	// # Base 'Set'
-	set := bson.M{}
+	// # Base 'Set' & 'Unset'
+	set, unset := bson.M{}, bson.M{}
 
-	if utils.GetStringValue(clerkUser.FirstName) != "" {
-		set["first_name"] = utils.GetStringValue(clerkUser.FirstName)
+	if clerkUser.FirstName != nil {
+		if utils.GetStringValue(clerkUser.FirstName) != "" {
+			set["first_name"] = utils.GetStringValue(clerkUser.FirstName)
+		} else {
+			unset["first_name"] = 1
+		}
 	}
-	if utils.GetStringValue(clerkUser.LastName) != "" {
-		set["last_name"] = utils.GetStringValue(clerkUser.LastName)
+	if clerkUser.LastName != nil {
+		if utils.GetStringValue(clerkUser.LastName) != "" {
+			set["last_name"] = utils.GetStringValue(clerkUser.LastName)
+		} else {
+			unset["last_name"] = 1
+		}
 	}
-	if utils.GetStringValue(clerkUser.Username) != "" {
-		set["email"] = utils.GetStringValue(clerkUser.Username)
+	if clerkUser.Username != nil {
+		if utils.GetStringValue(clerkUser.Username) != "" {
+			set["email"] = utils.GetStringValue(clerkUser.Username)
+		} else {
+			unset["email"] = 1
+		}
 	}
-	if utils.GetStringValue(clerkUser.ImageURL) != "" {
-		set["image_url"] = utils.GetStringValue(clerkUser.ImageURL)
+	if clerkUser.ImageURL != nil {
+		if utils.GetStringValue(clerkUser.ImageURL) != "" {
+			set["image_url"] = utils.GetStringValue(clerkUser.ImageURL)
+		} else {
+			unset["image_url"] = 1
+		}
 	}
 
 	setLength := len(set)
+	unsetLength := len(unset)
 
-	if setLength > 0 {
+	if setLength > 0 || unsetLength > 0 {
 		set["updated_at"] = time
 		set["updated_by"] = updatedBy
 
 		// # Base 'Update'
 		update := bson.M{
 			"$set": set,
+		}
+
+		if unsetLength > 0 {
+			update["$unset"] = unset
 		}
 
 		// # Update the 'user'
