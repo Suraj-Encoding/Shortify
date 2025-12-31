@@ -22,12 +22,20 @@ func SetupRouter() *mux.Router {
 
 	// # 'API' Version '1' Sub 'Routers'
 	UserV1 := APIV1.PathPrefix("/user").Subrouter()
+	LinkV1 := APIV1.PathPrefix("/link").Subrouter()
 
 	// # 'User' Routes
 	UserV1.HandleFunc("/webhook", api.HandleClerkUserWebhook).Methods("POST")
 	UserV1.HandleFunc("/username", api.UpdateUsername).Methods("PUT")
 	UserV1.HandleFunc("/", api.GetUser).Methods("GET")
 	UserV1.HandleFunc("/all", api.GetUsers).Methods("GET")
+
+	// # 'Link' Routes
+	LinkV1.HandleFunc("/", api.CreateLink).Methods("POST")
+	LinkV1.HandleFunc("/", api.UpdateLink).Methods("PUT")
+	LinkV1.HandleFunc("/", api.DeleteLink).Methods("DELETE")
+	LinkV1.HandleFunc("/", api.GetLink).Methods("GET")
+	LinkV1.HandleFunc("/", api.GetLinks).Methods("GET")
 
 	// # Return the 'configured' mux 'router' instance
 	return router
