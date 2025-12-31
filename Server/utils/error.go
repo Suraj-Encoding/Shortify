@@ -9,6 +9,6 @@ func LogError(err error, methodName string) {
 		return
 	}
 	errMsg := err.Error()
-	errMsg = fmt.Sprintf("🚫 Method Name: '%s' | Error Message: '%s'", methodName, errMsg)
+	errMsg = fmt.Sprintf(`🚫 Method Name: "%s" | Error Message: "%s"`, methodName, errMsg)
 	fmt.Println(errMsg)
 }
