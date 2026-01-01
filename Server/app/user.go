@@ -312,9 +312,13 @@ func UpdateUsername(clerkUserID, username string) (*string, error) {
 	// # Check if the provided 'username' is already 'taken' by the another 'user'
 	user, err := GetUser(filter)
 	if user != nil {
-		utils.LogError(err, "App.UpdateUsername")
-		errMsg = "Username already taken. Please choose another one."
+		if user.ClerkUserID == clerkUserID {
+			errMsg = "This is already your current username. Please choose a new username."
+		} else {
+			errMsg = "Username already taken by another user. Please choose a different username."
+		}
 		err = errors.New(errMsg)
+		utils.LogError(err, "App.UpdateUsername")
 		return nil, err
 	}
 
