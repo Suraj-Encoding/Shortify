@@ -13,6 +13,7 @@ import (
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
+	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
 // # Create 'Link'
@@ -287,10 +288,19 @@ func GetLinks(clerkUserID string) ([]*model.Link, error) {
 		},
 	}
 
+	// # Base 'Sort'
+	sort := bson.M{
+		"created_at": -1, // # Sort the 'documents' (links) by the 'created_at' field in the 'descending' order
+	}
+
+	// # Set the 'Find' options
+	opts := options.Find()
+	opts.SetSort(sort)
+
 	var links []*model.Link
 
 	// # Get the 'links'
-	cur, err := collection.Find(ctx, filter)
+	cur, err := collection.Find(ctx, filter, opts)
 	if err != nil {
 		utils.LogError(err, "App.GetLinks")
 		errMsg = "Failed to get the links"
