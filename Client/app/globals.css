@@ -1,8 +1,14 @@
+/* ## App "Global" CSS ## */
+
+/* # "Tailwind" CSS # */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+/* # "Layer" CSS # */
 @layer base {
+
+  /* # "Light" Theme # */
   :root {
     --background: 0 0% 100%;
     --foreground: 222.2 84% 4.9%;
@@ -26,6 +32,7 @@
     --radius: 0.5rem;
   }
 
+  /* # "Dark" Theme # */
   .dark {
     --background: 222.2 84% 4.9%;
     --foreground: 210 40% 98%;
@@ -49,11 +56,15 @@
   }
 }
 
+/* # "Layer" CSS # */
 @layer base {
+
+  /* # "Border" CSS # */
   * {
     @apply border-border;
   }
 
+  /* # "Body" CSS # */
   body {
     @apply bg-background text-foreground;
   }
