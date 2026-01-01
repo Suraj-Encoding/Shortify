@@ -162,7 +162,7 @@ export default function Dashboard() {
           <div className="text-center py-12">
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-black dark:border-white mx-auto"></div>
           </div>
-        ) : links.length === 0 ? (
+        ) : !links || links.length === 0 ? (
           <Card className="text-center py-12 dark:bg-gray-800 dark:border-gray-700">
             <CardContent>
               <svg className="w-16 h-16 text-gray-400 dark:text-gray-500 mx-auto mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
