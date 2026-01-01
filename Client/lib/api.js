@@ -26,7 +26,7 @@ const userAPI = {
         const res = await response.json();
 
         if (!response.ok) {
-            let errMsg = res?.message;
+            let errMsg = res?.error;
             if (!errMsg) {
                 errMsg = '🚫 Client Error: Failed to get the user';
                 console.log(errMsg);
@@ -53,7 +53,7 @@ const userAPI = {
         const res = await response.json();
 
         if (!response.ok) {
-            let errMsg = res?.message;
+            let errMsg = res?.error;
             if (!errMsg) {
                 errMsg = '🚫 Client Error: Failed to update the username';
                 console.log(errMsg);
@@ -91,7 +91,7 @@ const linkAPI = {
         const res = await response.json();
 
         if (!response.ok) {
-            let errMsg = res?.message;
+            let errMsg = res?.error;
             if (!errMsg) {
                 errMsg = '🚫 Client Error: Failed to create the link';
                 console.log(errMsg);
@@ -126,7 +126,7 @@ const linkAPI = {
         const res = await response.json();
 
         if (!response.ok) {
-            let errMsg = res?.message;
+            let errMsg = res?.error;
             if (!errMsg) {
                 errMsg = '🚫 Client Error: Failed to update the link';
                 console.log(errMsg);
@@ -153,7 +153,7 @@ const linkAPI = {
         const res = await response.json();
 
         if (!response.ok) {
-            let errMsg = res?.message;
+            let errMsg = res?.error;
             if (!errMsg) {
                 errMsg = '🚫 Client Error: Failed to delete the link';
                 console.log(errMsg);
@@ -179,7 +179,7 @@ const linkAPI = {
         const data = await response.json();
 
         if (!response.ok) {
-            let errMsg = res?.message;
+            let errMsg = res?.error;
             if (!errMsg) {
                 errMsg = '🚫 Client Error: Failed to get the link';
                 console.log(errMsg);
@@ -205,7 +205,7 @@ const linkAPI = {
         const data = await response.json();
 
         if (!response.ok) {
-            let errMsg = res?.message;
+            let errMsg = res?.error;
             if (!errMsg) {
                 errMsg = '🚫 Client Error: Failed to get the links';
                 console.log(errMsg);
