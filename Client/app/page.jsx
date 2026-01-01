@@ -13,6 +13,7 @@ import LinkDetailDialog from '../components/LinkDetailDialog';
 import EditUsernameDialog from '../components/EditUsernameDialog';
 import Toast from '../components/Toast';
 import { userAPI, linkAPI } from '@/lib/api';
+import { getSuccessMsg } from '@/lib/success';
 
 export default function Dashboard() {
   const { user, isLoaded } = useUser();
@@ -77,7 +78,8 @@ export default function Dashboard() {
     try {
       const response = await linkAPI.createLink(user.id, data);
       if (response.success) {
-        showToast(response.payload || 'Link created successfully!', 'success');
+        const successMsg = getSuccessMsg(response.payload);
+        showToast(successMsg, 'success');
         setIsCreateOpen(false);
         fetchLinks();
       }
@@ -91,7 +93,8 @@ export default function Dashboard() {
     try {
       const response = await linkAPI.updateLink(user.id, linkId, data);
       if (response.success) {
-        showToast(response.payload || 'Link updated successfully!', 'success');
+        const successMsg = getSuccessMsg(response.payload);
+        showToast(successMsg, 'success');
         setIsDetailOpen(false);
         fetchLinks();
       }
@@ -106,7 +109,8 @@ export default function Dashboard() {
     try {
       const response = await linkAPI.deleteLink(linkId);
       if (response.success) {
-        showToast(response.payload || 'Link deleted successfully!', 'success');
+        const successMsg = getSuccessMsg(response.payload);
+        showToast(successMsg, 'success');
         fetchLinks();
       }
     } catch (err) {
@@ -119,7 +123,8 @@ export default function Dashboard() {
     try {
       const response = await userAPI.updateUsername(user.id, username);
       if (response.success) {
-        showToast(response.payload || 'Username updated successfully!', 'success');
+        const successMsg = getSuccessMsg(response.payload);
+        showToast(successMsg, 'success');
         setIsEditUserOpen(false);
         fetchUser();
       }

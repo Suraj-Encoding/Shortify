@@ -1,4 +1,4 @@
-const defaultErrMsg = "Something went wrong!";
+const defaultErrMsg = "Something Went Wrong!";
 
 const sendError = (errMsg) => {
     if (!errMsg) {
