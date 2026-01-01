@@ -190,8 +190,34 @@ func UpdateLink(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	// # Get the 'link ID' from the 'query params'
+	linkIDStr := r.URL.Query().Get("link_id")
+	linkIDStr = utils.GetTrimmedValue(linkIDStr)
+	if linkIDStr == "" {
+		errMsg = "Empty link ID provided"
+		errRes = schema.Error{
+			StatusCode: http.StatusBadRequest,
+			Message:    errMsg,
+		}
+		utils.SetAppError(w, &errRes)
+		return
+	}
+
+	// # Convert the 'link ID' from type 'string' to type 'object ID'
+	linkID, err := primitive.ObjectIDFromHex(linkIDStr)
+	if err != nil {
+		utils.LogError(err, "API.DeleteLink")
+		errMsg = "Invalid link ID provided"
+		errRes = schema.Error{
+			StatusCode: http.StatusBadRequest,
+			Message:    errMsg,
+		}
+		utils.SetAppError(w, &errRes)
+		return
+	}
+
 	// # Update the 'link'
-	res, err := app.UpdateLink(clerkUserID, link)
+	res, err := app.UpdateLink(clerkUserID, &linkID, link)
 	if err != nil {
 		errMsg = err.Error()
 		errRes = schema.Error{

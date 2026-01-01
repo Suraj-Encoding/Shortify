@@ -99,7 +99,7 @@ func CreateLink(clerkUserID string, link *schema.Link) (*string, error) {
 }
 
 // # Update 'Link'
-func UpdateLink(clerkUserID string, link *schema.Link) (*string, error) {
+func UpdateLink(clerkUserID string, linkID *primitive.ObjectID, link *schema.Link) (*string, error) {
 	ctx := context.TODO()
 
 	var err error
@@ -114,10 +114,15 @@ func UpdateLink(clerkUserID string, link *schema.Link) (*string, error) {
 
 	// # Check if the provided 'slug' is already 'assigned' to another 'link' of the given 'user'
 	Link, err := GetLink(filter)
-	if Link != nil {
+	if Link != nil && Link.ID.Hex() != linkID.Hex() {
 		errMsg = "The provided slug is already assigned to another link. Please choose a different slug."
 		err = errors.New(errMsg)
 		return nil, err
+	}
+
+	// # Base 'Filter'
+	filter = bson.M{
+		"_id": linkID,
 	}
 
 	collection := db.GetMongoCollection(model.UserColl)
