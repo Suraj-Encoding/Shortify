@@ -83,7 +83,7 @@ func CreateUser(clerkUser *schema.ClerkUser) (*string, error) {
 		LastName:    utils.GetStringValue(clerkUser.LastName),
 		Email:       utils.GetStringValue(clerkUser.EmailAddresss[0].EmailAddress),
 		CreatedAt:   time,
-		CreatedBy:   user,
+		CreatedBy:   utils.GetActionUser(user),
 	}
 
 	// # Generate the 'user code'
@@ -174,7 +174,7 @@ func UpdateUser(clerkUser *schema.ClerkUser) (*string, error) {
 
 	if setLength > 0 || unsetLength > 0 {
 		set["updated_at"] = time
-		set["updated_by"] = user
+		set["updated_by"] = utils.GetActionUser(user)
 
 		// # Base 'Update'
 		update := bson.M{
@@ -241,7 +241,7 @@ func DeleteUser(clerkUser *schema.ClerkUser) (*string, error) {
 	userSet := bson.M{
 		"is_deleted": clerkUser.Deleted,
 		"deleted_at": time,
-		"deleted_by": user,
+		"deleted_by": utils.GetActionUser(user),
 	}
 
 	// # Base 'User Update'
@@ -274,7 +274,7 @@ func DeleteUser(clerkUser *schema.ClerkUser) (*string, error) {
 	linkSet := bson.M{
 		"is_user_deleted": clerkUser.Deleted,
 		"updated_at":      time,
-		"updated_by":      user,
+		"updated_by":      utils.GetActionUser(user),
 	}
 
 	// # Base 'Link Update'
