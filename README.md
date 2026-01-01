@@ -1,3 +1,4 @@
+<!-- # "Shortify" Readme File # -->
 # 🕸️ Welcome To Shortify - Modern URL Shortener 🕸️
 
 Shortify is a modern, full‑stack URL shortening service built with Go (backend), MongoDB (data store), Clerk (authentication), and Next.js (frontend). It's designed for rapid development and production readiness with clean APIs and a polished UI.
