@@ -37,12 +37,12 @@ func CreateLink(clerkUserID string, link *schema.Link) (*string, error) {
 		"slug":          utils.GetStringValue(link.Slug),
 	}
 
-	// # Check if the provided 'slug' is already 'assigned' to another 'link'
+	// # Check if the provided 'slug' is already 'assigned' to another 'link' of the given 'user'
 	Link, err := GetLink(filter)
 	if Link != nil {
-		utils.LogError(err, "App.UpdateLink")
-		errMsg = "The provided slug is already assigned to another link. Please choose a different one."
+		errMsg = "The provided slug is already assigned to another link. Please choose a different slug."
 		err = errors.New(errMsg)
+		utils.LogError(err, "App.UpdateLink")
 		return nil, err
 	}
 
