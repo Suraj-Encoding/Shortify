@@ -20,7 +20,6 @@ func CreateLink(w http.ResponseWriter, r *http.Request) {
 	// # Get the 'link' data from the 'request'
 	contentLength := r.ContentLength
 	if contentLength == 0 {
-		utils.LogError(err, "API.CreateLink")
 		errMsg = "Empty request body provided for the create link"
 		errRes = schema.Error{
 			StatusCode: http.StatusBadRequest,
@@ -50,7 +49,6 @@ func CreateLink(w http.ResponseWriter, r *http.Request) {
 
 	var link *schema.Link
 	if linkForm.Data == nil {
-		utils.LogError(err, "API.CreateLink")
 		errMsg = "Empty link data provided"
 		errRes = schema.Error{
 			StatusCode: http.StatusBadRequest,
@@ -64,7 +62,6 @@ func CreateLink(w http.ResponseWriter, r *http.Request) {
 
 	// # Validate the 'link' data
 	if link.DestinationURL == nil || utils.GetStringValue(link.DestinationURL) == "" {
-		utils.LogError(err, "API.CreateLink")
 		errMsg = "Link destination URL cannot be empty"
 		errRes = schema.Error{
 			StatusCode: http.StatusBadRequest,
@@ -74,7 +71,6 @@ func CreateLink(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	if link.Slug == nil || utils.GetStringValue(link.Slug) == "" {
-		utils.LogError(err, "API.CreateLink")
 		errMsg = "Link slug cannot be empty"
 		errRes = schema.Error{
 			StatusCode: http.StatusBadRequest,
@@ -100,7 +96,6 @@ func CreateLink(w http.ResponseWriter, r *http.Request) {
 	// # Create the 'link'
 	res, err := app.CreateLink(clerkUserID, link)
 	if err != nil {
-		utils.LogError(err, "API.CreateLink")
 		errMsg = err.Error()
 		errRes = schema.Error{
 			StatusCode: http.StatusInternalServerError,
@@ -122,7 +117,6 @@ func UpdateLink(w http.ResponseWriter, r *http.Request) {
 	// # Get the 'link' data from the 'request'
 	contentLength := r.ContentLength
 	if contentLength == 0 {
-		utils.LogError(err, "API.UpdateLink")
 		errMsg = "Empty request body provided for the update link"
 		errRes = schema.Error{
 			StatusCode: http.StatusBadRequest,
@@ -152,7 +146,6 @@ func UpdateLink(w http.ResponseWriter, r *http.Request) {
 
 	var link *schema.Link
 	if linkForm.Data == nil {
-		utils.LogError(err, "API.UpdateLink")
 		errMsg = "Empty link data provided"
 		errRes = schema.Error{
 			StatusCode: http.StatusBadRequest,
@@ -166,7 +159,6 @@ func UpdateLink(w http.ResponseWriter, r *http.Request) {
 
 	// # Validate the 'link' data
 	if link.DestinationURL == nil || utils.GetStringValue(link.DestinationURL) == "" {
-		utils.LogError(err, "API.UpdateLink")
 		errMsg = "Link destination URL cannot be empty"
 		errRes = schema.Error{
 			StatusCode: http.StatusBadRequest,
@@ -176,7 +168,6 @@ func UpdateLink(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	if link.Slug == nil || utils.GetStringValue(link.Slug) == "" {
-		utils.LogError(err, "API.UpdateLink")
 		errMsg = "Link slug cannot be empty"
 		errRes = schema.Error{
 			StatusCode: http.StatusBadRequest,
@@ -199,10 +190,35 @@ func UpdateLink(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// # Update the 'link'
-	res, err := app.UpdateLink(clerkUserID, link)
+	// # Get the 'link ID' from the 'query params'
+	linkIDStr := r.URL.Query().Get("link_id")
+	linkIDStr = utils.GetTrimmedValue(linkIDStr)
+	if linkIDStr == "" {
+		errMsg = "Empty link ID provided"
+		errRes = schema.Error{
+			StatusCode: http.StatusBadRequest,
+			Message:    errMsg,
+		}
+		utils.SetAppError(w, &errRes)
+		return
+	}
+
+	// # Convert the 'link ID' from type 'string' to type 'object ID'
+	linkID, err := primitive.ObjectIDFromHex(linkIDStr)
 	if err != nil {
-		utils.LogError(err, "API.UpdateLink")
+		utils.LogError(err, "API.DeleteLink")
+		errMsg = "Invalid link ID provided"
+		errRes = schema.Error{
+			StatusCode: http.StatusBadRequest,
+			Message:    errMsg,
+		}
+		utils.SetAppError(w, &errRes)
+		return
+	}
+
+	// # Update the 'link'
+	res, err := app.UpdateLink(clerkUserID, &linkID, link)
+	if err != nil {
 		errMsg = err.Error()
 		errRes = schema.Error{
 			StatusCode: http.StatusInternalServerError,
@@ -250,7 +266,6 @@ func DeleteLink(w http.ResponseWriter, r *http.Request) {
 	// # Delete the 'link'
 	res, err := app.DeleteLink(&linkID)
 	if err != nil {
-		utils.LogError(err, "API.DeleteLink")
 		errMsg = err.Error()
 		errRes = schema.Error{
 			StatusCode: http.StatusInternalServerError,
@@ -303,7 +318,6 @@ func GetLink(w http.ResponseWriter, r *http.Request) {
 	// # Get the 'link'
 	res, err := app.GetLink(filter)
 	if err != nil {
-		utils.LogError(err, "API.GetLink")
 		errMsg = err.Error()
 		errRes = schema.Error{
 			StatusCode: http.StatusInternalServerError,
@@ -338,7 +352,6 @@ func GetLinks(w http.ResponseWriter, r *http.Request) {
 	// # Get the 'links'
 	res, err := app.GetLinks(clerkUserID)
 	if err != nil {
-		utils.LogError(err, "API.GetLinks")
 		errMsg = err.Error()
 		errRes = schema.Error{
 			StatusCode: http.StatusInternalServerError,

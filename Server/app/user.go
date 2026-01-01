@@ -74,16 +74,16 @@ func CreateUser(clerkUser *schema.ClerkUser) (*string, error) {
 		return nil, err
 	}
 
-	createdBy := "clerk_webhook"
+	user := "clerk_webhook"
 
-	user := model.User{
+	User := model.User{
 		ID:          utils.GetNewObjectID(),
 		ClerkUserID: utils.GetTrimmedValue(clerkUser.ID),
 		FirstName:   utils.GetStringValue(clerkUser.FirstName),
 		LastName:    utils.GetStringValue(clerkUser.LastName),
 		Email:       utils.GetStringValue(clerkUser.EmailAddresss[0].EmailAddress),
 		CreatedAt:   time,
-		CreatedBy:   createdBy,
+		CreatedBy:   utils.GetActionUser(user),
 	}
 
 	// # Generate the 'user code'
@@ -94,13 +94,13 @@ func CreateUser(clerkUser *schema.ClerkUser) (*string, error) {
 		err = errors.New(errMsg)
 		return nil, err
 	}
-	user.Code = *userCode
+	User.Code = *userCode
 
-	username := fmt.Sprintf("%s%s%d", strings.ToLower(user.FirstName), strings.ToLower(user.LastName), user.Code)
-	user.Username = username
+	username := fmt.Sprintf("%s%s%d", strings.ToLower(User.FirstName), strings.ToLower(User.LastName), User.Code)
+	User.Username = username
 
 	// # Insert the 'new user'
-	_, err = collection.InsertOne(ctx, &user)
+	_, err = collection.InsertOne(ctx, &User)
 	if err != nil {
 		utils.LogError(err, "App.CreateUser")
 		errMsg = "Failed to create the new user"
@@ -130,7 +130,7 @@ func UpdateUser(clerkUser *schema.ClerkUser) (*string, error) {
 		return nil, err
 	}
 
-	updatedBy := "clerk_webhook"
+	user := "clerk_webhook"
 
 	// # Base 'Filter'
 	filter := bson.M{
@@ -174,7 +174,7 @@ func UpdateUser(clerkUser *schema.ClerkUser) (*string, error) {
 
 	if setLength > 0 || unsetLength > 0 {
 		set["updated_at"] = time
-		set["updated_by"] = updatedBy
+		set["updated_by"] = utils.GetActionUser(user)
 
 		// # Base 'Update'
 		update := bson.M{
@@ -241,7 +241,7 @@ func DeleteUser(clerkUser *schema.ClerkUser) (*string, error) {
 	userSet := bson.M{
 		"is_deleted": clerkUser.Deleted,
 		"deleted_at": time,
-		"deleted_by": user,
+		"deleted_by": utils.GetActionUser(user),
 	}
 
 	// # Base 'User Update'
@@ -274,7 +274,7 @@ func DeleteUser(clerkUser *schema.ClerkUser) (*string, error) {
 	linkSet := bson.M{
 		"is_user_deleted": clerkUser.Deleted,
 		"updated_at":      time,
-		"updated_by":      user,
+		"updated_by":      utils.GetActionUser(user),
 	}
 
 	// # Base 'Link Update'
@@ -312,8 +312,11 @@ func UpdateUsername(clerkUserID, username string) (*string, error) {
 	// # Check if the provided 'username' is already 'taken' by the another 'user'
 	user, err := GetUser(filter)
 	if user != nil {
-		utils.LogError(err, "App.UpdateUsername")
-		errMsg = "Username already taken. Please choose another one."
+		if user.ClerkUserID == clerkUserID {
+			errMsg = "This is already your current username. Please choose a new username."
+		} else {
+			errMsg = "Username already taken by another user. Please choose a different username."
+		}
 		err = errors.New(errMsg)
 		return nil, err
 	}
@@ -420,9 +423,18 @@ func GetUsers() ([]*model.User, error) {
 		},
 	}
 
+	// # Base 'Sort'
+	sort := bson.M{
+		"created_at": -1, // # Sort the 'documents' (users) by the 'created_at' field in the 'descending' order
+	}
+
+	// # Set the 'Find' options
+	opts := options.Find()
+	opts.SetSort(sort)
+
 	var users []*model.User
 
-	cur, err := collection.Find(ctx, filter)
+	cur, err := collection.Find(ctx, filter, opts)
 	if err != nil {
 		utils.LogError(err, "App.GetUsers")
 		errMsg = "Failed to get the users"

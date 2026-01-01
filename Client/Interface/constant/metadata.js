@@ -1,10 +1,8 @@
-import { MetaDataProp } from '../types/metadata';
-
 // # 'MetaData' Constant
-const MetaData: MetaDataProp = {
+const MetaData = {
   title: "Shortify - URL Shortener",
   description: "💲Shortify💲 ~ 🕸️ URL Shortener 🕸️",
-  icons: "/Logo.png"
+  icons: "logo.png"
 };
 
 export default MetaData;

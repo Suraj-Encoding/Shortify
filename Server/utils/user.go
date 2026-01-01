@@ -1,10 +1,10 @@
 package utils
 
 // # Get 'Action User'
-func GetActionUser(clerkUserID string) string {
+func GetActionUser(user string) string {
 	var actionUser string
-	if clerkUserID != "" {
-		actionUser = clerkUserID
+	if user != "" {
+		actionUser = user
 	} else {
 		actionUser = "system"
 	}

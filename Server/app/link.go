@@ -13,6 +13,7 @@ import (
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
+	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
 // # Create 'Link'
@@ -37,11 +38,10 @@ func CreateLink(clerkUserID string, link *schema.Link) (*string, error) {
 		"slug":          utils.GetStringValue(link.Slug),
 	}
 
-	// # Check if the provided 'slug' is already 'assigned' to another 'link'
+	// # Check if the provided 'slug' is already 'assigned' to another 'link' of the given 'user'
 	Link, err := GetLink(filter)
 	if Link != nil {
-		utils.LogError(err, "App.UpdateLink")
-		errMsg = "The provided slug is already assigned to another link. Please choose a different one."
+		errMsg = "The provided slug is already assigned to another link. Please choose a different slug."
 		err = errors.New(errMsg)
 		return nil, err
 	}
@@ -99,7 +99,7 @@ func CreateLink(clerkUserID string, link *schema.Link) (*string, error) {
 }
 
 // # Update 'Link'
-func UpdateLink(clerkUserID string, link *schema.Link) (*string, error) {
+func UpdateLink(clerkUserID string, linkID *primitive.ObjectID, link *schema.Link) (*string, error) {
 	ctx := context.TODO()
 
 	var err error
@@ -112,13 +112,17 @@ func UpdateLink(clerkUserID string, link *schema.Link) (*string, error) {
 		"slug":          utils.GetStringValue(link.Slug),
 	}
 
-	// # Check if the provided 'slug' already 'exists'
+	// # Check if the provided 'slug' is already 'assigned' to another 'link' of the given 'user'
 	Link, err := GetLink(filter)
-	if Link != nil {
-		utils.LogError(err, "App.UpdateLink")
-		errMsg = "The provided slug already exists. Please use a different slug."
+	if Link != nil && Link.ID.Hex() != linkID.Hex() {
+		errMsg = "The provided slug is already assigned to another link. Please choose a different slug."
 		err = errors.New(errMsg)
 		return nil, err
+	}
+
+	// # Base 'Filter'
+	filter = bson.M{
+		"_id": linkID,
 	}
 
 	collection := db.GetMongoCollection(model.UserColl)
@@ -264,7 +268,6 @@ func GetLink(filter bson.M) (*model.Link, error) {
 		}
 	}
 	if link.IsUserDeleted {
-		utils.LogError(err, "App.GetLink")
 		errMsg = "User associated with the given link is already deleted"
 		err = errors.New(errMsg)
 		return nil, err
@@ -290,10 +293,19 @@ func GetLinks(clerkUserID string) ([]*model.Link, error) {
 		},
 	}
 
+	// # Base 'Sort'
+	sort := bson.M{
+		"created_at": -1, // # Sort the 'documents' (links) by the 'created_at' field in the 'descending' order
+	}
+
+	// # Set the 'Find' options
+	opts := options.Find()
+	opts.SetSort(sort)
+
 	var links []*model.Link
 
 	// # Get the 'links'
-	cur, err := collection.Find(ctx, filter)
+	cur, err := collection.Find(ctx, filter, opts)
 	if err != nil {
 		utils.LogError(err, "App.GetLinks")
 		errMsg = "Failed to get the links"

@@ -1,6 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // # comment out for clerk middleware 
+  // # Comment out the "output" for the clerk 'middleware'
   // output: "export", 
   trailingSlash: true,
   images: {
