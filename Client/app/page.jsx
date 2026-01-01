@@ -83,6 +83,7 @@ export default function Dashboard() {
       }
     } catch (err) {
       showToast(err.message, 'error');
+      setIsCreateOpen(false);
     }
   };
 
@@ -96,6 +97,7 @@ export default function Dashboard() {
       }
     } catch (err) {
       showToast(err.message, 'error');
+      setIsDetailOpen(false);
     }
   };
 
@@ -109,6 +111,7 @@ export default function Dashboard() {
       }
     } catch (err) {
       showToast(err.message, 'error');
+      fetchLinks();
     }
   };
 
@@ -122,6 +125,7 @@ export default function Dashboard() {
       }
     } catch (err) {
       showToast(err.message, 'error');
+      setIsEditUserOpen(false);
     }
   };
 

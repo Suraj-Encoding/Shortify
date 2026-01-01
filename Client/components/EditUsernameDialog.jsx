@@ -9,8 +9,13 @@ const EditUsernameDialog = ({ open, onOpenChange, currentUsername, onUpdate }) =
     const [username, setUsername] = useState('');
 
     useEffect(() => {
-        setUsername(currentUsername || '');
-    }, [currentUsername]);
+        if (open) {
+            setUsername(currentUsername || '');
+        } else {
+            // Clear on close
+            setUsername('');
+        }
+    }, [currentUsername, open]);
 
     const handleUpdate = () => {
         if (!username.trim()) {

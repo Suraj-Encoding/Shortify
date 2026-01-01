@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Plus } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -15,14 +15,21 @@ const CreateLinkDialog = ({ open, onOpenChange, onCreate }) => {
         description: ''
     });
 
+    // Clear form when dialog closes
+    useEffect(() => {
+        if (!open) {
+            setFormData({ destination_url: '', slug: '', title: '', description: '' });
+        }
+    }, [open]);
+
     const handleSubmit = () => {
         if (!formData.destination_url || !formData.slug) {
             alert('Destination URL and Slug are required');
             return;
         }
         onCreate(formData);
-        setFormData({ destination_url: '', slug: '', title: '', description: '' });
     };
+
 
     return (
         <>
