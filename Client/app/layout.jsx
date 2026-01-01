@@ -5,17 +5,18 @@ import "react-toastify/dist/ReactToastify.css";
 
 export const metadata = MetaData
 
-export default function RootLayout({
-  children
-}) {
+const RootLayout = ({ children }) => {
   return (
-    <ClerkProvider>
-      <html lang="en">
-        <body>
-          {children}
-        </body>
-      </html>
-    </ClerkProvider >
-  )
-}
+    <>
+      <ClerkProvider>
+        <html lang="en">
+          <body>
+            {children}
+          </body>
+        </html>
+      </ClerkProvider >
+    </>
+  );
+};
 
+export default RootLayout;
