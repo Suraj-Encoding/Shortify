@@ -42,7 +42,6 @@ func CreateLink(clerkUserID string, link *schema.Link) (*string, error) {
 	if Link != nil {
 		errMsg = "The provided slug is already assigned to another link. Please choose a different slug."
 		err = errors.New(errMsg)
-		utils.LogError(err, "App.UpdateLink")
 		return nil, err
 	}
 
@@ -112,11 +111,10 @@ func UpdateLink(clerkUserID string, link *schema.Link) (*string, error) {
 		"slug":          utils.GetStringValue(link.Slug),
 	}
 
-	// # Check if the provided 'slug' already 'exists'
+	// # Check if the provided 'slug' is already 'assigned' to another 'link' of the given 'user'
 	Link, err := GetLink(filter)
 	if Link != nil {
-		utils.LogError(err, "App.UpdateLink")
-		errMsg = "The provided slug already exists. Please use a different slug."
+		errMsg = "The provided slug is already assigned to another link. Please choose a different slug."
 		err = errors.New(errMsg)
 		return nil, err
 	}
@@ -264,7 +262,6 @@ func GetLink(filter bson.M) (*model.Link, error) {
 		}
 	}
 	if link.IsUserDeleted {
-		utils.LogError(err, "App.GetLink")
 		errMsg = "User associated with the given link is already deleted"
 		err = errors.New(errMsg)
 		return nil, err
