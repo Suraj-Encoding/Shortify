@@ -3,7 +3,7 @@ import { sendError } from "./error";
 const API_BASE_URL = process.env.NEXT_PUBLIC_SHORTIFY_SERVER_BASE_URL;
 
 if (!API_BASE_URL) {
-    const errMsg = "MISSING.API_BASE_URL";
+    const errMsg = "🚫 Client Error: MISSING.API_BASE_URL";
     console.error(errMsg);
     sendError(errMsg);
 }
@@ -22,14 +22,18 @@ const userAPI = {
             apiRequestOptions
         );
 
-        const data = await response.json();
+        const res = await response.json();
 
         if (!response.ok) {
-            console.error(data.message || 'Client: Failed to get the user');
-            sendError(data.message);
+            let errMsg = res?.message
+            if (!errMsg) {
+                errMsg = '🚫 Client Error: Failed to get the user'
+                console.log(errMsg);
+            }
+            sendError(errMsg);
         }
 
-        return data;
+        return res;
     },
 
     // # Update 'Username'
@@ -47,8 +51,12 @@ const userAPI = {
         const res = await response.json();
 
         if (!response.ok) {
-            console.error(res.message || 'Client: Failed to the update username');
-            sendError(res.message);
+            let errMsg = res?.message
+            if (!errMsg) {
+                errMsg = '🚫 Client Error: Failed to update the username'
+                console.log(errMsg);
+            }
+            sendError(errMsg);
         }
 
         return res;
@@ -80,8 +88,12 @@ const linkAPI = {
         const res = await response.json();
 
         if (!response.ok) {
-            console.error(res.message || 'Client: Failed to create the link');
-            sendError(res.message);
+            let errMsg = res?.message
+            if (!errMsg) {
+                errMsg = '🚫 Client Error: Failed to create the link'
+                console.log(errMsg);
+            }
+            sendError(errMsg);
         }
 
         return res;
@@ -110,8 +122,12 @@ const linkAPI = {
         const res = await response.json();
 
         if (!response.ok) {
-            console.error(res.message || 'Client: Failed to update the link');
-            sendError(res.message);
+            let errMsg = res?.message
+            if (!errMsg) {
+                errMsg = '🚫 Client Error: Failed to update the link'
+                console.log(errMsg);
+            }
+            sendError(errMsg);
         }
 
         return res;
@@ -132,8 +148,12 @@ const linkAPI = {
         const res = await response.json();
 
         if (!response.ok) {
-            console.error(res.message || 'Client: Failed to delete the link');
-            sendError(res.message);
+            let errMsg = res?.message
+            if (!errMsg) {
+                errMsg = '🚫 Client Error: Failed to delete the link'
+                console.log(errMsg);
+            }
+            sendError(errMsg);
         }
 
         return res;
@@ -154,8 +174,12 @@ const linkAPI = {
         const data = await response.json();
 
         if (!response.ok) {
-            console.error(data.message || 'Client: Failed to get the link');
-            sendError(data.message);
+            let errMsg = res?.message
+            if (!errMsg) {
+                errMsg = '🚫 Client Error: Failed to get the link'
+                console.log(errMsg);
+            }
+            sendError(errMsg);
         }
 
         return data;
@@ -176,8 +200,12 @@ const linkAPI = {
         const data = await response.json();
 
         if (!response.ok) {
-            console.error(data.message || 'Client: Failed to get the links');
-            sendError(data.message);
+            let errMsg = res?.message
+            if (!errMsg) {
+                errMsg = '🚫 Client Error: Failed to get the links'
+                console.log(errMsg);
+            }
+            sendError(errMsg);
         }
 
         return data;
