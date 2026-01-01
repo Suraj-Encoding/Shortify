@@ -423,9 +423,18 @@ func GetUsers() ([]*model.User, error) {
 		},
 	}
 
+	// # Base 'Sort'
+	sort := bson.M{
+		"created_at": -1, // # Sort the 'documents' (users) by the 'created_at' field in the 'descending' order
+	}
+
+	// # Set the 'Find' options
+	opts := options.Find()
+	opts.SetSort(sort)
+
 	var users []*model.User
 
-	cur, err := collection.Find(ctx, filter)
+	cur, err := collection.Find(ctx, filter, opts)
 	if err != nil {
 		utils.LogError(err, "App.GetUsers")
 		errMsg = "Failed to get the users"
