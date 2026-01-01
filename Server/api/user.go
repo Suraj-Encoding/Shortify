@@ -23,8 +23,9 @@ func HandleClerkUserWebhook(w http.ResponseWriter, r *http.Request) {
 	// # Get the 'clerk user' data from the 'request'
 	contentLength := r.ContentLength
 	if contentLength == 0 {
-		utils.LogError(err, "API.HandleClerkUserWebhook")
 		errMsg = "Empty request body provided for the clerk user webhook"
+		err = errors.New(errMsg)
+		utils.LogError(err, "API.HandleClerkUserWebhook")
 		errRes = schema.Error{
 			StatusCode: http.StatusBadRequest,
 			Message:    errMsg,
@@ -53,8 +54,9 @@ func HandleClerkUserWebhook(w http.ResponseWriter, r *http.Request) {
 
 	var clerkUser *schema.ClerkUser
 	if clerkUserForm.Data == nil {
-		utils.LogError(err, "API.HandleClerkUserWebhook")
 		errMsg = "Empty clerk user data provided"
+		err = errors.New(errMsg)
+		utils.LogError(err, "API.HandleClerkUserWebhook")
 		errRes = schema.Error{
 			StatusCode: http.StatusBadRequest,
 			Message:    errMsg,
@@ -186,7 +188,6 @@ func UpdateUsername(w http.ResponseWriter, r *http.Request) {
 	// # Update the 'username'
 	res, err := app.UpdateUsername(clerkUserID, username)
 	if err != nil {
-		utils.LogError(err, "API.UpdateUsername")
 		errMsg = err.Error()
 		errRes = schema.Error{
 			StatusCode: http.StatusInternalServerError,
@@ -226,7 +227,6 @@ func GetUser(w http.ResponseWriter, r *http.Request) {
 	// # Get the 'user'
 	user, err := app.GetUser(filter)
 	if err != nil {
-		utils.LogError(err, "API.GetUser")
 		errMsg = err.Error()
 		errRes = schema.Error{
 			StatusCode: http.StatusInternalServerError,
@@ -248,7 +248,6 @@ func GetUsers(w http.ResponseWriter, r *http.Request) {
 	// # Get the 'users'
 	users, err := app.GetUsers()
 	if err != nil {
-		utils.LogError(err, "API.GetUsers")
 		errMsg = err.Error()
 		errRes = schema.Error{
 			StatusCode: http.StatusInternalServerError,

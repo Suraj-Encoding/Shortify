@@ -19,6 +19,8 @@ func RedirectURL(w http.ResponseWriter, r *http.Request) {
 
 	// # Get the 'URL Path'
 	urlPath := strings.Trim(r.URL.Path, "/")
+	// # Print the 'URL Path'
+	fmt.Println("🔗 URL Path:", urlPath)
 
 	urlPathParts := strings.Split(urlPath, "/")
 	urlPathPartLength := len(urlPathParts)
