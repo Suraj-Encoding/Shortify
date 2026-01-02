@@ -1,5 +1,3 @@
-'use client'
-
 import './globals.css'
 import MetaData from '../Interface/constant/metadata';
 import { ClerkProvider } from '@clerk/nextjs';
