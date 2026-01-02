@@ -15,7 +15,7 @@ import Toast from '../components/Toast';
 import { userAPI, linkAPI } from '@/lib/api';
 import { getSuccessMsg } from '@/lib/success';
 
-// # 'Dashboard Page' Component # 
+// # 'Dashboard' Page Component # 
 const Dashboard = () => {
   const { user, isLoaded } = useUser();
   const [links, setLinks] = useState([]);

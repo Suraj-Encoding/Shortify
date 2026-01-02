@@ -1,3 +1,6 @@
+'use client'
+
+// # 'Auth' Layout #
 const AuthLayout = ({ children }) => {
   return (
     <>
