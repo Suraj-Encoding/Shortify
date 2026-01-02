@@ -31,6 +31,7 @@ const LinkDetailDialog = ({ link, open, onOpenChange, onUpdate, onDelete }) => {
         onUpdate(link._id, formData);
     };
 
+    // # Copy To 'Clipboard'
     const copyToClipboard = (text) => {
         navigator.clipboard.writeText(text);
     };
@@ -54,7 +55,7 @@ const LinkDetailDialog = ({ link, open, onOpenChange, onUpdate, onDelete }) => {
                             <Input
                                 value={formData.title}
                                 onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-                                placeholder="Link title"
+                                placeholder="My Link"
                                 className="dark:bg-gray-700 dark:text-white dark:border-gray-600"
                             />
                         </div>
@@ -65,13 +66,13 @@ const LinkDetailDialog = ({ link, open, onOpenChange, onUpdate, onDelete }) => {
                             <Textarea
                                 value={formData.description}
                                 onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                                placeholder="Link description"
+                                placeholder="Link Description"
                                 className="dark:bg-gray-700 dark:text-white dark:border-gray-600"
                             />
                         </div>
                         <div>
                             <label className="text-sm font-medium mb-1 block dark:text-gray-200">
-                                Destination URL *
+                                Destination URL <span className="text-red-500"> * </span>
                             </label>
                             <Input
                                 value={formData.destination_url}
@@ -82,7 +83,7 @@ const LinkDetailDialog = ({ link, open, onOpenChange, onUpdate, onDelete }) => {
                         </div>
                         <div>
                             <label className="text-sm font-medium mb-1 block dark:text-gray-200">
-                                Slug *
+                                Slug <span className="text-red-500"> * </span>
                             </label>
                             <Input
                                 value={formData.slug}

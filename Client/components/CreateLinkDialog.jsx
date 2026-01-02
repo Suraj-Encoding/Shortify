@@ -67,7 +67,7 @@ const CreateLinkDialog = ({ open, onOpenChange, onCreate }) => {
                         </div>
                         <div>
                             <label className="text-sm font-medium mb-1 block dark:text-gray-200">
-                                Destination URL *
+                                Destination URL <span className="text-red-500"> * </span>
                             </label>
                             <Input
                                 value={formData.destination_url}
@@ -78,7 +78,7 @@ const CreateLinkDialog = ({ open, onOpenChange, onCreate }) => {
                         </div>
                         <div>
                             <label className="text-sm font-medium mb-1 block dark:text-gray-200">
-                                Slug *
+                                Slug <span className="text-red-500"> * </span>
                             </label>
                             <Input
                                 value={formData.slug}
