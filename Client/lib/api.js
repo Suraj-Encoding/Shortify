@@ -64,8 +64,8 @@ const userAPI = {
 const linkAPI = {
     // # Create 'Link'
     async createLink(clerkUserId, data) {
-        apiEndpoint = `${API_BASE_URL}/link/?clerk_user_id=${clerkUserId}`;
-        apiRequestOptions = {
+        const apiEndpoint = `${API_BASE_URL}/link/?clerk_user_id=${clerkUserId}`;
+        const apiRequestOptions = {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
