@@ -68,7 +68,7 @@ const Navbar = ({ username, onEditUsername }) => {
                         <div className="flex items-center space-x-2">
                             {/* # Username Display # */}
                             <div className="hidden sm:flex items-center bg-gray-100 dark:bg-gray-800 rounded-lg px-3 py-1.5 mr-1">
-                                <span className="text-sm font-semibold text-gray-800 dark:text-gray-200">
+                                <span className="text-md font-semibold text-gray-800 dark:text-gray-200">
                                     {username}
                                 </span>
                             </div>
@@ -84,7 +84,7 @@ const Navbar = ({ username, onEditUsername }) => {
                                 onClick={onEditUsername}
                                 title="Edit Username"
                             >
-                                <Edit2 className="w-4 h-4 text-gray-700 dark:text-gray-300" />
+                                <Edit2 className="w-6 h-6 text-gray-700 dark:text-gray-300" />
                             </Button>
 
 
