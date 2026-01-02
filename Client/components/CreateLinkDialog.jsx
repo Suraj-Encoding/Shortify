@@ -32,7 +32,7 @@ const CreateLinkDialog = ({ open, onOpenChange, onCreate }) => {
             <Dialog open={open} onOpenChange={onOpenChange}>
                 <DialogTrigger asChild>
                     <Button className="bg-black hover:bg-gray-800 dark:bg-white dark:text-black dark:hover:bg-gray-200">
-                        <Plus className="w-4 h-4 mr-2" />
+                        <Plus className="w-4 h-4" />
                         Create Link
                     </Button>
                 </DialogTrigger>

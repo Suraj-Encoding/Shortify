@@ -168,8 +168,12 @@ const Dashboard = () => {
         <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <div className="flex justify-between items-center mb-8">
             <div>
-              <h1 className="text-3xl font-bold text-gray-900 dark:text-white"> Link Management </h1>
-              <p className="text-gray-600 dark:text-gray-300 mt-1"> Create and manage your shortened URLs </p>
+              <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
+                Link Management
+              </h1>
+              <p className="text-gray-600 dark:text-gray-300 mt-1">
+                Create and manage your shortened URLs
+              </p>
             </div>
             <CreateLinkDialog
               open={isCreateOpen}
@@ -188,10 +192,14 @@ const Dashboard = () => {
                 <svg className="w-16 h-16 text-gray-400 dark:text-gray-500 mx-auto mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" />
                 </svg>
-                <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2"> No links yet </h3>
-                <p className="text-gray-600 dark:text-gray-400 mb-4"> Create your first shortened URL to get started </p>
+                <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
+                  No links yet
+                </h3>
+                <p className="text-gray-600 dark:text-gray-400 mb-4">
+                  Create your first shortened URL to get started
+                </p>
                 <Button onClick={() => setIsCreateOpen(true)} className="bg-black hover:bg-gray-800 dark:bg-white dark:text-black dark:hover:bg-gray-200">
-                  <Plus className="w-4 h-4 mr-2" />
+                  <Plus className="w-4 h-4" />
                   Create First Link
                 </Button>
               </CardContent>
