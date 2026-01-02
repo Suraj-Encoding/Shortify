@@ -8,6 +8,7 @@ import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import UIData from '@/Interface/constant/ui';
 
+// # 'Navbar' Component #
 const Navbar = ({ username, onEditUsername }) => {
     const [theme, setTheme] = useState('light');
 

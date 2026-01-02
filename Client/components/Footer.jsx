@@ -1,5 +1,8 @@
+'use client'
+
 import Data from '@/Interface/constant/data';
 
+// # 'Footer' Component #
 const Footer = () => {
     return (
         <>

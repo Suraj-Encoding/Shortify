@@ -3,6 +3,7 @@
 import { useEffect } from 'react';
 import { X, CheckCircle, XCircle } from 'lucide-react';
 
+// # 'Toast' Component #
 const Toast = ({ message, type, onClose }) => {
     useEffect(() => {
         const timer = setTimeout(() => {

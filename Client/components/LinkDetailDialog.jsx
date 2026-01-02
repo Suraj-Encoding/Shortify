@@ -7,6 +7,7 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 
+// # 'Link Detail Dialog' Component #
 const LinkDetailDialog = ({ link, open, onOpenChange, onUpdate, onDelete }) => {
     const [formData, setFormData] = useState({
         title: '',
