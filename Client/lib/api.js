@@ -1,13 +1,7 @@
 import { sendError } from "./error";
+import { getAPIBaseURL } from "./url";
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_SHORTIFY_SERVER_BASE_URL;
-
-if (!API_BASE_URL) {
-    let errMsg = "🚫 Client Error: MISSING.API_BASE_URL";
-    console.error(errMsg);
-    errMsg = "";
-    sendError(errMsg);
-}
+const API_BASE_URL = getAPIBaseURL();
 
 // # "User" API #
 const userAPI = {
