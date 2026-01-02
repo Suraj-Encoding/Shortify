@@ -8,6 +8,10 @@
 
 # 'Env' File
 *.env
+*.env.local
+
+# 'Local' File
+*.local
 
 # 'Excutable' File
 *main

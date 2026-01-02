@@ -8,6 +8,7 @@
 
 # 'Env' File
 *.env
+*.env.local
 
 # 'Vercel Waste' File
 *.vercel
