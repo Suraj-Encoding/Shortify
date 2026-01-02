@@ -10,7 +10,7 @@ const isPublicRoute = createRouteMatcher(
 )
 
 // # Define the clerk 'middleware'
-const clerkMiddleWare = clerkMiddleware(
+export default clerkMiddleware(
     async (auth, req) => {
         if (!isPublicRoute(req)) {
             await auth.protect()
@@ -19,7 +19,7 @@ const clerkMiddleWare = clerkMiddleware(
 )
 
 // # Define the clerk 'config'
-const clerkConfig = {
+export const config = {
     matcher: [
         // # Skip the 'Next.js' internals and all the 'static' files, unless found in the 'search' params
         '/((?!_next|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*)',
@@ -27,7 +27,3 @@ const clerkConfig = {
         '/(api|trpc)(.*)'
     ]
 }
-
-// # Export the clerk 'middleware' and the 'config'
-export default clerkMiddleWare
-export { clerkConfig }
