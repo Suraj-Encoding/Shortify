@@ -9,28 +9,24 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/u
 
 const LinkDetailDialog = ({ link, open, onOpenChange, onUpdate, onDelete }) => {
     const [formData, setFormData] = useState({
+        title: '',
+        description: '',
         destination_url: '',
         slug: '',
-        title: '',
-        description: ''
     });
 
     useEffect(() => {
         if (link) {
             setFormData({
+                title: link.title || '',
+                description: link.description || '',
                 destination_url: link.destination_url || '',
                 slug: link.slug || '',
-                title: link.title || '',
-                description: link.description || ''
             });
         }
     }, [link]);
 
     const handleUpdate = () => {
-        if (!formData.destination_url || !formData.slug) {
-            alert('Destination URL and Slug are required');
-            return;
-        }
         onUpdate(link._id, formData);
     };
 
@@ -45,11 +41,15 @@ const LinkDetailDialog = ({ link, open, onOpenChange, onUpdate, onDelete }) => {
             <Dialog open={open} onOpenChange={onOpenChange}>
                 <DialogContent className="max-w-2xl dark:bg-gray-800 dark:border-gray-700">
                     <DialogHeader>
-                        <DialogTitle className="dark:text-white">Link Details</DialogTitle>
+                        <DialogTitle className="dark:text-white">
+                            Link Details
+                        </DialogTitle>
                     </DialogHeader>
                     <div className="space-y-4 mt-4">
                         <div>
-                            <label className="text-sm font-medium mb-1 block dark:text-gray-200">Title</label>
+                            <label className="text-sm font-medium mb-1 block dark:text-gray-200">
+                                Title
+                            </label>
                             <Input
                                 value={formData.title}
                                 onChange={(e) => setFormData({ ...formData, title: e.target.value })}
@@ -58,7 +58,9 @@ const LinkDetailDialog = ({ link, open, onOpenChange, onUpdate, onDelete }) => {
                             />
                         </div>
                         <div>
-                            <label className="text-sm font-medium mb-1 block dark:text-gray-200">Description</label>
+                            <label className="text-sm font-medium mb-1 block dark:text-gray-200">
+                                Description
+                            </label>
                             <Textarea
                                 value={formData.description}
                                 onChange={(e) => setFormData({ ...formData, description: e.target.value })}
@@ -67,7 +69,9 @@ const LinkDetailDialog = ({ link, open, onOpenChange, onUpdate, onDelete }) => {
                             />
                         </div>
                         <div>
-                            <label className="text-sm font-medium mb-1 block dark:text-gray-200">Destination URL *</label>
+                            <label className="text-sm font-medium mb-1 block dark:text-gray-200">
+                                Destination URL *
+                            </label>
                             <Input
                                 value={formData.destination_url}
                                 onChange={(e) => setFormData({ ...formData, destination_url: e.target.value })}
@@ -76,7 +80,9 @@ const LinkDetailDialog = ({ link, open, onOpenChange, onUpdate, onDelete }) => {
                             />
                         </div>
                         <div>
-                            <label className="text-sm font-medium mb-1 block dark:text-gray-200">Slug *</label>
+                            <label className="text-sm font-medium mb-1 block dark:text-gray-200">
+                                Slug *
+                            </label>
                             <Input
                                 value={formData.slug}
                                 onChange={(e) => setFormData({ ...formData, slug: e.target.value })}
@@ -85,7 +91,9 @@ const LinkDetailDialog = ({ link, open, onOpenChange, onUpdate, onDelete }) => {
                             />
                         </div>
                         <div>
-                            <label className="text-sm font-medium mb-1 block dark:text-gray-200">Short URL</label>
+                            <label className="text-sm font-medium mb-1 block dark:text-gray-200">
+                                Short URL
+                            </label>
                             <div className="flex items-center space-x-2">
                                 <Input value={link.short_url} readOnly className="flex-1 dark:bg-gray-700 dark:text-white dark:border-gray-600" />
                                 <Button
@@ -98,12 +106,16 @@ const LinkDetailDialog = ({ link, open, onOpenChange, onUpdate, onDelete }) => {
                         </div>
                         <div className="grid grid-cols-2 gap-4">
                             <div>
-                                <label className="text-sm font-medium mb-1 block dark:text-gray-200">Created</label>
+                                <label className="text-sm font-medium mb-1 block dark:text-gray-200">
+                                    Created
+                                </label>
                                 <Input value={new Date(link.created_at).toLocaleDateString()} readOnly className="dark:bg-gray-700 dark:text-white dark:border-gray-600" />
                             </div>
                             {link.updated_at && (
                                 <div>
-                                    <label className="text-sm font-medium mb-1 block dark:text-gray-200">Updated</label>
+                                    <label className="text-sm font-medium mb-1 block dark:text-gray-200">
+                                        Updated
+                                    </label>
                                     <Input value={new Date(link.updated_at).toLocaleDateString()} readOnly className="dark:bg-gray-700 dark:text-white dark:border-gray-600" />
                                 </div>
                             )}
