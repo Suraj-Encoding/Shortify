@@ -2,7 +2,7 @@
 const MetaData = {
   title: "Shortify - URL Shortener",
   description: "💲Shortify💲 ~ 🕸️ URL Shortener 🕸️",
-  icons: "white_logo.png",
+  icons: "logo.png",
 };
 
 export default MetaData;
