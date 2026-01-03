@@ -108,7 +108,7 @@ const Navbar = ({ username, onEditUsername }) => {
                             </div>
 
                             {/* # 'User Button' Tooltip # */}
-                            <Tooltip id="user-button" place="bottom" offset={{ bottom: 5 }} text='User Account' />
+                            <Tooltip id="user-button" place="bottom" offset={{ bottom: 0 }} text='User Account' />
                         </div>
                     </div>
                 </div>
