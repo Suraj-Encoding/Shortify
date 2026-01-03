@@ -76,7 +76,12 @@ const LinkCard = ({ link, onDelete, onClick, onCopy }) => {
                             <p className="text-sm text-gray-700 dark:text-gray-300 truncate"> {link.destination_url} </p>
                         </div>
                         <div className="flex justify-between items-center pt-2">
-                            <span className="text-xs text-gray-500 dark:text-gray-400"> Slug: {link.slug} </span>
+                            <span className="text-xs text-gray-500 dark:text-gray-200">
+                                Slug:
+                                <code className="bg-gray-200 dark:bg-gray-700 ml-1 px-1 py-1f lex-1 rounded truncate">
+                                    {link.slug}
+                                </code>
+                            </span>
                             <a
                                 data-tip
                                 data-for="visit-link"
