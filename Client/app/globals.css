@@ -86,10 +86,19 @@
   font-weight: 500 !important;
   font-size: 12px !important;
   color: #1f2937 !important;
-  background-color: #a5b4fc !important;
   text-align: center !important;
   line-height: 0.7 !important;
   opacity: 1 !important;
+}
+
+/* # 'Light Mode' Tooltip */
+.light-mode-tooltip {
+  background-color: #d8dadc !important;
+}
+
+/* # 'Dark Mode' Tooltip */
+.dark-mode-tooltip {
+  background-color: #e7e8ec !important;
 }
 
 @media screen and (min-width: 2000px) {
