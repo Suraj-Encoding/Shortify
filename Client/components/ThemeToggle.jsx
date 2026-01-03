@@ -1,8 +1,9 @@
 'use client';
 
+import { useEffect, useState } from 'react';
 import { Moon, Sun } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { useEffect, useState } from 'react';
+import Tooltip from './Tooltip';
 
 // # 'Theme Toggle' Component #
 const ThemeToggle = () => {
@@ -23,13 +24,16 @@ const ThemeToggle = () => {
 
     return (
         <>
-            <Button variant="ghost" size="icon" className="h-9 w-9" onClick={toggleTheme}>
+            <Button data-tip data-for="theme-toggle" variant="ghost" size="icon" className="h-9 w-9" onClick={toggleTheme}>
                 {theme === 'light' ? (
                     <Moon className="w-6 h-6" />
                 ) : (
                     <Sun className="w-6 h-6" />
                 )}
             </Button>
+
+            {/* # 'Theme Toggle' Tooltip # */}
+            <Tooltip id="theme-toggle" place="bottom" offset={{ bottom: 5 }} text={theme === 'light' ? 'Switch to Dark Mode' : 'Switch to Light Mode'} />
         </>
     );
 };

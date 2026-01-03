@@ -7,6 +7,7 @@ import ThemeToggle from './ThemeToggle';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import UIData from '@/Interface/constant/ui';
+import Tooltip from './Tooltip';
 
 // # 'Navbar' Component #
 const Navbar = ({ username, onEditUsername }) => {
@@ -66,30 +67,36 @@ const Navbar = ({ username, onEditUsername }) => {
 
                         {/* # Right Section - 'User' Controls # */}
                         <div className="flex items-center space-x-2">
-                            {/* # Username Display # */}
-                            <div className="hidden sm:flex items-center bg-gray-100 dark:bg-gray-800 rounded-lg px-3 py-1.5 mr-1">
+                            {/* # Display 'Username' # */}
+                            <div data-tip data-for="display-username" className="hidden sm:flex items-center bg-gray-100 dark:bg-gray-800 rounded-lg px-3 py-1.5 mr-1">
                                 <span className="text-md font-semibold text-gray-800 dark:text-gray-200">
                                     {username}
                                 </span>
                             </div>
+
+                            {/* # 'Display Username' Tooltip # */}
+                            <Tooltip id="display-username" place="bottom" offset={{ bottom: 5 }} text={username} />
 
                             {/* # 'Theme' Toggle # */}
                             <ThemeToggle />
 
                             {/* # Edit 'Username' Icon # */}
                             <Button
+                                data-tip
+                                data-for="edit-username"
                                 variant="ghost"
                                 size="icon"
                                 className="h-9 w-9 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
                                 onClick={onEditUsername}
-                                title="Edit Username"
                             >
                                 <Edit2 className="w-6 h-6 text-gray-700 dark:text-gray-300" />
                             </Button>
 
+                            {/* # 'Edit Username' Tooltip # */}
+                            <Tooltip id="edit-username" place="bottom" offset={{ bottom: 5 }} text='Edit Username' />
 
                             {/* # Clerk 'User' Button # */}
-                            <div className="ml-1">
+                            <div data-tip data-for="user-button" className="ml-1">
                                 <UserButton
                                     afterSignOutUrl="/sign-in"
                                     appearance={{
@@ -99,10 +106,13 @@ const Navbar = ({ username, onEditUsername }) => {
                                     }}
                                 />
                             </div>
+
+                            {/* # 'User Button' Tooltip # */}
+                            <Tooltip id="user-button" place="bottom" offset={{ bottom: 5 }} text='User Account' />
                         </div>
                     </div>
                 </div>
-            </nav>
+            </nav >
         </>
     );
 };

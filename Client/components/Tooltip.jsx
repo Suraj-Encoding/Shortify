@@ -33,7 +33,7 @@ const Tooltip = ({ id, place, offset, text }) => {
                 effect="solid"
                 place={place}
                 offset={offset}
-                arrowColor={theme === 'light' ? '#d8dadc' : '#e8e8e8'}
+                arrowColor={theme === 'light' ? '#d8dadc' : '#e7e8ec'}
                 className={`tooltip ${theme === 'light' ? 'light-mode-tooltip' : 'dark-mode-tooltip'}`}
             >
                 {text}
