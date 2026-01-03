@@ -51,16 +51,6 @@ const DeleteLinkDialog = ({ link, open, onOpenChange, onConfirmDelete }) => {
                             </div>
 
                             <div>
-                                <p className="text-xs text-gray-500 dark:text-gray-400 mb-1"> Description </p>
-                                <p
-                                    className="text-sm text-gray-900 dark:text-white line-clamp-2 cursor-help"
-                                    title={link.description}
-                                >
-                                    {link.description || 'No Description'}
-                                </p>
-                            </div>
-
-                            <div>
                                 <p className="text-xs text-gray-500 dark:text-gray-400 mb-1"> Destination URL </p>
                                 <p className="text-sm text-gray-900 dark:text-white break-all">
                                     {link.destination_url}

@@ -57,7 +57,7 @@ const Navbar = ({ username, onEditUsername }) => {
                         {/* # Website 'Welcome' Message # */}
                         <div className="hidden md:block">
                             <p className="text-md text-gray-700 dark:text-gray-300 font-medium">
-                                <span> Welcome To </span>
+                                <span> Welcome to </span>
                                 <span className="font-bold text-black dark:text-white">
                                     {UIData.site_name}
                                 </span>
