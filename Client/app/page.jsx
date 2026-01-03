@@ -145,7 +145,8 @@ const Dashboard = () => {
   // # Copy To 'Clipboard'
   const copyToClipboard = (text) => {
     navigator.clipboard.writeText(text);
-    showToast('Copied to clipboard!', 'success');
+    const message = 'Link copied to clipboard!';
+    showToast(message, 'success');
   };
 
   if (!isLoaded) {
