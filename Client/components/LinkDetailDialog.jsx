@@ -49,6 +49,26 @@ const LinkDetailDialog = ({ link, open, onOpenChange, onUpdate, onDelete }) => {
     };
 
     const handleUpdate = () => {
+        if (
+            !formData.title.trim() &&
+            !formData.description.trim() &&
+            !formData.destination_url.trim() &&
+            !formData.slug.trim()
+        ) {
+            // # Close the 'dialog' and show the 'toast'
+            setTimeout(() => {
+                // # Close the 'dialog' after '500ms'
+                onOpenChange(false);
+
+                // # Show the 'toast' after another '500ms'
+                setTimeout(() => {
+                    const errMsg = 'Please fill out the form first';
+                    showToast(errMsg, 'error');
+                }, 500);
+            }, 500);
+
+            return;
+        }
         onUpdate(link._id, formData);
     };
 
