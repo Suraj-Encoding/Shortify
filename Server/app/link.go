@@ -125,7 +125,7 @@ func UpdateLink(clerkUserID string, linkID *primitive.ObjectID, link *schema.Lin
 		"_id": linkID,
 	}
 
-	collection := db.GetMongoCollection(model.UserColl)
+	collection := db.GetMongoCollection(model.LinkColl)
 
 	// # Get the 'current system time' in the 'IST' timezone
 	time, err := utils.GetCurrentSystemTimeInIST()
