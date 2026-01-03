@@ -20,7 +20,9 @@ const LinkCard = ({ link, onDelete, onClick, onCopy }) => {
             >
                 <CardHeader>
                     <CardTitle className="flex items-start justify-between">
-                        <span className="text-lg truncate pr-2 dark:text-white"> {link.title || 'Untitled'} </span>
+                        <span className="text-lg truncate pr-2 dark:text-white">
+                            {link.title || 'Untitled'}
+                        </span>
                         <Button
                             data-tip
                             data-for="delete-link"
@@ -44,7 +46,7 @@ const LinkCard = ({ link, onDelete, onClick, onCopy }) => {
                         <div>
                             <p className="text-xs text-gray-500 dark:text-gray-400 mb-1"> Short URL </p>
                             <div className="flex items-center space-x-2">
-                                <code className="text-sm bg-gray-100 dark:bg-gray-700 px-2 py-1 rounded flex-1 truncate dark:text-gray-200">
+                                <code className="text-xs bg-gray-100 dark:bg-gray-700 px-1 py-1 flex-1 rounded truncate dark:text-gray-200">
                                     {link.short_url}
                                 </code>
                                 <Button
@@ -73,12 +75,12 @@ const LinkCard = ({ link, onDelete, onClick, onCopy }) => {
                         </div>
                         <div>
                             <p className="text-xs text-gray-500 dark:text-gray-400 mb-1"> Destination URL </p>
-                            <p className="text-sm text-gray-700 dark:text-gray-300 truncate"> {link.destination_url} </p>
+                            <p className="text-xs text-gray-700 dark:text-gray-300 truncate"> {link.destination_url} </p>
                         </div>
                         <div className="flex justify-between items-center pt-2">
                             <span className="text-xs text-gray-500 dark:text-gray-200">
                                 Slug:
-                                <code className="bg-gray-200 dark:bg-gray-700 ml-1 px-1 py-1f lex-1 rounded truncate">
+                                <code className="bg-gray-100 dark:bg-gray-700 ml-1 px-1 py-1 flex-1 rounded truncate">
                                     {link.slug}
                                 </code>
                             </span>
