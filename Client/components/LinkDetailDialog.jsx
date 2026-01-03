@@ -105,7 +105,7 @@ const LinkDetailDialog = ({ link, open, onOpenChange, onUpdate, onDelete }) => {
                                     onClick={() => copyToClipboard(link.short_url)}
                                     className="bg-black hover:bg-gray-800 dark:bg-white dark:text-black dark:hover:bg-gray-200"
                                 >
-                                    <Copy className="w-4 h-4" />
+                                    <Copy className="w-6 h-6" />
                                 </Button>
                             </div>
                         </div>

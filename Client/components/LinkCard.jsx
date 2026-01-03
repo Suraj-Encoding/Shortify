@@ -22,13 +22,13 @@ const LinkCard = ({ link, onDelete, onClick, onCopy }) => {
                         <Button
                             variant="ghost"
                             size="icon"
-                            className="h-8 w-8"
+                            className="h-9 w-9"
                             onClick={(e) => {
                                 e.stopPropagation();
                                 setIsDeleteOpen(true);
                             }}
                         >
-                            <Trash2 className="w-4 h-4 text-red-600" />
+                            <Trash2 className="w-6 h-6 text-red-600" />
                         </Button>
                     </CardTitle>
                 </CardHeader>
@@ -43,13 +43,13 @@ const LinkCard = ({ link, onDelete, onClick, onCopy }) => {
                                 <Button
                                     variant="ghost"
                                     size="icon"
-                                    className="h-8 w-8"
+                                    className="h-9 w-9"
                                     onClick={(e) => {
                                         e.stopPropagation();
                                         onCopy(link.short_url);
                                     }}
                                 >
-                                    <Copy className="w-4 h-4" />
+                                    <Copy className="w-6 h-6" />
                                 </Button>
                             </div>
                         </div>

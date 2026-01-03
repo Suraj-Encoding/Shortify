@@ -94,7 +94,7 @@ const Navbar = ({ username, onEditUsername }) => {
                                     afterSignOutUrl="/sign-in"
                                     appearance={{
                                         elements: {
-                                            avatarBox: "w-9 h-9"
+                                            avatarBox: "h-9 w-9"
                                         }
                                     }}
                                 />

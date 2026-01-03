@@ -113,7 +113,7 @@ const DeleteLinkDialog = ({ link, open, onOpenChange, onConfirmDelete }) => {
                                 disabled={!isSlugMatch}
                                 className="flex-1 bg-red-600 hover:bg-red-700 text-white dark:bg-red-600 dark:hover:bg-red-700 disabled:opacity-50 disabled:cursor-not-allowed"
                             >
-                                <Trash2 className="w-4 h-4 mr-2" />
+                                <Trash2 className="w-4 h-4" />
                                 Confirm Delete
                             </Button>
                         </div>
