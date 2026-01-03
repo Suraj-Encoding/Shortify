@@ -59,7 +59,7 @@ const LinkDetailDialog = ({ link, open, onOpenChange, onUpdate, onDelete }) => {
                                 value={formData.title}
                                 onChange={(e) => setFormData({ ...formData, title: e.target.value })}
                                 placeholder="My Link"
-                                className="dark:bg-gray-700 dark:text-white dark:border-gray-600"
+                                className="bg-gray-100 dark:bg-gray-700 dark:text-white dark:border-gray-600"
                             />
                         </div>
                         <div>
@@ -70,7 +70,7 @@ const LinkDetailDialog = ({ link, open, onOpenChange, onUpdate, onDelete }) => {
                                 value={formData.description}
                                 onChange={(e) => setFormData({ ...formData, description: e.target.value })}
                                 placeholder="Link Description"
-                                className="dark:bg-gray-700 dark:text-white dark:border-gray-600"
+                                className="bg-gray-100 dark:bg-gray-700 dark:text-white dark:border-gray-600"
                             />
                         </div>
                         <div>
@@ -81,7 +81,7 @@ const LinkDetailDialog = ({ link, open, onOpenChange, onUpdate, onDelete }) => {
                                 value={formData.destination_url}
                                 onChange={(e) => setFormData({ ...formData, destination_url: e.target.value })}
                                 placeholder="https://example.com"
-                                className="dark:bg-gray-700 dark:text-white dark:border-gray-600"
+                                className="bg-gray-100 dark:bg-gray-700 dark:text-white dark:border-gray-600"
                             />
                         </div>
                         <div>
@@ -92,7 +92,7 @@ const LinkDetailDialog = ({ link, open, onOpenChange, onUpdate, onDelete }) => {
                                 value={formData.slug}
                                 onChange={(e) => setFormData({ ...formData, slug: e.target.value })}
                                 placeholder="custom-slug"
-                                className="dark:bg-gray-700 dark:text-white dark:border-gray-600"
+                                className="bg-gray-100 dark:bg-gray-700 dark:text-white dark:border-gray-600"
                             />
                         </div>
                         <div>
@@ -100,7 +100,11 @@ const LinkDetailDialog = ({ link, open, onOpenChange, onUpdate, onDelete }) => {
                                 Short URL
                             </label>
                             <div className="flex items-center space-x-2">
-                                <Input value={link.short_url} readOnly className="flex-1 dark:bg-gray-700 dark:text-white dark:border-gray-600" />
+                                <Input
+                                    value={link.short_url}
+                                    readOnly
+                                    className="flex-1 bg-gray-100 dark:bg-gray-700 dark:text-white dark:border-gray-600"
+                                />
                                 <Button
                                     onClick={() => copyToClipboard(link.short_url)}
                                     className="bg-black hover:bg-gray-800 dark:bg-white dark:text-black dark:hover:bg-gray-200"
@@ -114,14 +118,22 @@ const LinkDetailDialog = ({ link, open, onOpenChange, onUpdate, onDelete }) => {
                                 <label className="text-sm font-medium mb-1 block dark:text-gray-200">
                                     Created
                                 </label>
-                                <Input value={new Date(link.created_at).toLocaleDateString()} readOnly className="dark:bg-gray-700 dark:text-white dark:border-gray-600" />
+                                <Input
+                                    value={new Date(link.created_at).toLocaleDateString()}
+                                    readOnly
+                                    className="bg-gray-100  dark:bg-gray-700 dark:text-white dark:border-gray-600"
+                                />
                             </div>
                             {link.updated_at && (
                                 <div>
                                     <label className="text-sm font-medium mb-1 block dark:text-gray-200">
                                         Updated
                                     </label>
-                                    <Input value={new Date(link.updated_at).toLocaleDateString()} readOnly className="dark:bg-gray-700 dark:text-white dark:border-gray-600" />
+                                    <Input
+                                        value={new Date(link.updated_at).toLocaleDateString()}
+                                        readOnly
+                                        className="bg-gray-100  dark:bg-gray-700 dark:text-white dark:border-gray-600"
+                                    />
                                 </div>
                             )}
                         </div>

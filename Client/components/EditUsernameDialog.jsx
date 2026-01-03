@@ -36,7 +36,7 @@ const EditUsernameDialog = ({ open, onOpenChange, currentUsername, onUpdate }) =
                             value={username}
                             onChange={(e) => setUsername(e.target.value)}
                             placeholder="Enter username"
-                            className="dark:bg-gray-700 dark:text-white dark:border-gray-600"
+                            className="bg-gray-100 dark:bg-gray-700 dark:text-white dark:border-gray-600"
                         />
                         <Button onClick={handleUpdate} className="w-full bg-black hover:bg-gray-800 dark:bg-white dark:text-black dark:hover:bg-gray-200">
                             Save Changes

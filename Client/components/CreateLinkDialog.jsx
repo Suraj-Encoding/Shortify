@@ -51,7 +51,7 @@ const CreateLinkDialog = ({ open, onOpenChange, onCreate }) => {
                                 value={formData.title}
                                 onChange={(e) => setFormData({ ...formData, title: e.target.value })}
                                 placeholder="My Link"
-                                className="dark:bg-gray-700 dark:text-white dark:border-gray-600"
+                                className="bg-gray-100 dark:bg-gray-700 dark:text-white dark:border-gray-600"
                             />
                         </div>
                         <div>
@@ -62,7 +62,7 @@ const CreateLinkDialog = ({ open, onOpenChange, onCreate }) => {
                                 value={formData.description}
                                 onChange={(e) => setFormData({ ...formData, description: e.target.value })}
                                 placeholder="Link Description"
-                                className="dark:bg-gray-700 dark:text-white dark:border-gray-600"
+                                className="bg-gray-100 dark:bg-gray-700 dark:text-white dark:border-gray-600"
                             />
                         </div>
                         <div>
@@ -73,7 +73,7 @@ const CreateLinkDialog = ({ open, onOpenChange, onCreate }) => {
                                 value={formData.destination_url}
                                 onChange={(e) => setFormData({ ...formData, destination_url: e.target.value })}
                                 placeholder="https://example.com"
-                                className="dark:bg-gray-700 dark:text-white dark:border-gray-600"
+                                className="bg-gray-100 dark:bg-gray-700 dark:text-white dark:border-gray-600"
                             />
                         </div>
                         <div>
@@ -84,7 +84,7 @@ const CreateLinkDialog = ({ open, onOpenChange, onCreate }) => {
                                 value={formData.slug}
                                 onChange={(e) => setFormData({ ...formData, slug: e.target.value })}
                                 placeholder="my-custom-slug"
-                                className="dark:bg-gray-700 dark:text-white dark:border-gray-600"
+                                className="bg-gray-100 dark:bg-gray-700 dark:text-white dark:border-gray-600"
                             />
                         </div>
                         <Button onClick={handleSubmit} className="w-full bg-black hover:bg-gray-800 dark:bg-white dark:text-black dark:hover:bg-gray-200">
