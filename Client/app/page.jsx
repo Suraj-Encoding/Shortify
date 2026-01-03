@@ -10,7 +10,7 @@ import Footer from '../components/Footer';
 import LinkCard from '../components/LinkCard';
 import CreateLinkDialog from '../components/CreateLinkDialog';
 import LinkDetailDialog from '../components/LinkDetailDialog';
-import EditUsernameDialog from '../components/EditUsernameDialog';
+import UpdateUsernameDialog from '../components/UpdateUsernameDialog';
 import Toast from '../components/Toast';
 import { userAPI, linkAPI } from '@/lib/api';
 import { getSuccessMsg } from '@/lib/success';
@@ -224,7 +224,7 @@ const Dashboard = () => {
             onUpdate={updateLink}
             onDelete={deleteLink}
           />
-          <EditUsernameDialog
+          <UpdateUsernameDialog
             open={isEditUserOpen}
             onOpenChange={setIsEditUserOpen}
             currentUsername={userData?.username || user?.username}

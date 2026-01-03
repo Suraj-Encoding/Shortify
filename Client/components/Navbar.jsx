@@ -80,10 +80,10 @@ const Navbar = ({ username, onEditUsername }) => {
                             {/* # 'Theme' Toggle # */}
                             <ThemeToggle />
 
-                            {/* # Edit 'Username' Icon # */}
+                            {/* # Update 'Username' Icon # */}
                             <Button
                                 data-tip
-                                data-for="edit-username"
+                                data-for="update-username"
                                 variant="ghost"
                                 size="icon"
                                 className="h-9 w-9 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
@@ -92,8 +92,8 @@ const Navbar = ({ username, onEditUsername }) => {
                                 <Edit2 className="w-6 h-6 text-gray-700 dark:text-gray-300" />
                             </Button>
 
-                            {/* # 'Edit Username' Tooltip # */}
-                            <Tooltip id="edit-username" place="bottom" offset={{ bottom: 5 }} text='Edit Username' />
+                            {/* # 'Update Username' Tooltip # */}
+                            <Tooltip id="update-username" place="bottom" offset={{ bottom: 5 }} text='Update Username' />
 
                             {/* # Clerk 'User' Button # */}
                             <div data-tip data-for="user-button" className="ml-1">

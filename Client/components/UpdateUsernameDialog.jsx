@@ -5,8 +5,8 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 
-// # 'Edit Username' Dialog Component #
-const EditUsernameDialog = ({ open, onOpenChange, currentUsername, onUpdate }) => {
+// # 'Update Username' Dialog Component #
+const UpdateUsernameDialog = ({ open, onOpenChange, currentUsername, onUpdate }) => {
     const [username, setUsername] = useState('');
 
     useEffect(() => {
@@ -28,7 +28,7 @@ const EditUsernameDialog = ({ open, onOpenChange, currentUsername, onUpdate }) =
                 <DialogContent className="dark:bg-gray-800 dark:border-gray-700">
                     <DialogHeader>
                         <DialogTitle className="dark:text-white">
-                            Edit Username
+                            Update Username
                         </DialogTitle>
                     </DialogHeader>
                     <div className="space-y-4 mt-4">
@@ -48,4 +48,4 @@ const EditUsernameDialog = ({ open, onOpenChange, currentUsername, onUpdate }) =
     );
 };
 
-export default EditUsernameDialog;
+export default UpdateUsernameDialog;
