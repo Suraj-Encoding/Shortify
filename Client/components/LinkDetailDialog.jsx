@@ -7,6 +7,7 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import DeleteLinkDialog from './DeleteLinkDialog';
+import Toast from './Toast';
 
 // # 'Link Detail Dialog' Component #
 const LinkDetailDialog = ({ link, open, onOpenChange, onUpdate, onDelete }) => {
@@ -19,6 +20,7 @@ const LinkDetailDialog = ({ link, open, onOpenChange, onUpdate, onDelete }) => {
 
     const [isDeleteOpen, setIsDeleteOpen] = useState(false);
     const [copied, setCopied] = useState(false);
+    const [toast, setToast] = useState(null);
 
     const inputRef = useRef(null);
 
@@ -42,6 +44,10 @@ const LinkDetailDialog = ({ link, open, onOpenChange, onUpdate, onDelete }) => {
         }
     }, [link]);
 
+    const showToast = (message, type) => {
+        setToast({ message, type });
+    };
+
     const handleUpdate = () => {
         onUpdate(link._id, formData);
     };
@@ -49,6 +55,8 @@ const LinkDetailDialog = ({ link, open, onOpenChange, onUpdate, onDelete }) => {
     // # Copy To 'Clipboard'
     const copyToClipboard = (text) => {
         navigator.clipboard.writeText(text);
+        const message = 'Link copied to clipboard!';
+        showToast(message, 'success');
     };
 
     if (!link) return null;
@@ -215,6 +223,14 @@ const LinkDetailDialog = ({ link, open, onOpenChange, onUpdate, onDelete }) => {
                     onOpenChange(false);
                 }}
             />
+
+            {toast && (
+                <Toast
+                    message={toast.message}
+                    type={toast.type}
+                    onClose={() => setToast(null)}
+                />
+            )}
         </>
     );
 };
