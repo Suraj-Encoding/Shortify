@@ -14,7 +14,7 @@ const LinkCard = ({ link, onDelete, onClick, onCopy }) => {
     return (
         <>
             <Card
-                className="hover:shadow-lg transition-shadow cursor-pointer dark:bg-gray-800 dark:border-gray-700"
+                className="hover:shadow-lg transition-shadow cursor-pointer bg-gray-50 dark:bg-gray-800 dark:border-gray-700"
                 onClick={() => onClick(link)}
             >
                 <CardHeader>
@@ -25,7 +25,7 @@ const LinkCard = ({ link, onDelete, onClick, onCopy }) => {
                             data-for="delete-link"
                             variant="ghost"
                             size="icon"
-                            className="h-9 w-9 dark:hover:bg-gray-700"
+                            className="h-9 w-9 hover:bg-gray-200 dark:hover:bg-gray-700"
                             onClick={(e) => {
                                 e.stopPropagation();
                                 setIsDeleteOpen(true);
@@ -51,7 +51,7 @@ const LinkCard = ({ link, onDelete, onClick, onCopy }) => {
                                     data-for="copy-link"
                                     variant="ghost"
                                     size="icon"
-                                    className="h-9 w-9 dark:hover:bg-gray-700"
+                                    className="h-9 w-9 hover:bg-gray-200 dark:hover:bg-gray-700"
                                     onClick={(e) => {
                                         e.stopPropagation();
                                         onCopy(link.short_url);
