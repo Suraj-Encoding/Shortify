@@ -25,7 +25,7 @@ const LinkCard = ({ link, onDelete, onClick, onCopy }) => {
                             data-for="delete-link"
                             variant="ghost"
                             size="icon"
-                            className="h-9 w-9"
+                            className="h-9 w-9 dark:hover:bg-gray-700"
                             onClick={(e) => {
                                 e.stopPropagation();
                                 setIsDeleteOpen(true);
@@ -51,7 +51,7 @@ const LinkCard = ({ link, onDelete, onClick, onCopy }) => {
                                     data-for="copy-link"
                                     variant="ghost"
                                     size="icon"
-                                    className="h-9 w-9"
+                                    className="h-9 w-9 dark:hover:bg-gray-700"
                                     onClick={(e) => {
                                         e.stopPropagation();
                                         onCopy(link.short_url);
