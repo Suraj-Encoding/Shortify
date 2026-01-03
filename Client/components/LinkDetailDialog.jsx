@@ -116,23 +116,55 @@ const LinkDetailDialog = ({ link, open, onOpenChange, onUpdate, onDelete }) => {
                         <div className="grid grid-cols-2 gap-4">
                             <div>
                                 <label className="text-sm font-medium mb-1 block dark:text-gray-200">
-                                    Created
+                                    Created At
                                 </label>
                                 <Input
-                                    value={new Date(link.created_at).toLocaleDateString()}
+                                    value={
+                                        new Date(link.created_at).toLocaleString(
+                                            'en-IN',
+                                            {
+                                                day: '2-digit',
+                                                month: 'long',
+                                                year: 'numeric',
+                                                hour: '2-digit',
+                                                minute: '2-digit',
+                                                second: '2-digit',
+                                                hour12: true
+                                            }
+                                        )
+                                            .replace(' at ', ' ')
+                                            .replace('am', 'AM')
+                                            .replace('pm', 'PM')
+                                    }
                                     readOnly
-                                    className="bg-gray-100  dark:bg-gray-700 dark:text-white dark:border-gray-600"
+                                    className="bg-gray-100 dark:bg-gray-700 dark:text-white dark:border-gray-600"
                                 />
                             </div>
                             {link.updated_at && (
                                 <div>
                                     <label className="text-sm font-medium mb-1 block dark:text-gray-200">
-                                        Updated
+                                        Updated At
                                     </label>
                                     <Input
-                                        value={new Date(link.updated_at).toLocaleDateString()}
+                                        value={
+                                            new Date(link.updated_at).toLocaleString(
+                                                'en-IN',
+                                                {
+                                                    day: '2-digit',
+                                                    month: 'long',
+                                                    year: 'numeric',
+                                                    hour: '2-digit',
+                                                    minute: '2-digit',
+                                                    second: '2-digit',
+                                                    hour12: true
+                                                }
+                                            )
+                                                .replace(' at ', ' ')
+                                                .replace('am', 'AM')
+                                                .replace('pm', 'PM')
+                                        }
                                         readOnly
-                                        className="bg-gray-100  dark:bg-gray-700 dark:text-white dark:border-gray-600"
+                                        className="bg-gray-100 dark:bg-gray-700 dark:text-white dark:border-gray-600"
                                     />
                                 </div>
                             )}
