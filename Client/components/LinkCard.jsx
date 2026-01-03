@@ -61,7 +61,7 @@ const LinkCard = ({ link, onDelete, onClick, onCopy }) => {
                                     }}
                                 >
                                     {copied ? (
-                                        <Check className="w-6 h-6 text-green-500" />
+                                        <Check className="w-6 h-6 text-green-600" />
                                     ) : (
                                         <Copy className="w-6 h-6" />
                                     )}

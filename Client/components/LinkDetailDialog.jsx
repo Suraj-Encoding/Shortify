@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Copy, Trash2 } from 'lucide-react';
+import { Copy, Check, Trash2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
@@ -18,6 +18,7 @@ const LinkDetailDialog = ({ link, open, onOpenChange, onUpdate, onDelete }) => {
     });
 
     const [isDeleteOpen, setIsDeleteOpen] = useState(false);
+    const [copied, setCopied] = useState(false);
 
     useEffect(() => {
         if (link) {
@@ -106,10 +107,18 @@ const LinkDetailDialog = ({ link, open, onOpenChange, onUpdate, onDelete }) => {
                                     className="flex-1 bg-gray-100 dark:bg-gray-700 dark:text-white dark:border-gray-600"
                                 />
                                 <Button
-                                    onClick={() => copyToClipboard(link.short_url)}
-                                    className="bg-black hover:bg-gray-800 dark:bg-white dark:text-black dark:hover:bg-gray-200"
+                                    onClick={() => {
+                                        copyToClipboard(link.short_url);
+                                        setCopied(true);
+                                        setTimeout(() => setCopied(false), 2000);
+                                    }}
+                                    className={`bg-black hover:bg-gray-800 dark:bg-white dark:text-black dark:hover:bg-gray-200 ${copied ? 'animate-bounce' : ''}`}
                                 >
-                                    <Copy className="w-6 h-6" />
+                                    {copied ? (
+                                        <Check className="w-6 h-6 text-green-600" />
+                                    ) : (
+                                        <Copy className="w-6 h-6" />
+                                    )}
                                 </Button>
                             </div>
                         </div>
