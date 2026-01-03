@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Copy, Trash2, ExternalLink } from 'lucide-react';
+import { Trash2, Copy, Check, ExternalLink } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import DeleteLinkDialog from './DeleteLinkDialog';
@@ -10,6 +10,7 @@ import Tooltip from './Tooltip';
 // # 'Link Card' Component #
 const LinkCard = ({ link, onDelete, onClick, onCopy }) => {
     const [isDeleteOpen, setIsDeleteOpen] = useState(false);
+    const [copied, setCopied] = useState(false);
 
     return (
         <>
@@ -51,13 +52,19 @@ const LinkCard = ({ link, onDelete, onClick, onCopy }) => {
                                     data-for="copy-link"
                                     variant="ghost"
                                     size="icon"
-                                    className="h-9 w-9 hover:bg-gray-200 dark:hover:bg-gray-700"
+                                    className={`h-9 w-9 hover:bg-gray-200 dark:hover:bg-gray-700 ${copied ? 'bg-gray-200 dark:bg-gray-700 animate-bounce' : ''}`}
                                     onClick={(e) => {
                                         e.stopPropagation();
                                         onCopy(link.short_url);
+                                        setCopied(true);
+                                        setTimeout(() => setCopied(false), 2000);
                                     }}
                                 >
-                                    <Copy className="w-6 h-6" />
+                                    {copied ? (
+                                        <Check className="w-6 h-6 text-green-500" />
+                                    ) : (
+                                        <Copy className="w-6 h-6" />
+                                    )}
                                 </Button>
 
                                 {/* # 'Copy Link' Tooltip # */}
