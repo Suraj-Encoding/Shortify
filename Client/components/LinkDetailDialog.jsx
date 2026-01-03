@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import { Copy, Check, Trash2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -20,6 +20,8 @@ const LinkDetailDialog = ({ link, open, onOpenChange, onUpdate, onDelete }) => {
     const [isDeleteOpen, setIsDeleteOpen] = useState(false);
     const [copied, setCopied] = useState(false);
 
+    const inputRef = useRef(null);
+
     useEffect(() => {
         if (link) {
             setFormData({
@@ -27,6 +29,15 @@ const LinkDetailDialog = ({ link, open, onOpenChange, onUpdate, onDelete }) => {
                 description: link.description || '',
                 destination_url: link.destination_url || '',
                 slug: link.slug || '',
+            });
+
+            // # Prevent the 'auto-selection' of the 'title' (input text) by setting the 'cursor' at the 'end' after the 'render'
+            requestAnimationFrame(() => {
+                if (inputRef.current) {
+                    const len = (link.title || '').length;
+                    inputRef.current.setSelectionRange(len, len);
+                    inputRef.current.focus();
+                }
             });
         }
     }, [link]);
@@ -57,6 +68,7 @@ const LinkDetailDialog = ({ link, open, onOpenChange, onUpdate, onDelete }) => {
                                 Title
                             </label>
                             <Input
+                                ref={inputRef}
                                 value={formData.title}
                                 onChange={(e) => setFormData({ ...formData, title: e.target.value })}
                                 placeholder="My Link"
