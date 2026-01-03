@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Copy } from 'lucide-react';
+import { Copy, Trash2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
@@ -131,9 +131,9 @@ const LinkDetailDialog = ({ link, open, onOpenChange, onUpdate, onDelete }) => {
                             </Button>
                             <Button
                                 onClick={() => setIsDeleteOpen(true)}
-                                variant="outline"
-                                className="border-red-600 text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20"
+                                className="bg-red-600 hover:bg-red-700 text-white"
                             >
+                                <Trash2 className="w-4 h-4" />
                                 Delete Link
                             </Button>
                         </div>

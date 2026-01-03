@@ -42,7 +42,7 @@ const DeleteLinkDialog = ({ link, open, onOpenChange, onConfirmDelete }) => {
 
                     <div className="space-y-4 mt-4">
                         {/* # 'Link' Information #*/}
-                        <div className="bg-gray-50 dark:bg-gray-900 p-4 rounded-lg space-y-3">
+                        <div className="bg-gray-100 dark:bg-gray-900 p-4 rounded-lg space-y-3">
                             <div>
                                 <p className="text-xs text-gray-500 dark:text-gray-400 mb-1"> Title </p>
                                 <p className="text-sm font-medium text-gray-900 dark:text-white">
@@ -94,7 +94,7 @@ const DeleteLinkDialog = ({ link, open, onOpenChange, onConfirmDelete }) => {
                                 value={inputSlug}
                                 onChange={(e) => setInputSlug(e.target.value)}
                                 placeholder="Enter slug here"
-                                className="dark:bg-gray-700 dark:text-white dark:border-gray-600"
+                                className="bg-gray-100 dark:bg-gray-700 dark:text-white dark:border-gray-600"
                                 autoFocus
                             />
                         </div>
@@ -110,7 +110,7 @@ const DeleteLinkDialog = ({ link, open, onOpenChange, onConfirmDelete }) => {
                             <Button
                                 onClick={handleDelete}
                                 disabled={!isSlugMatch}
-                                className="flex-1 bg-red-600 hover:bg-red-700 text-white dark:bg-red-600 dark:hover:bg-red-700 disabled:opacity-50 disabled:cursor-not-allowed"
+                                className="flex-1 bg-red-600 hover:bg-red-700 text-white disabled:opacity-50 disabled:cursor-not-allowed"
                             >
                                 <Trash2 className="w-4 h-4" />
                                 Confirm Delete
