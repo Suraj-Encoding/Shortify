@@ -1,11 +1,15 @@
 'use client';
 
+import { useState } from 'react';
 import { Copy, Trash2, ExternalLink } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import DeleteLinkDialog from './DeleteLinkDialog';
 
 // # 'Link Card' Component #
 const LinkCard = ({ link, onDelete, onClick, onCopy }) => {
+    const [isDeleteOpen, setIsDeleteOpen] = useState(false);
+
     return (
         <>
             <Card
@@ -21,7 +25,7 @@ const LinkCard = ({ link, onDelete, onClick, onCopy }) => {
                             className="h-8 w-8"
                             onClick={(e) => {
                                 e.stopPropagation();
-                                onDelete(link._id);
+                                setIsDeleteOpen(true);
                             }}
                         >
                             <Trash2 className="w-4 h-4 text-red-600" />
@@ -68,7 +72,14 @@ const LinkCard = ({ link, onDelete, onClick, onCopy }) => {
                         </div>
                     </div>
                 </CardContent>
-            </Card>
+            </Card >
+
+            <DeleteLinkDialog
+                link={link}
+                open={isDeleteOpen}
+                onOpenChange={setIsDeleteOpen}
+                onConfirmDelete={onDelete}
+            />
         </>
     );
 };

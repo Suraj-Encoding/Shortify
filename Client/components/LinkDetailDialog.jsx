@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import DeleteLinkDialog from './DeleteLinkDialog';
 
 // # 'Link Detail Dialog' Component #
 const LinkDetailDialog = ({ link, open, onOpenChange, onUpdate, onDelete }) => {
@@ -15,6 +16,8 @@ const LinkDetailDialog = ({ link, open, onOpenChange, onUpdate, onDelete }) => {
         destination_url: '',
         slug: '',
     });
+
+    const [isDeleteOpen, setIsDeleteOpen] = useState(false);
 
     useEffect(() => {
         if (link) {
@@ -127,10 +130,7 @@ const LinkDetailDialog = ({ link, open, onOpenChange, onUpdate, onDelete }) => {
                                 Save Changes
                             </Button>
                             <Button
-                                onClick={() => {
-                                    onDelete(link._id);
-                                    onOpenChange(false);
-                                }}
+                                onClick={() => setIsDeleteOpen(true)}
                                 variant="outline"
                                 className="border-red-600 text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20"
                             >
@@ -140,6 +140,16 @@ const LinkDetailDialog = ({ link, open, onOpenChange, onUpdate, onDelete }) => {
                     </div>
                 </DialogContent>
             </Dialog>
+
+            <DeleteLinkDialog
+                link={link}
+                open={isDeleteOpen}
+                onOpenChange={setIsDeleteOpen}
+                onConfirmDelete={(id) => {
+                    onDelete(id);
+                    onOpenChange(false);
+                }}
+            />
         </>
     );
 };

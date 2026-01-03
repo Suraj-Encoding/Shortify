@@ -101,7 +101,6 @@ const Dashboard = () => {
 
   // # Delete 'Link'
   const deleteLink = async (linkId) => {
-    if (!confirm('Are you sure you want to delete this link?')) return;
     try {
       const response = await linkAPI.deleteLink(linkId);
       if (response.success) {
