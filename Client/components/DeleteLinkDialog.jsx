@@ -103,8 +103,7 @@ const DeleteLinkDialog = ({ link, open, onOpenChange, onConfirmDelete }) => {
                         <div className="flex space-x-2 pt-2">
                             <Button
                                 onClick={() => handleOpenChange(false)}
-                                variant="outline"
-                                className="flex-1 dark:border-gray-600 dark:text-gray-300"
+                                className="flex-1 bg-black hover:bg-gray-800 dark:bg-white dark:text-black dark:hover:bg-gray-200"
                             >
                                 Cancel
                             </Button>
