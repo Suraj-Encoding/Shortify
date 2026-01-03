@@ -5,6 +5,7 @@ import { Copy, Trash2, ExternalLink } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import DeleteLinkDialog from './DeleteLinkDialog';
+import Tooltip from './Tooltip';
 
 // # 'Link Card' Component #
 const LinkCard = ({ link, onDelete, onClick, onCopy }) => {
@@ -20,6 +21,8 @@ const LinkCard = ({ link, onDelete, onClick, onCopy }) => {
                     <CardTitle className="flex items-start justify-between">
                         <span className="text-lg truncate pr-2 dark:text-white"> {link.title || 'Untitled'} </span>
                         <Button
+                            data-tip
+                            data-for="delete-link"
                             variant="ghost"
                             size="icon"
                             className="h-9 w-9"
@@ -30,6 +33,9 @@ const LinkCard = ({ link, onDelete, onClick, onCopy }) => {
                         >
                             <Trash2 className="w-6 h-6 text-red-600" />
                         </Button>
+
+                        {/* # 'Delete Link' Tooltip # */}
+                        <Tooltip id="delete-link" place="bottom" offset={{ bottom: 5 }} text="Delete Link" />
                     </CardTitle>
                 </CardHeader>
                 <CardContent>
@@ -41,6 +47,8 @@ const LinkCard = ({ link, onDelete, onClick, onCopy }) => {
                                     {link.short_url}
                                 </code>
                                 <Button
+                                    data-tip
+                                    data-for="copy-link"
                                     variant="ghost"
                                     size="icon"
                                     className="h-9 w-9"
@@ -51,6 +59,9 @@ const LinkCard = ({ link, onDelete, onClick, onCopy }) => {
                                 >
                                     <Copy className="w-6 h-6" />
                                 </Button>
+
+                                {/* # 'Copy Link' Tooltip # */}
+                                <Tooltip id="copy-link" place="bottom" offset={{ bottom: 5 }} text="Copy Link" />
                             </div>
                         </div>
                         <div>
@@ -60,6 +71,8 @@ const LinkCard = ({ link, onDelete, onClick, onCopy }) => {
                         <div className="flex justify-between items-center pt-2">
                             <span className="text-xs text-gray-500 dark:text-gray-400"> Slug: {link.slug} </span>
                             <a
+                                data-tip
+                                data-for="visit-link"
                                 href={link.short_url}
                                 target="_blank"
                                 rel="noopener noreferrer"
@@ -69,6 +82,9 @@ const LinkCard = ({ link, onDelete, onClick, onCopy }) => {
                                 Visit
                                 <ExternalLink className="w-3 h-3 ml-1" />
                             </a>
+
+                            {/* # 'Visit Link' Tooltip # */}
+                            <Tooltip id="visit-link" place="bottom" offset={{ bottom: 5 }} text="Visit Link" />
                         </div>
                     </div>
                 </CardContent>
