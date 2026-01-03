@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { Alert, AlertDescription } from '@/components/ui/alert';
 import DeleteLinkDialog from './DeleteLinkDialog';
 import Toast from './Toast';
 
@@ -76,8 +77,6 @@ const LinkDetailDialog = ({ link, open, onOpenChange, onUpdate, onDelete }) => {
     // # Copy To 'Clipboard'
     const copyToClipboard = (text) => {
         navigator.clipboard.writeText(text);
-        const message = 'Link copied to clipboard!';
-        showToast(message, 'success');
     };
 
     if (!link) return null;
@@ -104,6 +103,7 @@ const LinkDetailDialog = ({ link, open, onOpenChange, onUpdate, onDelete }) => {
                                 className="bg-gray-100 dark:bg-gray-700 dark:text-white dark:border-gray-600"
                             />
                         </div>
+
                         <div>
                             <label className="text-sm font-medium mb-1 block dark:text-gray-200">
                                 Description
@@ -115,6 +115,7 @@ const LinkDetailDialog = ({ link, open, onOpenChange, onUpdate, onDelete }) => {
                                 className="bg-gray-100 dark:bg-gray-700 dark:text-white dark:border-gray-600"
                             />
                         </div>
+
                         <div>
                             <label className="text-sm font-medium mb-1 block dark:text-gray-200">
                                 Destination URL <span className="text-red-500"> * </span>
@@ -126,6 +127,7 @@ const LinkDetailDialog = ({ link, open, onOpenChange, onUpdate, onDelete }) => {
                                 className="bg-gray-100 dark:bg-gray-700 dark:text-white dark:border-gray-600"
                             />
                         </div>
+
                         <div>
                             <label className="text-sm font-medium mb-1 block dark:text-gray-200">
                                 Slug <span className="text-red-500"> * </span>
@@ -137,6 +139,15 @@ const LinkDetailDialog = ({ link, open, onOpenChange, onUpdate, onDelete }) => {
                                 className="bg-gray-100 dark:bg-gray-700 dark:text-white dark:border-gray-600"
                             />
                         </div>
+
+                        {copied && (
+                            <Alert className="bg-green-100 border border-green-500">
+                                <AlertDescription className="text-md font-medium text-green-700">
+                                    Link copied to clipboard!
+                                </AlertDescription>
+                            </Alert>
+                        )}
+
                         <div>
                             <label className="text-sm font-medium mb-1 block dark:text-gray-200">
                                 Short URL
@@ -151,7 +162,7 @@ const LinkDetailDialog = ({ link, open, onOpenChange, onUpdate, onDelete }) => {
                                     onClick={() => {
                                         copyToClipboard(link.short_url);
                                         setCopied(true);
-                                        setTimeout(() => setCopied(false), 2000);
+                                        setTimeout(() => setCopied(false), 3000);
                                     }}
                                     className={`bg-black hover:bg-gray-800 dark:bg-white dark:text-black dark:hover:bg-gray-200 ${copied ? 'animate-bounce' : ''}`}
                                 >
@@ -163,6 +174,7 @@ const LinkDetailDialog = ({ link, open, onOpenChange, onUpdate, onDelete }) => {
                                 </Button>
                             </div>
                         </div>
+
                         <div className="grid grid-cols-2 gap-4">
                             <div>
                                 <label className="text-sm font-medium mb-1 block dark:text-gray-200">
@@ -190,6 +202,7 @@ const LinkDetailDialog = ({ link, open, onOpenChange, onUpdate, onDelete }) => {
                                     className="bg-gray-100 dark:bg-gray-700 dark:text-white dark:border-gray-600"
                                 />
                             </div>
+
                             {link.updated_at && (
                                 <div>
                                     <label className="text-sm font-medium mb-1 block dark:text-gray-200">
@@ -219,6 +232,7 @@ const LinkDetailDialog = ({ link, open, onOpenChange, onUpdate, onDelete }) => {
                                 </div>
                             )}
                         </div>
+
                         <div className="flex space-x-2 pt-4">
                             <Button onClick={handleUpdate} className="flex-1 bg-black hover:bg-gray-800 dark:bg-white dark:text-black dark:hover:bg-gray-200">
                                 Save Changes
