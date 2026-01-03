@@ -15,6 +15,7 @@ import Toast from '../components/Toast';
 import { userAPI, linkAPI } from '@/lib/api';
 import { getSuccessMsg } from '@/lib/success';
 
+// # 'Dashboard' Page Component # 
 const Dashboard = () => {
   const { user, isLoaded } = useUser();
   const [links, setLinks] = useState([]);
@@ -28,8 +29,8 @@ const Dashboard = () => {
 
   useEffect(() => {
     if (user) {
-      fetchUser();
-      fetchLinks();
+      getUser();
+      getLinks();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user]);
@@ -38,7 +39,8 @@ const Dashboard = () => {
     setToast({ message, type });
   };
 
-  const fetchUser = async () => {
+  // # Get 'User'
+  const getUser = async () => {
     try {
       const response = await userAPI.getUser(user.id);
       if (response.success) {
@@ -49,7 +51,85 @@ const Dashboard = () => {
     }
   };
 
-  const fetchLinks = async () => {
+  // # Update 'Username'
+  const updateUsername = async (username) => {
+    try {
+      const response = await userAPI.updateUsername(user.id, username);
+      if (response.success) {
+        const successMsg = getSuccessMsg(response.payload);
+        showToast(successMsg, 'success');
+        setIsEditUserOpen(false);
+        getUser();
+      }
+    } catch (err) {
+      showToast(err.message, 'error');
+      setIsEditUserOpen(false);
+    }
+  };
+
+  // # Create 'Link'
+  const createLink = async (data) => {
+    try {
+      const response = await linkAPI.createLink(user.id, data);
+      if (response.success) {
+        const successMsg = getSuccessMsg(response.payload);
+        showToast(successMsg, 'success');
+        setIsCreateOpen(false);
+        getLinks();
+      }
+    } catch (err) {
+      showToast(err.message, 'error');
+      setIsCreateOpen(false);
+    }
+  };
+
+  // # Update 'Link'
+  const updateLink = async (linkId, data) => {
+    try {
+      const response = await linkAPI.updateLink(user.id, linkId, data);
+      if (response.success) {
+        const successMsg = getSuccessMsg(response.payload);
+        showToast(successMsg, 'success');
+        setIsDetailOpen(false);
+        getLinks();
+      }
+    } catch (err) {
+      showToast(err.message, 'error');
+      setIsDetailOpen(false);
+    }
+  };
+
+  // # Delete 'Link'
+  const deleteLink = async (linkId) => {
+    if (!confirm('Are you sure you want to delete this link?')) return;
+    try {
+      const response = await linkAPI.deleteLink(linkId);
+      if (response.success) {
+        const successMsg = getSuccessMsg(response.payload);
+        showToast(successMsg, 'success');
+        getLinks();
+      }
+    } catch (err) {
+      showToast(err.message, 'error');
+      getLinks();
+    }
+  };
+
+  // # Get 'Link'
+  const getLink = async (link) => {
+    try {
+      const response = await linkAPI.getLink(link._id);
+      if (response.success) {
+        setSelectedLink(response.payload);
+        setIsDetailOpen(true);
+      }
+    } catch (err) {
+      showToast(err.message, 'error');
+    }
+  };
+
+  // # Get 'Links'
+  const getLinks = async () => {
     setLoading(true);
     try {
       const response = await linkAPI.getLinks(user.id);
@@ -63,78 +143,7 @@ const Dashboard = () => {
     }
   };
 
-  const fetchLinkDetails = async (link) => {
-    try {
-      const response = await linkAPI.getLink(link._id);
-      if (response.success) {
-        setSelectedLink(response.payload);
-        setIsDetailOpen(true);
-      }
-    } catch (err) {
-      showToast(err.message, 'error');
-    }
-  };
-
-  const createLink = async (data) => {
-    try {
-      const response = await linkAPI.createLink(user.id, data);
-      if (response.success) {
-        const successMsg = getSuccessMsg(response.payload);
-        showToast(successMsg, 'success');
-        setIsCreateOpen(false);
-        fetchLinks();
-      }
-    } catch (err) {
-      showToast(err.message, 'error');
-      setIsCreateOpen(false);
-    }
-  };
-
-  const updateLink = async (linkId, data) => {
-    try {
-      const response = await linkAPI.updateLink(user.id, linkId, data);
-      if (response.success) {
-        const successMsg = getSuccessMsg(response.payload);
-        showToast(successMsg, 'success');
-        setIsDetailOpen(false);
-        fetchLinks();
-      }
-    } catch (err) {
-      showToast(err.message, 'error');
-      setIsDetailOpen(false);
-    }
-  };
-
-  const deleteLink = async (linkId) => {
-    if (!confirm('Are you sure you want to delete this link?')) return;
-    try {
-      const response = await linkAPI.deleteLink(linkId);
-      if (response.success) {
-        const successMsg = getSuccessMsg(response.payload);
-        showToast(successMsg, 'success');
-        fetchLinks();
-      }
-    } catch (err) {
-      showToast(err.message, 'error');
-      fetchLinks();
-    }
-  };
-
-  const updateUsername = async (username) => {
-    try {
-      const response = await userAPI.updateUsername(user.id, username);
-      if (response.success) {
-        const successMsg = getSuccessMsg(response.payload);
-        showToast(successMsg, 'success');
-        setIsEditUserOpen(false);
-        fetchUser();
-      }
-    } catch (err) {
-      showToast(err.message, 'error');
-      setIsEditUserOpen(false);
-    }
-  };
-
+  // # Copy To 'Clipboard'
   const copyToClipboard = (text) => {
     navigator.clipboard.writeText(text);
     showToast('Copied to clipboard!', 'success');
@@ -159,8 +168,12 @@ const Dashboard = () => {
         <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <div className="flex justify-between items-center mb-8">
             <div>
-              <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Link Management</h1>
-              <p className="text-gray-600 dark:text-gray-300 mt-1">Create and manage your shortened URLs</p>
+              <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
+                Link Management
+              </h1>
+              <p className="text-gray-600 dark:text-gray-300 mt-1">
+                Create and manage your shortened URLs
+              </p>
             </div>
             <CreateLinkDialog
               open={isCreateOpen}
@@ -179,10 +192,14 @@ const Dashboard = () => {
                 <svg className="w-16 h-16 text-gray-400 dark:text-gray-500 mx-auto mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" />
                 </svg>
-                <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">No links yet</h3>
-                <p className="text-gray-600 dark:text-gray-400 mb-4">Create your first shortened URL to get started</p>
+                <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
+                  No links yet
+                </h3>
+                <p className="text-gray-600 dark:text-gray-400 mb-4">
+                  Create your first shortened URL to get started
+                </p>
                 <Button onClick={() => setIsCreateOpen(true)} className="bg-black hover:bg-gray-800 dark:bg-white dark:text-black dark:hover:bg-gray-200">
-                  <Plus className="w-4 h-4 mr-2" />
+                  <Plus className="w-4 h-4" />
                   Create First Link
                 </Button>
               </CardContent>
@@ -193,7 +210,7 @@ const Dashboard = () => {
                 <LinkCard
                   key={link._id}
                   link={link}
-                  onClick={fetchLinkDetails}
+                  onClick={getLink}
                   onDelete={deleteLink}
                   onCopy={copyToClipboard}
                 />

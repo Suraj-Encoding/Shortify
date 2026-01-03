@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 
+// # 'Edit Username' Dialog Component #
 const EditUsernameDialog = ({ open, onOpenChange, currentUsername, onUpdate }) => {
     const [username, setUsername] = useState('');
 
@@ -12,16 +13,12 @@ const EditUsernameDialog = ({ open, onOpenChange, currentUsername, onUpdate }) =
         if (open) {
             setUsername(currentUsername || '');
         } else {
-            // Clear on close
+            // # Clear the 'username' on dialog 'close'
             setUsername('');
         }
     }, [currentUsername, open]);
 
     const handleUpdate = () => {
-        if (!username.trim()) {
-            alert('Username cannot be empty');
-            return;
-        }
         onUpdate(username);
     };
 
@@ -30,7 +27,9 @@ const EditUsernameDialog = ({ open, onOpenChange, currentUsername, onUpdate }) =
             <Dialog open={open} onOpenChange={onOpenChange}>
                 <DialogContent className="dark:bg-gray-800 dark:border-gray-700">
                     <DialogHeader>
-                        <DialogTitle className="dark:text-white">Edit Username</DialogTitle>
+                        <DialogTitle className="dark:text-white">
+                            Edit Username
+                        </DialogTitle>
                     </DialogHeader>
                     <div className="space-y-4 mt-4">
                         <Input

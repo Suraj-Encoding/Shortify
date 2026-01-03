@@ -8,15 +8,16 @@ import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import UIData from '@/Interface/constant/ui';
 
+// # 'Navbar' Component #
 const Navbar = ({ username, onEditUsername }) => {
     const [theme, setTheme] = useState('light');
 
     useEffect(() => {
-        // Get initial theme
+        // # Get the initial 'theme'
         const savedTheme = localStorage.getItem('theme') || 'light';
         setTheme(savedTheme);
 
-        // Watch for theme changes
+        // # Watch for the 'theme' changes
         const observer = new MutationObserver(() => {
             const isDark = document.documentElement.classList.contains('dark');
             setTheme(isDark ? 'dark' : 'light');
@@ -35,7 +36,7 @@ const Navbar = ({ username, onEditUsername }) => {
             <nav className="bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700 shadow-sm sticky top-0 z-50 transition-colors backdrop-blur-sm bg-white/95 dark:bg-gray-900/95">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="flex justify-between items-center h-16">
-                        {/* Logo Section */}
+                        {/* # Website 'Logo' & 'Name' # */}
                         <div className="flex items-center space-x-3">
                             <div className="relative w-10 h-10 flex-shrink-0">
                                 <Image
@@ -52,30 +53,30 @@ const Navbar = ({ username, onEditUsername }) => {
                             </span>
                         </div>
 
-                        {/* Center Message */}
+                        {/* # Website 'Welcome' Message # */}
                         <div className="hidden md:block">
-                            <p className="text-sm text-gray-600 dark:text-gray-300 font-medium">
-                                Welcome To
-                                <span className="font-bold text-black dark:text-white ml-1 mr-1">
+                            <p className="text-md text-gray-700 dark:text-gray-300 font-medium">
+                                <span> Welcome To </span>
+                                <span className="font-bold text-black dark:text-white">
                                     {UIData.site_name}
                                 </span>
-                                - Modern URL Shortener
+                                <span> - Modern URL Shortener </span>
                             </p>
                         </div>
 
-                        {/* Right Section - User Controls */}
+                        {/* # Right Section - 'User' Controls # */}
                         <div className="flex items-center space-x-2">
-                            {/* Username Display */}
+                            {/* # Username Display # */}
                             <div className="hidden sm:flex items-center bg-gray-100 dark:bg-gray-800 rounded-lg px-3 py-1.5 mr-1">
-                                <span className="text-sm font-semibold text-gray-800 dark:text-gray-200">
+                                <span className="text-md font-semibold text-gray-800 dark:text-gray-200">
                                     {username}
                                 </span>
                             </div>
 
-                            {/* Theme Toggle */}
+                            {/* # 'Theme' Toggle # */}
                             <ThemeToggle />
 
-                            {/* Edit Username Button */}
+                            {/* # Edit 'Username' Icon # */}
                             <Button
                                 variant="ghost"
                                 size="icon"
@@ -83,11 +84,11 @@ const Navbar = ({ username, onEditUsername }) => {
                                 onClick={onEditUsername}
                                 title="Edit Username"
                             >
-                                <Edit2 className="w-4 h-4 text-gray-700 dark:text-gray-300" />
+                                <Edit2 className="w-6 h-6 text-gray-700 dark:text-gray-300" />
                             </Button>
 
 
-                            {/* Clerk User Button */}
+                            {/* # Clerk 'User' Button # */}
                             <div className="ml-1">
                                 <UserButton
                                     afterSignOutUrl="/sign-in"
