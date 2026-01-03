@@ -69,7 +69,7 @@ const Navbar = ({ username, onEditUsername }) => {
                         <div className="flex items-center space-x-2">
                             {/* # Display 'Username' # */}
                             <div data-tip data-for="display-username" className="hidden sm:flex items-center bg-gray-100 dark:bg-gray-800 rounded-lg px-3 py-1.5 mr-1">
-                                <span className="text-md font-semibold text-gray-800 dark:text-gray-200">
+                                <span className="text-md font-medium text-gray-800 dark:text-gray-200">
                                     {username}
                                 </span>
                             </div>
