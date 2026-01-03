@@ -175,6 +175,8 @@ const Dashboard = () => {
                 Create and manage your shortened URLs
               </p>
             </div>
+
+            {/* # 'Create Link' Dialog Component # */}
             <CreateLinkDialog
               open={isCreateOpen}
               onOpenChange={setIsCreateOpen}
@@ -218,6 +220,7 @@ const Dashboard = () => {
             </div>
           )}
 
+          {/* # 'Link Detail' Dialog Component # */}
           <LinkDetailDialog
             link={selectedLink}
             open={isDetailOpen}
@@ -225,6 +228,8 @@ const Dashboard = () => {
             onUpdate={updateLink}
             onDelete={deleteLink}
           />
+
+          {/* # 'Update Username' Dialog Component # */}
           <UpdateUsernameDialog
             open={isEditUserOpen}
             onOpenChange={setIsEditUserOpen}
@@ -233,8 +238,10 @@ const Dashboard = () => {
           />
         </main>
 
+        {/* # 'Footer' Component # */}
         <Footer />
 
+        {/* # 'Toast' Component # */}
         {toast && (
           <Toast
             message={toast.message}

@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import Toast from './Toast';
 
 // # 'Create Link' Dialog Component #
 const CreateLinkDialog = ({ open, onOpenChange, onCreate }) => {
@@ -16,6 +17,8 @@ const CreateLinkDialog = ({ open, onOpenChange, onCreate }) => {
         slug: '',
     });
 
+    const [toast, setToast] = useState(null);
+
     // # Clear the 'form' on the 'dialog' close
     useEffect(() => {
         if (!open) {
@@ -23,7 +26,32 @@ const CreateLinkDialog = ({ open, onOpenChange, onCreate }) => {
         }
     }, [open]);
 
+    const showToast = (message, type) => {
+        setToast({ message, type });
+    };
+
     const handleSubmit = () => {
+        if (
+            !formData.title.trim() &&
+            !formData.description.trim() &&
+            !formData.destination_url.trim() &&
+            !formData.slug.trim()
+        ) {
+            // # Close the 'dialog' and show the 'toast'
+            setTimeout(() => {
+                // # Close the 'dialog' after '500ms'
+                onOpenChange(false);
+
+                // # Show the 'toast' after another '500ms'
+                setTimeout(() => {
+                    const errMsg = 'Please fill out the form first';
+                    showToast(errMsg, 'error');
+                }, 500);
+            }, 500);
+
+            return;
+        }
+
         onCreate(formData);
     };
 
@@ -93,6 +121,15 @@ const CreateLinkDialog = ({ open, onOpenChange, onCreate }) => {
                     </div>
                 </DialogContent>
             </Dialog>
+
+            {/* # 'Toast' Component # */}
+            {toast && (
+                <Toast
+                    message={toast.message}
+                    type={toast.type}
+                    onClose={() => setToast(null)}
+                />
+            )}
         </>
     );
 };

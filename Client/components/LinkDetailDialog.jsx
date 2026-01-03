@@ -69,6 +69,7 @@ const LinkDetailDialog = ({ link, open, onOpenChange, onUpdate, onDelete }) => {
 
             return;
         }
+
         onUpdate(link._id, formData);
     };
 
@@ -234,6 +235,7 @@ const LinkDetailDialog = ({ link, open, onOpenChange, onUpdate, onDelete }) => {
                 </DialogContent>
             </Dialog>
 
+            {/* # 'Delete Link' Dialog Component # */}
             <DeleteLinkDialog
                 link={link}
                 open={isDeleteOpen}
@@ -244,6 +246,7 @@ const LinkDetailDialog = ({ link, open, onOpenChange, onUpdate, onDelete }) => {
                 }}
             />
 
+            {/* # 'Toast' Component # */}
             {toast && (
                 <Toast
                     message={toast.message}

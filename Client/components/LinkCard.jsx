@@ -104,6 +104,7 @@ const LinkCard = ({ link, onDelete, onClick, onCopy }) => {
                 </CardContent>
             </Card >
 
+            {/* # 'Delete Link' Dialog Component # */}
             <DeleteLinkDialog
                 link={link}
                 open={isDeleteOpen}
