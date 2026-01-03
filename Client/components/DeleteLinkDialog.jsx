@@ -50,7 +50,6 @@ const DeleteLinkDialog = ({ link, open, onOpenChange, onConfirmDelete }) => {
                                 </p>
                             </div>
 
-
                             <div>
                                 <p className="text-xs text-gray-500 dark:text-gray-400 mb-1"> Description </p>
                                 <p
