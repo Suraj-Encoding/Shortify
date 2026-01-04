@@ -88,7 +88,6 @@
             width: 80px;
             height: 80px;
             object-fit: contain;
-            /* margin-bottom: 1rem; */
             animation: fadeIn 1s ease forwards;
         }
 
@@ -112,6 +111,13 @@
             animation: fadeIn 1s ease forwards;
             animation-delay: 0.4s;
             opacity: 0;
+        }
+
+        .gradient-black {
+            background: linear-gradient(to right, #000000, #4b5563);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
         p.description {
@@ -164,15 +170,33 @@
             background: #111827;
             border-radius: 10px;
             text-decoration: none;
-            transition: transform 0.15s ease, box-shadow 0.15s ease;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
             animation: fadeIn 1s ease forwards;
             animation-delay: 1s;
             opacity: 0;
         }
 
+        a.cta::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -75%;
+            width: 50%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.25);
+            transform: skewX(-25deg);
+            transition: all 0.5s ease;
+        }
+
+        a.cta:hover::before {
+            left: 125%;
+        }
+
         a.cta:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+            transform: scale(1.05);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
         }
     </style>
 </head>
@@ -185,7 +209,7 @@
         <img src="logo.png" alt="Shortify" class="logo" />
 
         <!-- # Title -->
-        <h1> Welcome to Shortify </h1>
+        <h1 class="gradient-black"> Welcome to Shortify </h1>
 
         <!-- # Subtitle -->
         <h2> Modern URL Shortener </h2>
