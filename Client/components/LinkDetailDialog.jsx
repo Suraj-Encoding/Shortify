@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef, useState, useEffect } from 'react';
+import { useRef, useState, useEffect, useMemo } from 'react';
 import { Copy, Check, Trash2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -9,9 +9,10 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/u
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import DeleteLinkDialog from './DeleteLinkDialog';
 import Toast from './Toast';
+import { getServerBaseURL } from '@/lib/url';
 
 // # 'Link Detail Dialog' Component #
-const LinkDetailDialog = ({ link, open, onOpenChange, onUpdate, onDelete }) => {
+const LinkDetailDialog = ({ link, username, open, onOpenChange, onUpdate, onDelete }) => {
     const [formData, setFormData] = useState({
         title: '',
         description: '',
@@ -25,6 +26,15 @@ const LinkDetailDialog = ({ link, open, onOpenChange, onUpdate, onDelete }) => {
 
     const inputRef = useRef(null);
     const timeoutRef = useRef(null);
+
+    const linkShortUrl = useMemo(() => {
+        if (!link) {
+            return '';
+        }
+        const SERVER_BASE_URL = getServerBaseURL();
+        const linkShortUrl = `${SERVER_BASE_URL}/${username}/${link.slug}`;
+        return linkShortUrl;
+    }, [username, link]);
 
     useEffect(() => {
         if (link) {
@@ -52,7 +62,7 @@ const LinkDetailDialog = ({ link, open, onOpenChange, onUpdate, onDelete }) => {
     }, []);
 
     const handleCopy = () => {
-        copyToClipboard(link.short_url);
+        copyToClipboard(linkShortUrl);
         setCopied(true);
 
         const timer = setTimeout(() => {
@@ -178,7 +188,7 @@ const LinkDetailDialog = ({ link, open, onOpenChange, onUpdate, onDelete }) => {
                             </label>
                             <div className="flex items-center space-x-2">
                                 <Input
-                                    value={link.short_url}
+                                    value={linkShortUrl}
                                     readOnly
                                     className="flex-1 bg-gray-100 dark:bg-gray-700 dark:text-white dark:border-gray-600"
                                 />
@@ -271,7 +281,7 @@ const LinkDetailDialog = ({ link, open, onOpenChange, onUpdate, onDelete }) => {
 
             {/* # 'Delete Link' Dialog Component # */}
             <DeleteLinkDialog
-                link={link}
+                link={{ ...link, short_url: linkShortUrl }}
                 open={isDeleteOpen}
                 onOpenChange={setIsDeleteOpen}
                 onConfirmDelete={(id) => {
