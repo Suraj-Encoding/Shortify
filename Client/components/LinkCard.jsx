@@ -1,18 +1,25 @@
 'use client';
 
-import { useRef, useState, useEffect } from 'react';
+import { useRef, useState, useEffect, useMemo } from 'react';
 import { Trash2, Copy, Check, ExternalLink } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import DeleteLinkDialog from './DeleteLinkDialog';
 import Tooltip from './Tooltip';
+import { getServerBaseURL } from '@/lib/url';
 
 // # 'Link Card' Component #
-const LinkCard = ({ link, onDelete, onClick, onCopy }) => {
+const LinkCard = ({ link, username, onDelete, onClick, onCopy }) => {
     const timeoutRef = useRef(null);
 
     const [isDeleteOpen, setIsDeleteOpen] = useState(false);
     const [copied, setCopied] = useState(false);
+
+    const linkShortUrl = useMemo(() => {
+        const SERVER_BASE_URL = getServerBaseURL();
+        const linkShortUrl = `${SERVER_BASE_URL}/${username}/${link.slug}`;
+        return linkShortUrl;
+    }, [username, link.slug]);
 
     useEffect(() => {
         // # Clear the 'timer' on the component 'unmount'
@@ -21,7 +28,7 @@ const LinkCard = ({ link, onDelete, onClick, onCopy }) => {
 
     const handleCopy = (e) => {
         e.stopPropagation();
-        onCopy(link.short_url);
+        onCopy(linkShortUrl);
         setCopied(true);
 
         const timer = setTimeout(() => {
@@ -67,7 +74,7 @@ const LinkCard = ({ link, onDelete, onClick, onCopy }) => {
                             <p className="text-xs text-gray-500 dark:text-gray-400 mb-1"> Short URL </p>
                             <div className="flex items-center space-x-2">
                                 <code className="text-xs bg-gray-100 dark:bg-gray-700 px-1 py-1 flex-1 rounded truncate dark:text-gray-200">
-                                    {link.short_url}
+                                    {linkShortUrl}
                                 </code>
                                 <Button
                                     data-tip
@@ -102,7 +109,7 @@ const LinkCard = ({ link, onDelete, onClick, onCopy }) => {
                             <a
                                 data-tip
                                 data-for="visit-link"
-                                href={link.short_url}
+                                href={linkShortUrl}
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 onClick={(e) => e.stopPropagation()}
@@ -121,7 +128,7 @@ const LinkCard = ({ link, onDelete, onClick, onCopy }) => {
 
             {/* # 'Delete Link' Dialog Component # */}
             <DeleteLinkDialog
-                link={link}
+                link={{ ...link, short_url: linkShortUrl }}
                 open={isDeleteOpen}
                 onOpenChange={setIsDeleteOpen}
                 onConfirmDelete={onDelete}

@@ -221,6 +221,7 @@ const Dashboard = () => {
                 <LinkCard
                   key={link._id}
                   link={link}
+                  username={userData?.username || 'user'}
                   onClick={getLink}
                   onDelete={deleteLink}
                   onCopy={copyToClipboard}
@@ -232,6 +233,7 @@ const Dashboard = () => {
           {/* # 'Link Detail' Dialog Component # */}
           <LinkDetailDialog
             link={selectedLink}
+            username={userData?.username || 'user'}
             open={isDetailOpen}
             onOpenChange={setIsDetailOpen}
             onUpdate={updateLink}
