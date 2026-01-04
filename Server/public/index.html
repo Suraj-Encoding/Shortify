@@ -17,7 +17,7 @@
     <!-- # Website 'Logo' -->
     <link rel="icon" href="logo.png" />
 
-    <!-- # 'Open Graph (OG) - Social Media' Meta Tags # -->
+    <!-- # Website 'Open Graph (OG) - Social Media' Meta Tags # -->
     <meta property="og:title" content="Shortify — Modern URL Shortener" />
     <meta property="og:description"
         content="Shortify is a modern, fast, and reliable URL shortener built for simplicity and performance." />
@@ -25,7 +25,7 @@
     <meta property="og:image" content="logo.png" />
     <meta property="og:url" content="https://myshortify.vercel.app" />
 
-    <!-- # Style # -->
+    <!-- # Website 'Style' # -->
     <style>
         * {
             margin: 0;
@@ -43,6 +43,25 @@
             color: #111827;
         }
 
+        h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+        }
+
+        h2 {
+            font-size: 1.05rem;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+            color: #4b5563;
+        }
+
+        p {
+            font-size: 0.95rem;
+            margin-bottom: 1.5rem;
+            color: #6b7280;
+        }
+
         .container {
             text-align: center;
             padding: 2.5rem 3rem;
@@ -54,20 +73,26 @@
         }
 
         .logo {
-            font-size: 3rem;
-            margin-bottom: 0.75rem;
+            width: 80px;
+            height: 80px;
+            object-fit: contain;
+            margin-bottom: 1rem;
         }
 
-        h1 {
-            font-size: 1.75rem;
+        .gradient-text {
+            font-size: 1.1rem;
             font-weight: 700;
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.9rem;
+            background: linear-gradient(90deg, #8b5cf6, #ec4899);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
-        p {
+        .description {
             font-size: 0.95rem;
             color: #6b7280;
-            margin-bottom: 1.5rem;
+            margin-bottom: 1.25rem;
         }
 
         .badge {
@@ -79,17 +104,64 @@
             background: #eff6ff;
             border-radius: 999px;
         }
+
+        .badge.success {
+            display: inline-block;
+            margin-bottom: 1.5rem;
+            padding: 0.4rem 0.75rem;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: #16a34a;
+            background: #ecfdf5;
+            border-radius: 999px;
+        }
+
+        .cta {
+            display: inline-block;
+            padding: 0.55rem 1.25rem;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #ffffff;
+            background: #111827;
+            border-radius: 10px;
+            text-decoration: none;
+            transition: transform 0.15s ease, box-shadow 0.15s ease;
+        }
+
+        .cta:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        }
     </style>
 </head>
 
-<!-- # Body # -->
+<!-- # Website 'Body' # -->
 
 <body>
     <div class="container">
-        <div class="logo">🚀</div>
+        <!-- # Logo -->
+        <img src="logo.png" alt="Shortify" class="logo" />
+
+        <!-- # Title -->
         <h1> Welcome to Shortify </h1>
-        <p> Modern, fast, and reliable URL shortener built for simplicity. </p>
-        <span class="badge"> API is running successfully </span>
+
+        <!-- # Subtitle -->
+        <h2 class="gradient-text"> Modern URL Shortener </h2>
+
+        <!-- # Description -->
+        <p class="description">
+            Shortify is a modern, fast, and reliable URL shortener built for simplicity and performance.
+        </p>
+
+        <!-- # Server Status -->
+        <span class="badge success">
+            Server is up and running
+        </span>
+
+        <!-- # Go to Platform -->
+        <a href="https://myshortify.vercel.app" target="_blank" rel="noopener noreferrer" class="cta">
+            Go to Platform →
+        </a>
     </div>
 </body>
 
