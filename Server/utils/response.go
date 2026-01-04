@@ -10,6 +10,8 @@ import (
 func SetAppResponse(w http.ResponseWriter, response any) {
 	w.WriteHeader(http.StatusOK) // # "200" #
 
+	w.Header().Set("Content-Type", "application/json")
+
 	encoder := json.NewEncoder(w)
 
 	res := &schema.AppResponse{
@@ -23,6 +25,8 @@ func SetAppResponse(w http.ResponseWriter, response any) {
 // # Set 'App Error'
 func SetAppError(w http.ResponseWriter, errRes *schema.Error) {
 	w.WriteHeader(errRes.StatusCode) // # "error status code" #
+
+	w.Header().Set("Content-Type", "application/json")
 
 	encoder := json.NewEncoder(w)
 
