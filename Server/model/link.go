@@ -13,9 +13,7 @@ type Link struct {
 	IsUserDeleted  bool                `json:"is_user_deleted,omitempty" bson:"is_user_deleted,omitempty"`
 	Title          string              `json:"title,omitempty" bson:"title,omitempty"`
 	Description    string              `json:"description,omitempty" bson:"description,omitempty"`
-	ServerURL      string              `json:"server_url,omitempty" bson:"server_url,omitempty"`
 	DestinationURL string              `json:"destination_url,omitempty" bson:"destination_url,omitempty"`
-	ShortURL       string              `json:"short_url,omitempty" bson:"short_url,omitempty"`
 	Slug           string              `json:"slug,omitempty" bson:"slug,omitempty"`
 	CreatedAt      *time.Time          `json:"created_at,omitempty" bson:"created_at,omitempty"`
 	CreatedBy      string              `json:"created_by,omitempty" bson:"created_by,omitempty"`
