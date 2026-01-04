@@ -37,7 +37,7 @@ const AppLoader = () => {
                         {UIData.site_title}
                     </h1>
 
-                    <p className="text-base text-center max-w-xs leading-snug bg-gradient-to-r from-purple-500 via-pink-500 to-red-500 bg-clip-text text-transparent animate-fade-in">
+                    <p className="text-base text-center max-w-xs font-medium leading-snug bg-gradient-to-r from-purple-500 via-pink-500 to-red-500 bg-clip-text text-transparent animate-fade-in">
                         {UIData.site_description}
                     </p>
                 </div>
