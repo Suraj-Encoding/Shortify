@@ -18,7 +18,7 @@ func ServeFile(w http.ResponseWriter, r *http.Request) {
 
 	// # Get the 'URL Path' of the requested 'file'
 	fileURLPath := r.URL.Path
-	fileURLPath = strings.TrimPrefix(fileURLPath, "/file/")
+	fileURLPath = strings.TrimPrefix(fileURLPath, "/file")
 
 	// # Print the 'URL Path' of the requested 'file'
 	fmt.Println("🔗 File URL Path:", fileURLPath)
