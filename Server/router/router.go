@@ -15,6 +15,10 @@ func SetupRouter() *mux.Router {
 	// # Note: Serve the 'home' page to the 'client'
 	router.HandleFunc("/", api.ServeHomePage).Methods("GET")
 
+	// # Serve 'File': ["/file"]
+	// # Note: Serve the requested 'file' to the 'client'
+	router.HandleFunc("/file", api.ServeFile).Methods("GET")
+
 	// # Redirect 'Route'
 	// # Note: Redirect the 'user' to the 'Destination URL' of the 'link'
 	router.HandleFunc("/{username}/{slug}", api.RedirectURL).Methods("GET")
