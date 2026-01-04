@@ -10,8 +10,7 @@
     <title> Shortify — Modern URL Shortener </title>
 
     <!-- # Website 'Description' -->
-    <meta name="description"
-        content="Shortify is a modern, fast, and reliable URL shortener built for simplicity and performance." />
+    <meta name="description" content="A fast, reliable, and elegant tool to make your links smarter and simpler." />
     <meta name="author" content="Suraj Dalvi" />
 
     <!-- # Website 'Logo' -->
@@ -20,7 +19,7 @@
     <!-- # Website 'Open Graph (OG) - Social Media' Meta Tags # -->
     <meta property="og:title" content="Shortify — Modern URL Shortener" />
     <meta property="og:description"
-        content="Shortify is a modern, fast, and reliable URL shortener built for simplicity and performance." />
+        content="A fast, reliable, and elegant tool to make your links smarter and simpler." />
     <meta property="og:type" content="website" />
     <meta property="og:image" content="logo.png" />
     <meta property="og:url" content="https://myshortify.vercel.app" />
@@ -36,38 +35,51 @@
 
         body {
             min-height: 100vh;
+            color: #111827;
             background: linear-gradient(135deg, #f9fafb, #e5e7eb);
             display: flex;
             align-items: center;
             justify-content: center;
-            color: #111827;
         }
 
-        h1 {
-            font-size: 1.8rem;
-            font-weight: 700;
-            margin-bottom: 0.25rem;
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+                transform: translateY(15px);
+            }
+
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
-        h2 {
-            font-size: 1.05rem;
-            font-weight: 600;
-            margin-bottom: 0.75rem;
-            color: #4b5563;
+        @keyframes shine {
+            0% {
+                background-position: -200% 0;
+            }
+
+            100% {
+                background-position: 200% 0;
+            }
         }
 
-        p {
-            font-size: 0.95rem;
-            margin-bottom: 1.5rem;
-            color: #6b7280;
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
         }
 
         .container {
             text-align: center;
             padding: 2.5rem 3rem;
             background: #ffffff;
-            border-radius: 16px;
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+            border-radius: 16px;
             max-width: 420px;
             width: 100%;
         }
@@ -76,23 +88,59 @@
             width: 80px;
             height: 80px;
             object-fit: contain;
-            margin-bottom: 1rem;
+            /* margin-bottom: 1rem; */
+            animation: fadeIn 1s ease forwards;
         }
 
-        .gradient-text {
-            font-size: 1.1rem;
+        h1 {
+            font-size: 1.8rem;
             font-weight: 700;
-            margin-bottom: 0.9rem;
+            margin-bottom: 0.25rem;
+            animation: fadeIn 1s ease forwards;
+            animation-delay: 0.2s;
+            opacity: 0;
+        }
+
+        h2 {
+            font-size: 1.05rem;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+            color: #4b5563;
             background: linear-gradient(90deg, #8b5cf6, #ec4899);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            background-clip: text;
+            animation: fadeIn 1s ease forwards;
+            animation-delay: 0.4s;
+            opacity: 0;
         }
 
-        .description {
+        p.description {
             font-size: 0.95rem;
             color: #6b7280;
-            margin-bottom: 1.25rem;
+            margin-bottom: 1.5rem;
+            animation: fadeIn 1s ease forwards;
+            animation-delay: 0.6s;
+            opacity: 0;
+        }
+
+        .badge-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+            animation: fadeIn 1s ease forwards;
+            animation-delay: 0.8s;
+            opacity: 0;
+        }
+
+        .server-spin {
+            width: 16px;
+            height: 16px;
+            border: 2px solid #16a34a;
+            border-top: 2px solid transparent;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
         }
 
         .badge {
@@ -100,23 +148,14 @@
             padding: 0.4rem 0.75rem;
             font-size: 0.8rem;
             font-weight: 600;
-            color: #2563eb;
-            background: #eff6ff;
-            border-radius: 999px;
-        }
-
-        .badge.success {
-            display: inline-block;
-            margin-bottom: 1.5rem;
-            padding: 0.4rem 0.75rem;
-            font-size: 0.8rem;
-            font-weight: 600;
             color: #16a34a;
-            background: #ecfdf5;
+            background: linear-gradient(90deg, #d9f7ec, #a7f3d0, #d9f7ec);
+            background-size: 200% auto;
             border-radius: 999px;
+            animation: shine 2s linear infinite, fadeIn 1s ease forwards;
         }
 
-        .cta {
+        a.cta {
             display: inline-block;
             padding: 0.55rem 1.25rem;
             font-size: 0.9rem;
@@ -126,9 +165,12 @@
             border-radius: 10px;
             text-decoration: none;
             transition: transform 0.15s ease, box-shadow 0.15s ease;
+            animation: fadeIn 1s ease forwards;
+            animation-delay: 1s;
+            opacity: 0;
         }
 
-        .cta:hover {
+        a.cta:hover {
             transform: translateY(-1px);
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
         }
@@ -146,19 +188,20 @@
         <h1> Welcome to Shortify </h1>
 
         <!-- # Subtitle -->
-        <h2 class="gradient-text"> Modern URL Shortener </h2>
+        <h2> Modern URL Shortener </h2>
 
         <!-- # Description -->
         <p class="description">
-            Shortify is a modern, fast, and reliable URL shortener built for simplicity and performance.
+            A fast, reliable, and elegant tool to make your links smarter and simpler.
         </p>
 
-        <!-- # Server Status -->
-        <span class="badge success">
-            Server is up and running
-        </span>
+        <!-- # Badge -->
+        <div class="badge-container">
+            <div class="server-spin"></div>
+            <span class="badge"> Server Running </span>
+        </div>
 
-        <!-- # Go to Platform -->
+        <!-- # CTA -->
         <a href="https://myshortify.vercel.app" target="_blank" rel="noopener noreferrer" class="cta">
             Go to Platform →
         </a>
