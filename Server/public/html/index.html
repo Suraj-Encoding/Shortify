@@ -222,7 +222,9 @@
         <!-- # Badge -->
         <div class="badge-container">
             <div class="server-spin"></div>
-            <span class="badge"> Server Running </span>
+            <span class="badge">
+                Server Running<span id="dots"></span>
+            </span>
         </div>
 
         <!-- # CTA -->
@@ -230,6 +232,21 @@
             Go to Platform →
         </a>
     </div>
+
+    <!-- # Website 'Script' # -->
+    <script>
+        const dots = document.getElementById("dots");
+        let dotCount = 0;
+
+        const interval = setInterval(() => {
+            dotCount = (dotCount + 1) % 4;
+            dots.textContent = ".".repeat(dotCount);
+        }, 500);
+
+        window.addEventListener("beforeunload", () => {
+            clearInterval(interval);
+        });
+    </script>
 </body>
 
 </html>
