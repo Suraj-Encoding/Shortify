@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import { Trash2, Copy, Check, ExternalLink } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -9,8 +9,28 @@ import Tooltip from './Tooltip';
 
 // # 'Link Card' Component #
 const LinkCard = ({ link, onDelete, onClick, onCopy }) => {
+    const timeoutRef = useRef(null);
+
     const [isDeleteOpen, setIsDeleteOpen] = useState(false);
     const [copied, setCopied] = useState(false);
+
+    useEffect(() => {
+        // # Clear the 'timer' on the component 'unmount'
+        return () => clearTimeout(timeoutRef.current);
+    }, []);
+
+    const handleCopy = (e) => {
+        e.stopPropagation();
+        onCopy(link.short_url);
+        setCopied(true);
+
+        const timer = setTimeout(() => {
+            setCopied(false);
+        }, 2000);
+
+        // # Store the 'timer' in the 'ref'
+        timeoutRef.current = timer;
+    };
 
     return (
         <>
@@ -55,12 +75,7 @@ const LinkCard = ({ link, onDelete, onClick, onCopy }) => {
                                     variant="ghost"
                                     size="icon"
                                     className={`h-9 w-9 hover:bg-gray-200 dark:hover:bg-gray-700 ${copied ? 'bg-gray-200 dark:bg-gray-700 animate-bounce' : ''}`}
-                                    onClick={(e) => {
-                                        e.stopPropagation();
-                                        onCopy(link.short_url);
-                                        setCopied(true);
-                                        setTimeout(() => setCopied(false), 2000);
-                                    }}
+                                    onClick={handleCopy}
                                 >
                                     {copied ? (
                                         <Check className="w-6 h-6 text-green-600" />
