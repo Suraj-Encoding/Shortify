@@ -57,18 +57,24 @@ const LinkDetailDialog = ({ link, open, onOpenChange, onUpdate, onDelete }) => {
             !formData.slug.trim()
         ) {
             // # Close the 'dialog' and show the 'toast'
-            setTimeout(() => {
+            const outerTimer = setTimeout(() => {
                 // # Close the 'dialog' after '500ms'
                 onOpenChange(false);
 
                 // # Show the 'toast' after another '500ms'
-                setTimeout(() => {
+                innerTimer = setTimeout(() => {
                     const errMsg = 'Please fill out the form first';
                     showToast(errMsg, 'error');
                 }, 500);
             }, 500);
 
-            return;
+            let innerTimer; // # Declare the 'inner timer' variable 'outer' so that 'cleanup' can see it
+
+            // # Clear the 'timer' (inner & outer) on the component 'unmount'
+            return () => {
+                clearTimeout(innerTimer);
+                clearTimeout(outerTimer);
+            };
         }
 
         onUpdate(link._id, formData);
