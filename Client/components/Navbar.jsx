@@ -37,12 +37,12 @@ const Navbar = ({ username, onEditUsername }) => {
             <nav className="bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700 shadow-sm sticky top-0 z-50 transition-colors backdrop-blur-sm bg-white/95 dark:bg-gray-900/95">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="flex justify-between items-center h-16">
-                        {/* # Website 'Logo' & 'Name' # */}
+                        {/* # Website 'Logo' & 'Title' # */}
                         <div className="flex items-center space-x-3">
                             <div className="relative w-10 h-10 flex-shrink-0">
                                 <Image
                                     src={theme === 'light' ? UIData.black_logo : UIData.white_logo}
-                                    alt="Shortify Logo"
+                                    alt={UIData.site_title}
                                     width={40}
                                     height={40}
                                     className="object-contain"
@@ -50,18 +50,18 @@ const Navbar = ({ username, onEditUsername }) => {
                                 />
                             </div>
                             <span className="text-3xl font-extrabold bg-gradient-to-r from-black to-gray-600 dark:from-white dark:to-gray-300 bg-clip-text text-transparent tracking-tight">
-                                {UIData.site_name}
+                                {UIData.site_title}
                             </span>
                         </div>
 
-                        {/* # Website 'Welcome' Message # */}
+                        {/* # Website 'Title' & 'Description' # */}
                         <div className="hidden md:block">
                             <p className="text-md text-gray-700 dark:text-gray-300 font-medium">
                                 <span> Welcome to </span>
                                 <span className="font-bold text-black dark:text-white">
-                                    {UIData.site_name}
+                                    {UIData.site_title}
                                 </span>
-                                <span> - Modern URL Shortener </span>
+                                <span> - {UIData.site_description} </span>
                             </p>
                         </div>
 
