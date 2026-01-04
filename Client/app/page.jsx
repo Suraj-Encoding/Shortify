@@ -170,7 +170,7 @@ const Dashboard = () => {
     <>
       <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 flex flex-col transition-colors">
         <Navbar
-          username={userData?.username || 'User'}
+          username={userData?.username || 'user'}
           onEditUsername={() => setIsEditUserOpen(true)}
         />
 
@@ -242,7 +242,7 @@ const Dashboard = () => {
           <UpdateUsernameDialog
             open={isEditUserOpen}
             onOpenChange={setIsEditUserOpen}
-            currentUsername={userData?.username || 'User'}
+            currentUsername={userData?.username || 'user'}
             onUpdate={updateUsername}
           />
         </main>
