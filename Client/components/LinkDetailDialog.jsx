@@ -24,6 +24,7 @@ const LinkDetailDialog = ({ link, open, onOpenChange, onUpdate, onDelete }) => {
     const [toast, setToast] = useState(null);
 
     const inputRef = useRef(null);
+    const timeoutRef = useRef(null);
 
     useEffect(() => {
         if (link) {
@@ -44,6 +45,23 @@ const LinkDetailDialog = ({ link, open, onOpenChange, onUpdate, onDelete }) => {
             });
         }
     }, [link]);
+
+    useEffect(() => {
+        // # Clear the 'timer' on the component 'unmount'
+        return () => clearTimeout(timeoutRef.current);
+    }, []);
+
+    const handleCopy = () => {
+        copyToClipboard(link.short_url);
+        setCopied(true);
+
+        const timer = setTimeout(() => {
+            setCopied(false);
+        }, 2000);
+
+        // # Store the 'timer' in the 'ref'
+        timeoutRef.current = timer;
+    };
 
     const showToast = (message, type) => {
         setToast({ message, type });
@@ -165,11 +183,7 @@ const LinkDetailDialog = ({ link, open, onOpenChange, onUpdate, onDelete }) => {
                                     className="flex-1 bg-gray-100 dark:bg-gray-700 dark:text-white dark:border-gray-600"
                                 />
                                 <Button
-                                    onClick={() => {
-                                        copyToClipboard(link.short_url);
-                                        setCopied(true);
-                                        setTimeout(() => setCopied(false), 3000);
-                                    }}
+                                    onClick={handleCopy}
                                     className={`bg-black hover:bg-gray-800 dark:bg-white dark:text-black dark:hover:bg-gray-200 ${copied ? 'animate-bounce' : ''}`}
                                 >
                                     {copied ? (
