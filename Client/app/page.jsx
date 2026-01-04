@@ -149,13 +149,18 @@ const Dashboard = () => {
     showToast(message, 'success');
   };
 
+  // # Show the 'loading' only until the 'clerk' is fully 'loaded'
   if (!isLoaded) {
     return (
-      <div className="min-h-screen flex items-center justify-center dark:bg-gray-900">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-black dark:border-white"></div>
-      </div>
+      <>
+        <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-black dark:border-white">
+            {/* # "Loading" Animation # */}
+          </div>
+        </div>
+      </>
     );
-  }
+  };
 
   return (
     <>
