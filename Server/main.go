@@ -30,7 +30,7 @@ func main() {
 	corsHandler := router.AllowCORS(r)
 
 	// # Start the 'server'
-	fmt.Println("🚀 Server Is Running...")
+	fmt.Println("🚀 Server is running...")
 	fmt.Println("🔗 Server Link:", serverURI)
 
 	listenAddress := fmt.Sprintf(":%s", port)
