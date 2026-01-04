@@ -6,7 +6,6 @@ import (
 	"net/http"
 	"shortify/schema"
 	"shortify/utils"
-	"strings"
 )
 
 // # Serve 'File': ["/file"]
@@ -16,28 +15,27 @@ func ServeFile(w http.ResponseWriter, r *http.Request) {
 	var errMsg string
 	var errRes schema.Error
 
-	// # Get the 'URL Path' of the requested 'file'
-	fileURLPath := r.URL.Path
-	fileURLPath = strings.TrimPrefix(fileURLPath, "/file")
-
-	// # Print the 'URL Path' of the requested 'file'
-	fmt.Println("🔗 File URL Path:", fileURLPath)
-
-	if fileURLPath == "" {
-		errMsg = "🚫 Invalid file requested to shortify!"
+	// # Get the file 'sub-path' from the 'query params'
+	fileSubPath := r.URL.Query().Get("sub_path")
+	fileSubPath = utils.GetTrimmedValue(fileSubPath)
+	if fileSubPath == "" {
+		errMsg = "🚫 Invalid file requested to shortify: Empty file sub-path provided"
 		err = errors.New(errMsg)
 		utils.LogError(err, "API.ServeFile")
 		errRes = schema.Error{
-			StatusCode: http.StatusNotFound,
+			StatusCode: http.StatusBadRequest,
 			Message:    errMsg,
 		}
 		utils.SetAppError(w, &errRes)
 		return
 	}
 
+	// # Print the file 'sub-path'
+	fmt.Println("🔗 File Sub-Path:", fileSubPath)
+
 	const rootFolderName string = "public"
 
-	filePath := fmt.Sprintf("%s/%s", rootFolderName, fileURLPath)
+	filePath := fmt.Sprintf("%s/%s", rootFolderName, fileSubPath)
 
 	http.ServeFile(w, r, filePath)
 }
