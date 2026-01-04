@@ -11,12 +11,14 @@ import LinkCard from '../components/LinkCard';
 import CreateLinkDialog from '../components/CreateLinkDialog';
 import LinkDetailDialog from '../components/LinkDetailDialog';
 import UpdateUsernameDialog from '../components/UpdateUsernameDialog';
+import AppLoader from '@/components/AppLoader';
 import Toast from '../components/Toast';
 import { userAPI, linkAPI } from '@/lib/api';
 import { getSuccessMsg } from '@/lib/success';
 
 // # 'Dashboard' Page Component # 
 const Dashboard = () => {
+  const [minLoaderDelayDone, setMinLoaderDelayDone] = useState(false);
   const { user, isLoaded } = useUser();
   const [links, setLinks] = useState([]);
   const [selectedLink, setSelectedLink] = useState(null);
@@ -28,10 +30,20 @@ const Dashboard = () => {
   const [toast, setToast] = useState(null);
 
   useEffect(() => {
+    // # Add the minimum 'loader' delay
+    const timer = setTimeout(() => {
+      setMinLoaderDelayDone(true);
+    }, 2000);
+
+    // # Get the 'user' and 'links' data on the component 'mount'
     if (user) {
       getUser();
       getLinks();
     }
+
+    // # Clear the 'timer' on the component 'unmount'
+    return () => clearTimeout(timer);
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user]);
 
@@ -149,17 +161,9 @@ const Dashboard = () => {
     showToast(message, 'success');
   };
 
-  // # Show the 'loading' only until the 'clerk' is fully 'loaded'
-  if (!isLoaded) {
-    return (
-      <>
-        <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-black dark:border-white">
-            {/* # "Loading" Animation # */}
-          </div>
-        </div>
-      </>
-    );
+  // # Render the 'app loader' only until the minimum 'loader' delay is 'done' and the 'clerk' is fully 'loaded'
+  if (!minLoaderDelayDone || !isLoaded) {
+    return <AppLoader />;
   };
 
   return (
