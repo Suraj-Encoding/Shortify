@@ -33,7 +33,7 @@ const Dashboard = () => {
     // # Add the minimum 'loader' delay
     const timer = setTimeout(() => {
       setMinLoaderDelayDone(true);
-    }, 2000);
+    }, 1000);
 
     // # Get the 'user' and 'links' data on the component 'mount'
     if (user) {
