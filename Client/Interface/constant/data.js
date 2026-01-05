@@ -1,7 +1,7 @@
 // # 'Data' Constant
 const Data = {
-    name: "Suraj Dalvi",
-    author: "Suraj Dalvi"
+    name: "Shortify",
+    author: "Shortify",
 };
 
 export default Data;
