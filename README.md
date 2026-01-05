@@ -7,8 +7,11 @@ Shortify is a modern, full‑stack URL shortening service built with Go (backend
 
 ## 🚀 Live Deployments
 
-- **Frontend (Vercel):** https://myshortify.vercel.app
-- **Backend (Render):** https://shortwave.onrender.com
+- 🌐 **Frontend (Vercel)**  
+  👉 [myshortify.vercel.app](https://myshortify.vercel.app)
+
+- ⚙️ **Backend (Render)**  
+  👉 [shortwave.onrender.com](https://shortwave.onrender.com)
 
 ---
 
