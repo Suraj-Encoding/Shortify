@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Trash2, AlertTriangle } from 'lucide-react';
+import { Trash2, AlertTriangle, Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
@@ -9,16 +9,20 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } f
 // # 'Delete Link' Dialog Component #
 const DeleteLinkDialog = ({ link, open, onOpenChange, onConfirmDelete }) => {
     const [inputSlug, setInputSlug] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
 
     const handleOpenChange = (isOpen) => {
         if (!isOpen) {
             setInputSlug('');
+            setIsLoading(false);
         }
         onOpenChange(isOpen);
     };
 
-    const handleDelete = () => {
-        onConfirmDelete(link._id);
+    const handleDelete = async () => {
+        setIsLoading(true);
+        await onConfirmDelete(link._id);
+        setIsLoading(false);
         handleOpenChange(false);
     };
 
@@ -83,6 +87,7 @@ const DeleteLinkDialog = ({ link, open, onOpenChange, onConfirmDelete }) => {
                                 value={inputSlug}
                                 onChange={(e) => setInputSlug(e.target.value)}
                                 placeholder="Enter slug here"
+                                disabled={isLoading}
                                 className="bg-gray-100 dark:bg-gray-700 dark:text-white dark:border-gray-600"
                                 autoFocus
                             />
@@ -92,17 +97,26 @@ const DeleteLinkDialog = ({ link, open, onOpenChange, onConfirmDelete }) => {
                         <div className="flex space-x-2 pt-2">
                             <Button
                                 onClick={() => handleOpenChange(false)}
-                                className="flex-1 bg-black hover:bg-gray-800 dark:bg-white dark:text-black dark:hover:bg-gray-200"
+                                disabled={isLoading}
+                                className="flex-1 bg-black hover:bg-gray-800 dark:bg-white dark:text-black dark:hover:bg-gray-200 disabled:opacity-50"
                             >
                                 Cancel
                             </Button>
                             <Button
                                 onClick={handleDelete}
-                                disabled={!isSlugMatch}
+                                disabled={!isSlugMatch || isLoading}
                                 className="flex-1 bg-red-600 hover:bg-red-700 text-white disabled:opacity-50 disabled:cursor-not-allowed"
                             >
-                                <Trash2 className="w-4 h-4" />
-                                Confirm Delete
+                                {isLoading ? (
+                                    <>
+                                        <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                                    </>
+                                ) : (
+                                    <>
+                                        <Trash2 className="w-4 h-4 mr-2" />
+                                        Confirm Delete
+                                    </>
+                                )}
                             </Button>
                         </div>
                     </div>
