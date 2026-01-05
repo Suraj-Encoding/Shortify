@@ -1,6 +1,7 @@
 'use client';
 
 import { useRef, useState, useEffect } from 'react';
+import { Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
@@ -8,6 +9,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/u
 // # 'Update Username' Dialog Component #
 const UpdateUsernameDialog = ({ open, onOpenChange, currentUsername, onUpdate }) => {
     const [username, setUsername] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
     const inputRef = useRef(null);
 
     useEffect(() => {
@@ -23,13 +25,15 @@ const UpdateUsernameDialog = ({ open, onOpenChange, currentUsername, onUpdate })
                 }
             });
         } else {
-            // # Clear the 'username' on dialog 'close'
             setUsername('');
+            setIsLoading(false);
         }
     }, [currentUsername, open]);
 
-    const handleUpdate = () => {
-        onUpdate(username);
+    const handleUpdate = async () => {
+        setIsLoading(true);
+        await onUpdate(username);
+        setIsLoading(false);
     };
 
     return (
@@ -47,10 +51,21 @@ const UpdateUsernameDialog = ({ open, onOpenChange, currentUsername, onUpdate })
                             value={username}
                             onChange={(e) => setUsername(e.target.value)}
                             placeholder="Enter new username"
+                            disabled={isLoading}
                             className="bg-gray-100 dark:bg-gray-700 dark:text-white dark:border-gray-600"
                         />
-                        <Button onClick={handleUpdate} className="w-full bg-black hover:bg-gray-800 dark:bg-white dark:text-black dark:hover:bg-gray-200">
-                            Save Changes
+                        <Button
+                            onClick={handleUpdate}
+                            disabled={isLoading}
+                            className="w-full bg-black hover:bg-gray-800 dark:bg-white dark:text-black dark:hover:bg-gray-200 disabled:opacity-50"
+                        >
+                            {isLoading ? (
+                                <>
+                                    <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                                </>
+                            ) : (
+                                'Update Username'
+                            )}
                         </Button>
                     </div>
                 </DialogContent>
