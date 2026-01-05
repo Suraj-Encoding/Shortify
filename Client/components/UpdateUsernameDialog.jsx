@@ -32,7 +32,7 @@ const UpdateUsernameDialog = ({ open, onOpenChange, currentUsername, onUpdate })
 
     const handleUpdate = async () => {
         setIsLoading(true);
-        await onUpdate(username);
+        await onUpdate(username.trim());
         setIsLoading(false);
     };
 
@@ -49,7 +49,7 @@ const UpdateUsernameDialog = ({ open, onOpenChange, currentUsername, onUpdate })
                         <Input
                             ref={inputRef}
                             value={username}
-                            onChange={(e) => setUsername(e.target.value)}
+                            onChange={(e) => setUsername(e.target.value.toLowerCase())}
                             placeholder="Enter new username"
                             disabled={isLoading}
                             className="bg-gray-100 dark:bg-gray-700 dark:text-white dark:border-gray-600"
