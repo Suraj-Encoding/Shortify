@@ -8,6 +8,7 @@ import (
 	"shortify/app"
 	"shortify/schema"
 	"shortify/utils"
+	"strings"
 
 	"go.mongodb.org/mongo-driver/bson"
 )
@@ -175,6 +176,7 @@ func UpdateUsername(w http.ResponseWriter, r *http.Request) {
 	// # Get the 'username' from the 'query params'
 	username := r.URL.Query().Get("username")
 	username = utils.GetTrimmedValue(username)
+	username = strings.ToLower(username)
 	if username == "" {
 		errMsg = "Empty username provided"
 		errRes = schema.Error{
