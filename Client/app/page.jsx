@@ -10,13 +10,15 @@ import Footer from '../components/Footer';
 import LinkCard from '../components/LinkCard';
 import CreateLinkDialog from '../components/CreateLinkDialog';
 import LinkDetailDialog from '../components/LinkDetailDialog';
-import EditUsernameDialog from '../components/EditUsernameDialog';
+import UpdateUsernameDialog from '../components/UpdateUsernameDialog';
+import AppLoader from '@/components/AppLoader';
 import Toast from '../components/Toast';
 import { userAPI, linkAPI } from '@/lib/api';
 import { getSuccessMsg } from '@/lib/success';
 
 // # 'Dashboard' Page Component # 
 const Dashboard = () => {
+  const [minLoaderDelayDone, setMinLoaderDelayDone] = useState(false);
   const { user, isLoaded } = useUser();
   const [links, setLinks] = useState([]);
   const [selectedLink, setSelectedLink] = useState(null);
@@ -28,10 +30,20 @@ const Dashboard = () => {
   const [toast, setToast] = useState(null);
 
   useEffect(() => {
+    // # Add the minimum 'loader' delay
+    const timer = setTimeout(() => {
+      setMinLoaderDelayDone(true);
+    }, 2000);
+
+    // # Get the 'user' and 'links' data on the component 'mount'
     if (user) {
       getUser();
       getLinks();
     }
+
+    // # Clear the 'timer' on the component 'unmount'
+    return () => clearTimeout(timer);
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user]);
 
@@ -101,7 +113,6 @@ const Dashboard = () => {
 
   // # Delete 'Link'
   const deleteLink = async (linkId) => {
-    if (!confirm('Are you sure you want to delete this link?')) return;
     try {
       const response = await linkAPI.deleteLink(linkId);
       if (response.success) {
@@ -146,22 +157,20 @@ const Dashboard = () => {
   // # Copy To 'Clipboard'
   const copyToClipboard = (text) => {
     navigator.clipboard.writeText(text);
-    showToast('Copied to clipboard!', 'success');
+    const message = 'Link copied to clipboard!';
+    showToast(message, 'success');
   };
 
-  if (!isLoaded) {
-    return (
-      <div className="min-h-screen flex items-center justify-center dark:bg-gray-900">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-black dark:border-white"></div>
-      </div>
-    );
-  }
+  // # Render the 'app loader' only until the minimum 'loader' delay is 'done' and the 'clerk' is fully 'loaded'
+  if (!minLoaderDelayDone || !isLoaded) {
+    return <AppLoader />;
+  };
 
   return (
     <>
       <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 flex flex-col transition-colors">
         <Navbar
-          username={userData?.username || user?.username || 'User'}
+          username={userData?.username || 'user'}
           onEditUsername={() => setIsEditUserOpen(true)}
         />
 
@@ -175,6 +184,8 @@ const Dashboard = () => {
                 Create and manage your shortened URLs
               </p>
             </div>
+
+            {/* # 'Create Link' Dialog Component # */}
             <CreateLinkDialog
               open={isCreateOpen}
               onOpenChange={setIsCreateOpen}
@@ -210,6 +221,7 @@ const Dashboard = () => {
                 <LinkCard
                   key={link._id}
                   link={link}
+                  username={userData?.username || 'user'}
                   onClick={getLink}
                   onDelete={deleteLink}
                   onCopy={copyToClipboard}
@@ -218,23 +230,29 @@ const Dashboard = () => {
             </div>
           )}
 
+          {/* # 'Link Detail' Dialog Component # */}
           <LinkDetailDialog
             link={selectedLink}
+            username={userData?.username || 'user'}
             open={isDetailOpen}
             onOpenChange={setIsDetailOpen}
             onUpdate={updateLink}
             onDelete={deleteLink}
           />
-          <EditUsernameDialog
+
+          {/* # 'Update Username' Dialog Component # */}
+          <UpdateUsernameDialog
             open={isEditUserOpen}
             onOpenChange={setIsEditUserOpen}
-            currentUsername={userData?.username || user?.username}
+            currentUsername={userData?.username || 'user'}
             onUpdate={updateUsername}
           />
         </main>
 
+        {/* # 'Footer' Component # */}
         <Footer />
 
+        {/* # 'Toast' Component # */}
         {toast && (
           <Toast
             message={toast.message}

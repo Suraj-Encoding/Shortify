@@ -15,14 +15,14 @@ const Toast = ({ message, type, onClose }) => {
 
     return (
         <>
-            <div className={`fixed top-5 right-5 z-50 flex items-start space-x-3 p-4 rounded-lg shadow-lg max-w-md animate-in slide-in-from-right ${type === 'success' ? 'bg-green-100 border border-green-800' : 'bg-red-100 border border-red-800'
+            <div className={`fixed top-5 right-5 z-50 flex items-start space-x-3 p-4 rounded-lg shadow-lg max-w-md animate-in slide-in-from-right ${type === 'success' ? 'bg-green-100 border border-green-500' : 'bg-red-100 border border-red-500'
                 }`}>
                 {type === 'success' ? (
-                    <CheckCircle className="w-5 h-5 text-green-800 flex-shrink-0 mt-0.5 font-semibold" />
+                    <CheckCircle className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5 font-medium" />
                 ) : (
-                    <XCircle className="w-5 h-5 text-red-600 flex-shrink-0 mt-0.5 font-semibold" />
+                    <XCircle className="w-5 h-5 text-red-600 flex-shrink-0 mt-0.5 font-medium" />
                 )}
-                <p className={`text-md flex-1 font-medium ${type === 'success' ? 'text-green-800' : 'text-red-800'}`}>
+                <p className={`text-md flex-1 font-medium ${type === 'success' ? 'text-green-700' : 'text-red-700'}`}>
                     {message}
                 </p>
                 <button

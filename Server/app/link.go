@@ -3,9 +3,7 @@ package app
 import (
 	"context"
 	"errors"
-	"fmt"
 	"shortify/db"
-	"shortify/env"
 	"shortify/model"
 	"shortify/schema"
 	"shortify/utils"
@@ -23,14 +21,6 @@ func CreateLink(clerkUserID string, link *schema.Link) (*string, error) {
 	var err error
 	var errMsg string
 	var successMsg string
-
-	// # Get the 'Server' variable from the 'Env'
-	deployedServerURL := env.GetEnv("DEPLOYED_SERVER_URL")
-	if deployedServerURL == "" {
-		errMsg = "Empty deployed server URL found in the env file"
-		err = errors.New(errMsg)
-		return nil, err
-	}
 
 	// # Base 'Filter'
 	filter := bson.M{
@@ -74,15 +64,11 @@ func CreateLink(clerkUserID string, link *schema.Link) (*string, error) {
 		IsUserDeleted:  false,
 		Title:          utils.GetStringValue(link.Title),
 		Description:    utils.GetStringValue(link.Description),
-		ServerURL:      deployedServerURL,
 		DestinationURL: utils.GetStringValue(link.DestinationURL),
 		Slug:           utils.GetStringValue(link.Slug),
 		CreatedAt:      time,
 		CreatedBy:      utils.GetActionUser(clerkUserID),
 	}
-
-	shortURL := fmt.Sprintf("%s/%s/%s", deployedServerURL, user.Username, Link.Slug)
-	Link.ShortURL = shortURL
 
 	// # Insert the 'new link'
 	_, err = collection.InsertOne(ctx, Link)
@@ -125,7 +111,7 @@ func UpdateLink(clerkUserID string, linkID *primitive.ObjectID, link *schema.Lin
 		"_id": linkID,
 	}
 
-	collection := db.GetMongoCollection(model.UserColl)
+	collection := db.GetMongoCollection(model.LinkColl)
 
 	// # Get the 'current system time' in the 'IST' timezone
 	time, err := utils.GetCurrentSystemTimeInIST()

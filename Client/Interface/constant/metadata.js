@@ -1,8 +1,8 @@
 // # 'MetaData' Constant
 const MetaData = {
-  title: "Shortify - URL Shortener",
-  description: "💲Shortify💲 ~ 🕸️ URL Shortener 🕸️",
-  icons: "logo.png",
+  title: "Shortify - Modern URL Shortener",
+  description: "A fast, reliable, and elegant tool to make your links smarter and simpler.",
+  icons: "logo.png"
 };
 
 export default MetaData;

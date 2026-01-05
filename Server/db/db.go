@@ -25,7 +25,7 @@ func init() {
 	// # Load the 'Env' variables
 	env.LoadEnv()
 
-	fmt.Println("#----------| 🚀 Welcome To Shortify - Modern URL Shortener 🚀 |----------#")
+	fmt.Println("#----------| 🚀 Welcome to Shortify - Modern URL Shortener 🚀 |----------#")
 
 	// # Get the 'DB' variables from the 'Env'
 	dbName := env.GetEnv("DB_NAME")

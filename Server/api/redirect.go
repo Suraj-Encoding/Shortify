@@ -11,53 +11,30 @@ import (
 )
 
 // # Redirect 'URL'
-// # Note: Redirect the 'user' to the 'Destination URL' of the 'link'
+// # Note: Redirect the 'user' to the 'Destination URL' of the requested 'link'
 func RedirectURL(w http.ResponseWriter, r *http.Request) {
 	var err error
 	var errMsg string
 	var errRes schema.Error
 
-	// # Get the 'URL Path'
-	urlPath := strings.Trim(r.URL.Path, "/")
-	// # Print the 'URL Path'
-	fmt.Println("🔗 URL Path:", urlPath)
+	// # Get the 'URL Path' of the requested 'link'
+	linkURLPath := r.URL.Path
+	linkURLPath = strings.Trim(linkURLPath, "/")
 
-	urlPathParts := strings.Split(urlPath, "/")
-	urlPathPartLength := len(urlPathParts)
+	// # Print the 'URL Path' of the requested 'link'
+	fmt.Println("🔗 Link URL Path:", linkURLPath)
 
-	if urlPathPartLength != 2 {
-		errMsg = "🚫 Invalid request to shortify!"
-		err = errors.New(errMsg)
-		utils.LogError(err, "API.RedirectURL")
-		errRes = schema.Error{
-			StatusCode: http.StatusNotFound,
-			Message:    errMsg,
-		}
-		utils.SetAppError(w, &errRes)
-		return
-	}
+	linkURLPathParts := strings.Split(linkURLPath, "/")
 
-	// # Get the 'username' and 'link slug' from the 'URL Path'
-	username := utils.GetTrimmedValue(urlPathParts[0])
-	linkSlug := utils.GetTrimmedValue(urlPathParts[1])
+	// # Get the 'username' and 'link slug' from the 'URL Path' of the requested 'link'
+	username := utils.GetTrimmedValue(linkURLPathParts[0])
+	linkSlug := utils.GetTrimmedValue(linkURLPathParts[1])
 
-	if username == "" || linkSlug == "" {
-		errMsg = "🚫 Invalid request to shortify!"
-		err = errors.New(errMsg)
-		utils.LogError(err, "API.RedirectURL")
-		errRes = schema.Error{
-			StatusCode: http.StatusNotFound,
-			Message:    errMsg,
-		}
-		utils.SetAppError(w, &errRes)
-		return
-	}
-
-	// # Get the 'Destination URL'
+	// # Get the 'Destination URL' of the requested 'link'
 	destinationURL, err := app.GetDestinationURL(username, linkSlug)
 	if err != nil {
 		errMsg = err.Error()
-		errMsg = fmt.Sprintf("🚫 Invalid request to shortify: Failed to get the destination URL: %s", errMsg)
+		errMsg = fmt.Sprintf("🚫 Invalid link requested to shortify: Failed to get the destination URL of the requested link: %s", errMsg)
 		err = errors.New(errMsg)
 		utils.LogError(err, "API.RedirectURL")
 		errRes = schema.Error{
@@ -68,6 +45,6 @@ func RedirectURL(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// # Redirect to the 'Destination URL'
+	// # Redirect the 'user' to the 'Destination URL' of the requested 'link'
 	http.Redirect(w, r, *destinationURL, http.StatusFound)
 }

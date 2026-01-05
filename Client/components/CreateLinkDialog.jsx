@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import Toast from './Toast';
 
 // # 'Create Link' Dialog Component #
 const CreateLinkDialog = ({ open, onOpenChange, onCreate }) => {
@@ -16,6 +17,8 @@ const CreateLinkDialog = ({ open, onOpenChange, onCreate }) => {
         slug: '',
     });
 
+    const [toast, setToast] = useState(null);
+
     // # Clear the 'form' on the 'dialog' close
     useEffect(() => {
         if (!open) {
@@ -23,7 +26,38 @@ const CreateLinkDialog = ({ open, onOpenChange, onCreate }) => {
         }
     }, [open]);
 
+    const showToast = (message, type) => {
+        setToast({ message, type });
+    };
+
     const handleSubmit = () => {
+        if (
+            !formData.title.trim() &&
+            !formData.description.trim() &&
+            !formData.destination_url.trim() &&
+            !formData.slug.trim()
+        ) {
+            // # Close the 'dialog' and show the 'toast'
+            const outerTimer = setTimeout(() => {
+                // # Close the 'dialog' after '500ms'
+                onOpenChange(false);
+
+                // # Show the 'toast' after another '500ms'
+                innerTimer = setTimeout(() => {
+                    const errMsg = 'Please fill out the form first';
+                    showToast(errMsg, 'error');
+                }, 500);
+            }, 500);
+
+            let innerTimer; // # Declare the 'inner timer' variable 'outer' so that 'cleanup' can see it
+
+            // # Clear the 'timer' (inner & outer) on the component 'unmount'
+            return () => {
+                clearTimeout(innerTimer);
+                clearTimeout(outerTimer);
+            };
+        }
+
         onCreate(formData);
     };
 
@@ -51,7 +85,7 @@ const CreateLinkDialog = ({ open, onOpenChange, onCreate }) => {
                                 value={formData.title}
                                 onChange={(e) => setFormData({ ...formData, title: e.target.value })}
                                 placeholder="My Link"
-                                className="dark:bg-gray-700 dark:text-white dark:border-gray-600"
+                                className="bg-gray-100 dark:bg-gray-700 dark:text-white dark:border-gray-600"
                             />
                         </div>
                         <div>
@@ -62,7 +96,7 @@ const CreateLinkDialog = ({ open, onOpenChange, onCreate }) => {
                                 value={formData.description}
                                 onChange={(e) => setFormData({ ...formData, description: e.target.value })}
                                 placeholder="Link Description"
-                                className="dark:bg-gray-700 dark:text-white dark:border-gray-600"
+                                className="bg-gray-100 dark:bg-gray-700 dark:text-white dark:border-gray-600"
                             />
                         </div>
                         <div>
@@ -73,7 +107,7 @@ const CreateLinkDialog = ({ open, onOpenChange, onCreate }) => {
                                 value={formData.destination_url}
                                 onChange={(e) => setFormData({ ...formData, destination_url: e.target.value })}
                                 placeholder="https://example.com"
-                                className="dark:bg-gray-700 dark:text-white dark:border-gray-600"
+                                className="bg-gray-100 dark:bg-gray-700 dark:text-white dark:border-gray-600"
                             />
                         </div>
                         <div>
@@ -84,7 +118,7 @@ const CreateLinkDialog = ({ open, onOpenChange, onCreate }) => {
                                 value={formData.slug}
                                 onChange={(e) => setFormData({ ...formData, slug: e.target.value })}
                                 placeholder="my-custom-slug"
-                                className="dark:bg-gray-700 dark:text-white dark:border-gray-600"
+                                className="bg-gray-100 dark:bg-gray-700 dark:text-white dark:border-gray-600"
                             />
                         </div>
                         <Button onClick={handleSubmit} className="w-full bg-black hover:bg-gray-800 dark:bg-white dark:text-black dark:hover:bg-gray-200">
@@ -93,6 +127,15 @@ const CreateLinkDialog = ({ open, onOpenChange, onCreate }) => {
                     </div>
                 </DialogContent>
             </Dialog>
+
+            {/* # 'Toast' Component # */}
+            {toast && (
+                <Toast
+                    message={toast.message}
+                    type={toast.type}
+                    onClose={() => setToast(null)}
+                />
+            )}
         </>
     );
 };

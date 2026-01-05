@@ -1,20 +1,40 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import { Copy } from 'lucide-react';
+import { useRef, useState, useEffect, useMemo } from 'react';
+import { Copy, Check, Trash2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { Alert, AlertDescription } from '@/components/ui/alert';
+import DeleteLinkDialog from './DeleteLinkDialog';
+import Toast from './Toast';
+import { getServerBaseURL } from '@/lib/url';
 
 // # 'Link Detail Dialog' Component #
-const LinkDetailDialog = ({ link, open, onOpenChange, onUpdate, onDelete }) => {
+const LinkDetailDialog = ({ link, username, open, onOpenChange, onUpdate, onDelete }) => {
     const [formData, setFormData] = useState({
         title: '',
         description: '',
         destination_url: '',
         slug: '',
     });
+
+    const [isDeleteOpen, setIsDeleteOpen] = useState(false);
+    const [copied, setCopied] = useState(false);
+    const [toast, setToast] = useState(null);
+
+    const inputRef = useRef(null);
+    const timeoutRef = useRef(null);
+
+    const linkShortUrl = useMemo(() => {
+        if (!link) {
+            return '';
+        }
+        const SERVER_BASE_URL = getServerBaseURL();
+        const linkShortUrl = `${SERVER_BASE_URL}/${username}/${link.slug}`;
+        return linkShortUrl;
+    }, [username, link]);
 
     useEffect(() => {
         if (link) {
@@ -24,10 +44,67 @@ const LinkDetailDialog = ({ link, open, onOpenChange, onUpdate, onDelete }) => {
                 destination_url: link.destination_url || '',
                 slug: link.slug || '',
             });
+
+            // # Prevent the 'auto-selection' of the 'title' (input text) by setting the 'cursor' at the 'end' after the 'render'
+            requestAnimationFrame(() => {
+                if (inputRef.current) {
+                    const len = (link.title || '').length;
+                    inputRef.current.setSelectionRange(len, len);
+                    inputRef.current.focus();
+                }
+            });
         }
     }, [link]);
 
+    useEffect(() => {
+        // # Clear the 'timer' on the component 'unmount'
+        return () => clearTimeout(timeoutRef.current);
+    }, []);
+
+    const handleCopy = () => {
+        copyToClipboard(linkShortUrl);
+        setCopied(true);
+
+        const timer = setTimeout(() => {
+            setCopied(false);
+        }, 2000);
+
+        // # Store the 'timer' in the 'ref'
+        timeoutRef.current = timer;
+    };
+
+    const showToast = (message, type) => {
+        setToast({ message, type });
+    };
+
     const handleUpdate = () => {
+        if (
+            !formData.title.trim() &&
+            !formData.description.trim() &&
+            !formData.destination_url.trim() &&
+            !formData.slug.trim()
+        ) {
+            // # Close the 'dialog' and show the 'toast'
+            const outerTimer = setTimeout(() => {
+                // # Close the 'dialog' after '500ms'
+                onOpenChange(false);
+
+                // # Show the 'toast' after another '500ms'
+                innerTimer = setTimeout(() => {
+                    const errMsg = 'Please fill out the form first';
+                    showToast(errMsg, 'error');
+                }, 500);
+            }, 500);
+
+            let innerTimer; // # Declare the 'inner timer' variable 'outer' so that 'cleanup' can see it
+
+            // # Clear the 'timer' (inner & outer) on the component 'unmount'
+            return () => {
+                clearTimeout(innerTimer);
+                clearTimeout(outerTimer);
+            };
+        }
+
         onUpdate(link._id, formData);
     };
 
@@ -53,12 +130,14 @@ const LinkDetailDialog = ({ link, open, onOpenChange, onUpdate, onDelete }) => {
                                 Title
                             </label>
                             <Input
+                                ref={inputRef}
                                 value={formData.title}
                                 onChange={(e) => setFormData({ ...formData, title: e.target.value })}
                                 placeholder="My Link"
-                                className="dark:bg-gray-700 dark:text-white dark:border-gray-600"
+                                className="bg-gray-100 dark:bg-gray-700 dark:text-white dark:border-gray-600"
                             />
                         </div>
+
                         <div>
                             <label className="text-sm font-medium mb-1 block dark:text-gray-200">
                                 Description
@@ -67,9 +146,10 @@ const LinkDetailDialog = ({ link, open, onOpenChange, onUpdate, onDelete }) => {
                                 value={formData.description}
                                 onChange={(e) => setFormData({ ...formData, description: e.target.value })}
                                 placeholder="Link Description"
-                                className="dark:bg-gray-700 dark:text-white dark:border-gray-600"
+                                className="bg-gray-100 dark:bg-gray-700 dark:text-white dark:border-gray-600"
                             />
                         </div>
+
                         <div>
                             <label className="text-sm font-medium mb-1 block dark:text-gray-200">
                                 Destination URL <span className="text-red-500"> * </span>
@@ -78,9 +158,10 @@ const LinkDetailDialog = ({ link, open, onOpenChange, onUpdate, onDelete }) => {
                                 value={formData.destination_url}
                                 onChange={(e) => setFormData({ ...formData, destination_url: e.target.value })}
                                 placeholder="https://example.com"
-                                className="dark:bg-gray-700 dark:text-white dark:border-gray-600"
+                                className="bg-gray-100 dark:bg-gray-700 dark:text-white dark:border-gray-600"
                             />
                         </div>
+
                         <div>
                             <label className="text-sm font-medium mb-1 block dark:text-gray-200">
                                 Slug <span className="text-red-500"> * </span>
@@ -89,57 +170,134 @@ const LinkDetailDialog = ({ link, open, onOpenChange, onUpdate, onDelete }) => {
                                 value={formData.slug}
                                 onChange={(e) => setFormData({ ...formData, slug: e.target.value })}
                                 placeholder="custom-slug"
-                                className="dark:bg-gray-700 dark:text-white dark:border-gray-600"
+                                className="bg-gray-100 dark:bg-gray-700 dark:text-white dark:border-gray-600"
                             />
                         </div>
+
+                        {copied && (
+                            <Alert className="bg-green-100 border border-green-500">
+                                <AlertDescription className="text-md font-medium text-green-700">
+                                    Link copied to clipboard!
+                                </AlertDescription>
+                            </Alert>
+                        )}
+
                         <div>
                             <label className="text-sm font-medium mb-1 block dark:text-gray-200">
                                 Short URL
                             </label>
                             <div className="flex items-center space-x-2">
-                                <Input value={link.short_url} readOnly className="flex-1 dark:bg-gray-700 dark:text-white dark:border-gray-600" />
+                                <Input
+                                    value={linkShortUrl}
+                                    readOnly
+                                    className="flex-1 bg-gray-100 dark:bg-gray-700 dark:text-white dark:border-gray-600"
+                                />
                                 <Button
-                                    onClick={() => copyToClipboard(link.short_url)}
-                                    className="bg-black hover:bg-gray-800 dark:bg-white dark:text-black dark:hover:bg-gray-200"
+                                    onClick={handleCopy}
+                                    className={`bg-black hover:bg-gray-800 dark:bg-white dark:text-black dark:hover:bg-gray-200 ${copied ? 'animate-bounce' : ''}`}
                                 >
-                                    <Copy className="w-4 h-4" />
+                                    {copied ? (
+                                        <Check className="w-6 h-6 text-green-600" />
+                                    ) : (
+                                        <Copy className="w-6 h-6" />
+                                    )}
                                 </Button>
                             </div>
                         </div>
+
                         <div className="grid grid-cols-2 gap-4">
                             <div>
                                 <label className="text-sm font-medium mb-1 block dark:text-gray-200">
-                                    Created
+                                    Created At
                                 </label>
-                                <Input value={new Date(link.created_at).toLocaleDateString()} readOnly className="dark:bg-gray-700 dark:text-white dark:border-gray-600" />
+                                <Input
+                                    value={
+                                        new Date(link.created_at).toLocaleString(
+                                            'en-IN',
+                                            {
+                                                day: '2-digit',
+                                                month: 'long',
+                                                year: 'numeric',
+                                                hour: '2-digit',
+                                                minute: '2-digit',
+                                                second: '2-digit',
+                                                hour12: true
+                                            }
+                                        )
+                                            .replace(' at ', ' ')
+                                            .replace('am', 'AM')
+                                            .replace('pm', 'PM')
+                                    }
+                                    readOnly
+                                    className="bg-gray-100 dark:bg-gray-700 dark:text-white dark:border-gray-600"
+                                />
                             </div>
+
                             {link.updated_at && (
                                 <div>
                                     <label className="text-sm font-medium mb-1 block dark:text-gray-200">
-                                        Updated
+                                        Updated At
                                     </label>
-                                    <Input value={new Date(link.updated_at).toLocaleDateString()} readOnly className="dark:bg-gray-700 dark:text-white dark:border-gray-600" />
+                                    <Input
+                                        value={
+                                            new Date(link.updated_at).toLocaleString(
+                                                'en-IN',
+                                                {
+                                                    day: '2-digit',
+                                                    month: 'long',
+                                                    year: 'numeric',
+                                                    hour: '2-digit',
+                                                    minute: '2-digit',
+                                                    second: '2-digit',
+                                                    hour12: true
+                                                }
+                                            )
+                                                .replace(' at ', ' ')
+                                                .replace('am', 'AM')
+                                                .replace('pm', 'PM')
+                                        }
+                                        readOnly
+                                        className="bg-gray-100 dark:bg-gray-700 dark:text-white dark:border-gray-600"
+                                    />
                                 </div>
                             )}
                         </div>
+
                         <div className="flex space-x-2 pt-4">
                             <Button onClick={handleUpdate} className="flex-1 bg-black hover:bg-gray-800 dark:bg-white dark:text-black dark:hover:bg-gray-200">
                                 Save Changes
                             </Button>
                             <Button
-                                onClick={() => {
-                                    onDelete(link._id);
-                                    onOpenChange(false);
-                                }}
-                                variant="outline"
-                                className="border-red-600 text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20"
+                                onClick={() => setIsDeleteOpen(true)}
+                                className="bg-red-600 hover:bg-red-700 text-white"
                             >
+                                <Trash2 className="w-4 h-4" />
                                 Delete Link
                             </Button>
                         </div>
                     </div>
                 </DialogContent>
             </Dialog>
+
+            {/* # 'Delete Link' Dialog Component # */}
+            <DeleteLinkDialog
+                link={{ ...link, short_url: linkShortUrl }}
+                open={isDeleteOpen}
+                onOpenChange={setIsDeleteOpen}
+                onConfirmDelete={(id) => {
+                    onDelete(id);
+                    onOpenChange(false);
+                }}
+            />
+
+            {/* # 'Toast' Component # */}
+            {toast && (
+                <Toast
+                    message={toast.message}
+                    type={toast.type}
+                    onClose={() => setToast(null)}
+                />
+            )}
         </>
     );
 };
