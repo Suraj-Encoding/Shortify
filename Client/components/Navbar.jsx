@@ -56,12 +56,14 @@ const Navbar = ({ username, onEditUsername }) => {
 
                         {/* # Website 'Title' & 'Description' # */}
                         <div className="hidden md:block">
-                            <p className="text-md text-gray-700 dark:text-gray-300 font-medium">
-                                <span> Welcome to </span>
-                                <span className="font-bold text-black dark:text-white">
-                                    {UIData.site_title}
+                            <p className="text-md font-medium text-gray-700 dark:text-gray-300">
+                                <span className="font-bold bg-gradient-to-r from-black to-gray-600 dark:from-white dark:to-gray-400 bg-clip-text text-transparent animate-fade-in">
+                                    <span> Welcome to </span>
+                                    <span > {UIData.site_title} - </span>
                                 </span>
-                                <span> - {UIData.site_description} </span>
+                                <span className="font-semibold leading-snug bg-gradient-to-r from-purple-500 via-pink-500 to-red-500 dark:from-purple-400 dark:via-pink-400 dark:to-red-400 bg-clip-text text-transparent animate-fade-in">
+                                    {UIData.site_description}
+                                </span>
                             </p>
                         </div>
 
