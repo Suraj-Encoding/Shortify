@@ -5,6 +5,13 @@ Shortify is a modern, full‑stack URL shortening service built with Go (backend
 
 ---
 
+## 🚀 Live Deployments
+
+- **Frontend (Vercel):** https://myshortify.vercel.app
+- **Backend (Render):** https://shortwave.onrender.com
+
+---
+
 ## Tech Stack
 
 - **Backend:** Go
