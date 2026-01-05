@@ -5,6 +5,16 @@ Shortify is a modern, full‑stack URL shortening service built with Go (backend
 
 ---
 
+## 🚀 Live Deployments
+
+- 🌐 **Frontend (Vercel)**  
+  👉 https://myshortify.vercel.app
+
+- ⚙️ **Backend (Render)**  
+  👉 https://shortwave.onrender.com
+
+---
+
 ## Tech Stack
 
 - **Backend:** Go
@@ -45,7 +55,7 @@ Prerequisites:
 ```bash
 mkdir Shortify
 cd Shortify
-git clone https://github.com/Suraj-Encoding/Shortify.git .
+git clone https://github.com/<your-github-username>/Shortify.git .
 ```
 
 2. Configure application settings (local & production)
@@ -92,7 +102,7 @@ The frontend typically runs on `http://localhost:3000` and the backend on `http:
 
 ## Testing & Development Tips
 
-- Use `curl -v http://localhost:3001/surajdalvi1/github` to test redirects.
+- Use `curl -v http://localhost:3001/username/slug` to test redirects.
 - Run `go build main.go` to check for backend compile errors.
 - Ensure Clerk webhooks point to the server's `/api/v1/user/webhook` during integration.
 

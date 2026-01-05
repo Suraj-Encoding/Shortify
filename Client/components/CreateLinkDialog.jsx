@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { Plus } from 'lucide-react';
+import { Plus, Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
@@ -18,11 +18,13 @@ const CreateLinkDialog = ({ open, onOpenChange, onCreate }) => {
     });
 
     const [toast, setToast] = useState(null);
+    const [isLoading, setIsLoading] = useState(false);
 
     // # Clear the 'form' on the 'dialog' close
     useEffect(() => {
         if (!open) {
             setFormData({ title: '', description: '', destination_url: '', slug: '' });
+            setIsLoading(false);
         }
     }, [open]);
 
@@ -30,7 +32,7 @@ const CreateLinkDialog = ({ open, onOpenChange, onCreate }) => {
         setToast({ message, type });
     };
 
-    const handleSubmit = () => {
+    const handleSubmit = async () => {
         if (
             !formData.title.trim() &&
             !formData.description.trim() &&
@@ -58,7 +60,9 @@ const CreateLinkDialog = ({ open, onOpenChange, onCreate }) => {
             };
         }
 
-        onCreate(formData);
+        setIsLoading(true);
+        await onCreate(formData);
+        setIsLoading(false);
     };
 
     return (
@@ -85,6 +89,7 @@ const CreateLinkDialog = ({ open, onOpenChange, onCreate }) => {
                                 value={formData.title}
                                 onChange={(e) => setFormData({ ...formData, title: e.target.value })}
                                 placeholder="My Link"
+                                disabled={isLoading}
                                 className="bg-gray-100 dark:bg-gray-700 dark:text-white dark:border-gray-600"
                             />
                         </div>
@@ -96,6 +101,7 @@ const CreateLinkDialog = ({ open, onOpenChange, onCreate }) => {
                                 value={formData.description}
                                 onChange={(e) => setFormData({ ...formData, description: e.target.value })}
                                 placeholder="Link Description"
+                                disabled={isLoading}
                                 className="bg-gray-100 dark:bg-gray-700 dark:text-white dark:border-gray-600"
                             />
                         </div>
@@ -105,8 +111,9 @@ const CreateLinkDialog = ({ open, onOpenChange, onCreate }) => {
                             </label>
                             <Input
                                 value={formData.destination_url}
-                                onChange={(e) => setFormData({ ...formData, destination_url: e.target.value })}
+                                onChange={(e) => setFormData({ ...formData, destination_url: e.target.value.toLowerCase().trim() })}
                                 placeholder="https://example.com"
+                                disabled={isLoading}
                                 className="bg-gray-100 dark:bg-gray-700 dark:text-white dark:border-gray-600"
                             />
                         </div>
@@ -116,13 +123,24 @@ const CreateLinkDialog = ({ open, onOpenChange, onCreate }) => {
                             </label>
                             <Input
                                 value={formData.slug}
-                                onChange={(e) => setFormData({ ...formData, slug: e.target.value })}
+                                onChange={(e) => setFormData({ ...formData, slug: e.target.value.toLowerCase().trim() })}
                                 placeholder="my-custom-slug"
+                                disabled={isLoading}
                                 className="bg-gray-100 dark:bg-gray-700 dark:text-white dark:border-gray-600"
                             />
                         </div>
-                        <Button onClick={handleSubmit} className="w-full bg-black hover:bg-gray-800 dark:bg-white dark:text-black dark:hover:bg-gray-200">
-                            Create Link
+                        <Button
+                            onClick={handleSubmit}
+                            disabled={isLoading}
+                            className="w-full bg-black hover:bg-gray-800 dark:bg-white dark:text-black dark:hover:bg-gray-200 disabled:opacity-50"
+                        >
+                            {isLoading ? (
+                                <>
+                                    <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                                </>
+                            ) : (
+                                'Create Link'
+                            )}
                         </Button>
                     </div>
                 </DialogContent>

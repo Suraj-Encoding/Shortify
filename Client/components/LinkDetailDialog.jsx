@@ -1,7 +1,7 @@
 'use client';
 
 import { useRef, useState, useEffect, useMemo } from 'react';
-import { Copy, Check, Trash2 } from 'lucide-react';
+import { Copy, Check, Trash2, Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
@@ -23,6 +23,7 @@ const LinkDetailDialog = ({ link, username, open, onOpenChange, onUpdate, onDele
     const [isDeleteOpen, setIsDeleteOpen] = useState(false);
     const [copied, setCopied] = useState(false);
     const [toast, setToast] = useState(null);
+    const [isLoading, setIsLoading] = useState(false);
 
     const inputRef = useRef(null);
     const timeoutRef = useRef(null);
@@ -61,6 +62,12 @@ const LinkDetailDialog = ({ link, username, open, onOpenChange, onUpdate, onDele
         return () => clearTimeout(timeoutRef.current);
     }, []);
 
+    useEffect(() => {
+        if (!open) {
+            setIsLoading(false);
+        }
+    }, [open]);
+
     const handleCopy = () => {
         copyToClipboard(linkShortUrl);
         setCopied(true);
@@ -77,7 +84,7 @@ const LinkDetailDialog = ({ link, username, open, onOpenChange, onUpdate, onDele
         setToast({ message, type });
     };
 
-    const handleUpdate = () => {
+    const handleUpdate = async () => {
         if (
             !formData.title.trim() &&
             !formData.description.trim() &&
@@ -105,7 +112,9 @@ const LinkDetailDialog = ({ link, username, open, onOpenChange, onUpdate, onDele
             };
         }
 
-        onUpdate(link._id, formData);
+        setIsLoading(true);
+        await onUpdate(link._id, formData);
+        setIsLoading(false);
     };
 
     // # Copy To 'Clipboard'
@@ -134,6 +143,7 @@ const LinkDetailDialog = ({ link, username, open, onOpenChange, onUpdate, onDele
                                 value={formData.title}
                                 onChange={(e) => setFormData({ ...formData, title: e.target.value })}
                                 placeholder="My Link"
+                                disabled={isLoading}
                                 className="bg-gray-100 dark:bg-gray-700 dark:text-white dark:border-gray-600"
                             />
                         </div>
@@ -146,6 +156,7 @@ const LinkDetailDialog = ({ link, username, open, onOpenChange, onUpdate, onDele
                                 value={formData.description}
                                 onChange={(e) => setFormData({ ...formData, description: e.target.value })}
                                 placeholder="Link Description"
+                                disabled={isLoading}
                                 className="bg-gray-100 dark:bg-gray-700 dark:text-white dark:border-gray-600"
                             />
                         </div>
@@ -156,8 +167,9 @@ const LinkDetailDialog = ({ link, username, open, onOpenChange, onUpdate, onDele
                             </label>
                             <Input
                                 value={formData.destination_url}
-                                onChange={(e) => setFormData({ ...formData, destination_url: e.target.value })}
+                                onChange={(e) => setFormData({ ...formData, destination_url: e.target.value.toLowerCase().trim() })}
                                 placeholder="https://example.com"
+                                disabled={isLoading}
                                 className="bg-gray-100 dark:bg-gray-700 dark:text-white dark:border-gray-600"
                             />
                         </div>
@@ -168,8 +180,9 @@ const LinkDetailDialog = ({ link, username, open, onOpenChange, onUpdate, onDele
                             </label>
                             <Input
                                 value={formData.slug}
-                                onChange={(e) => setFormData({ ...formData, slug: e.target.value })}
+                                onChange={(e) => setFormData({ ...formData, slug: e.target.value.toLowerCase().trim() })}
                                 placeholder="custom-slug"
+                                disabled={isLoading}
                                 className="bg-gray-100 dark:bg-gray-700 dark:text-white dark:border-gray-600"
                             />
                         </div>
@@ -194,6 +207,7 @@ const LinkDetailDialog = ({ link, username, open, onOpenChange, onUpdate, onDele
                                 />
                                 <Button
                                     onClick={handleCopy}
+                                    disabled={isLoading}
                                     className={`bg-black hover:bg-gray-800 dark:bg-white dark:text-black dark:hover:bg-gray-200 ${copied ? 'animate-bounce' : ''}`}
                                 >
                                     {copied ? (
@@ -264,12 +278,23 @@ const LinkDetailDialog = ({ link, username, open, onOpenChange, onUpdate, onDele
                         </div>
 
                         <div className="flex space-x-2 pt-4">
-                            <Button onClick={handleUpdate} className="flex-1 bg-black hover:bg-gray-800 dark:bg-white dark:text-black dark:hover:bg-gray-200">
-                                Save Changes
+                            <Button
+                                onClick={handleUpdate}
+                                disabled={isLoading}
+                                className="flex-1 bg-black hover:bg-gray-800 dark:bg-white dark:text-black dark:hover:bg-gray-200 disabled:opacity-50"
+                            >
+                                {isLoading ? (
+                                    <>
+                                        <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                                    </>
+                                ) : (
+                                    'Update Link'
+                                )}
                             </Button>
                             <Button
                                 onClick={() => setIsDeleteOpen(true)}
-                                className="bg-red-600 hover:bg-red-700 text-white"
+                                disabled={isLoading}
+                                className="bg-red-600 hover:bg-red-700 text-white disabled:opacity-50"
                             >
                                 <Trash2 className="w-4 h-4" />
                                 Delete Link

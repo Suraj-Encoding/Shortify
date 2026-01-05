@@ -33,7 +33,7 @@ const Dashboard = () => {
     // # Add the minimum 'loader' delay
     const timer = setTimeout(() => {
       setMinLoaderDelayDone(true);
-    }, 2000);
+    }, 1000);
 
     // # Get the 'user' and 'links' data on the component 'mount'
     if (user) {
@@ -71,7 +71,8 @@ const Dashboard = () => {
         const successMsg = getSuccessMsg(response.payload);
         showToast(successMsg, 'success');
         setIsEditUserOpen(false);
-        getUser();
+        await getUser();
+        await getLinks();
       }
     } catch (err) {
       showToast(err.message, 'error');
@@ -87,7 +88,7 @@ const Dashboard = () => {
         const successMsg = getSuccessMsg(response.payload);
         showToast(successMsg, 'success');
         setIsCreateOpen(false);
-        getLinks();
+        await getLinks();
       }
     } catch (err) {
       showToast(err.message, 'error');
@@ -103,7 +104,7 @@ const Dashboard = () => {
         const successMsg = getSuccessMsg(response.payload);
         showToast(successMsg, 'success');
         setIsDetailOpen(false);
-        getLinks();
+        await getLinks();
       }
     } catch (err) {
       showToast(err.message, 'error');
@@ -118,11 +119,10 @@ const Dashboard = () => {
       if (response.success) {
         const successMsg = getSuccessMsg(response.payload);
         showToast(successMsg, 'success');
-        getLinks();
+        await getLinks();
       }
     } catch (err) {
       showToast(err.message, 'error');
-      getLinks();
     }
   };
 
