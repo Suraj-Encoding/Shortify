@@ -167,7 +167,7 @@ const LinkDetailDialog = ({ link, username, open, onOpenChange, onUpdate, onDele
                             </label>
                             <Input
                                 value={formData.destination_url}
-                                onChange={(e) => setFormData({ ...formData, destination_url: e.target.value.toLowerCase().trim() })}
+                                onChange={(e) => setFormData({ ...formData, destination_url: e.target.value })}
                                 placeholder="https://example.com"
                                 disabled={isLoading}
                                 className="bg-gray-100 dark:bg-gray-700 dark:text-white dark:border-gray-600"
