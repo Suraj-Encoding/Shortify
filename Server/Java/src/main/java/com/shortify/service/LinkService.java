@@ -52,7 +52,6 @@ public class LinkService {
         Link link = Link.builder()
                 .userId(user.getId())
                 .clerkUserId(user.getClerkUserId())
-                .isUserDeleted(false)
                 .title(linkData.getTitle())
                 .description(linkData.getDescription())
                 .destinationUrl(linkData.getDestinationUrl())
