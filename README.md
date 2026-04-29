@@ -1,7 +1,7 @@
 <!-- # "Shortify" Readme File # -->
 # 🕸️ Welcome to Shortify - Modern URL Shortener 🕸️
 
-Shortify is a modern, full‑stack URL shortening service built with Go (backend), MongoDB (data store), Clerk (authentication), and Next.js (frontend). It's designed for rapid development and production readiness with clean APIs and a polished UI.
+Shortify is a modern, full‑stack URL shortening service built with Go/Java (backend), MongoDB (data store), Clerk (authentication), and Next.js (frontend). It's designed for rapid development and production readiness with clean APIs and a polished UI.
 
 ---
 
@@ -17,7 +17,7 @@ Shortify is a modern, full‑stack URL shortening service built with Go (backend
 
 ## Tech Stack
 
-- **Backend:** Go
+- **Backend:** Go / Java (Spring Boot)
 - **Database:** MongoDB
 - **Auth:** Clerk
 - **Frontend:** Next.js
@@ -31,12 +31,14 @@ Shortify is a modern, full‑stack URL shortening service built with Go (backend
 - User management and authentication via Clerk
 - MongoDB for reliable storage of users and links
 - Next.js frontend with responsive UI and Clerk integration
+- Dual backend support (Go and Java) with identical APIs
 
 ---
 
 ## Project Structure (high level)
 
-- `Server/` — Go backend, API handlers, app logic and MongoDB integration
+- `Server/Go/` — Go backend, API handlers, app logic and MongoDB integration
+- `Server/Java/` — Java Spring Boot backend (API-compatible with Go)
 - `Client/` — Next.js frontend, components, and Clerk auth routes
 - `README.md` — This file
 
@@ -46,7 +48,8 @@ Shortify is a modern, full‑stack URL shortening service built with Go (backend
 
 Prerequisites:
 
-- Go 1.20+ installed
+- Go 1.20+ installed (for Go backend)
+- Java 17+ and Maven 3.6+ installed (for Java backend)
 - MongoDB accessible (local or hosted)
 - Clerk account and API keys (for auth)
 
@@ -62,19 +65,36 @@ git clone https://github.com/<your-github-username>/Shortify.git .
 
 Before running the app locally or deploying, make sure your runtime configuration is in place:
 
-- Local development: copy `Server/.env.example` to `Server/.env` and `Client/.env.example` to `Client/.env`, then open those files and fill in values specific to your environment. Keep sensitive values out of version control.
+- Local development: copy `Server/Go/.env.example` to `Server/Go/.env` (or `Server/Java/.env.example` to `Server/Java/.env`) and `Client/.env.example` to `Client/.env`, then open those files and fill in values specific to your environment. Keep sensitive values out of version control.
 
 - Production: configure required settings and secrets in your hosting platform's environment manager (Vercel, Render, etc.). Ensure callback/webhook URLs (for Clerk and other services) point to your deployed URLs.
 
-Use the example files in `Server/.env.example` and `Client/.env.example` as the authoritative list of keys to provide; the README avoids enumerating individual variable names to keep configuration details centralized in the example files.
+Use the example files in `Server/Go/.env.example`, `Server/Java/.env.example` and `Client/.env.example` as the authoritative list of keys to provide; the README avoids enumerating individual variable names to keep configuration details centralized in the example files.
 
-3. Run the backend
+3. Run the backend (choose one)
+
+**Option A: Go Backend**
 
 ```bash
-cd Server
+cd Server/Go
 go mod tidy
 go build main.go
 ./main
+```
+
+**Option B: Java Backend**
+
+```bash
+cd Server/Java
+mvn clean package -DskipTests
+java -jar target/shortify-1.0.0.jar
+```
+
+Or using Maven directly:
+
+```bash
+cd Server/Java
+mvn spring-boot:run
 ```
 
 4. Frontend: install and run
@@ -97,6 +117,8 @@ The frontend typically runs on `http://localhost:3000` and the backend on `http:
   - User webhook: `POST /api/v1/user/webhook` (Clerk)
   - Update username: `PUT /api/v1/user/username`
   - Links CRUD: under `/api/v1/link`
+
+Note: Both Go and Java backends expose identical API endpoints and response formats. No frontend changes required when switching backends.
 
 ---
 
