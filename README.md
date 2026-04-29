@@ -143,19 +143,29 @@ Below are quick deployment flows for the frontend (Vercel) and backend (Render).
   5. Configure required settings and secrets in Vercel (Dashboard → Settings → Environment Variables).
   6. Deploy — Vercel will run builds on every push.
 
-- Render (Backend)
+- Render (Backend - Go)
 
   1. Create a new Web Service on Render and connect it to the repository.
-  2. Set the root directory to `Server`.
+  2. Set the root directory to `Server/Go`.
   3. Environment & Build:
-    - Build command: `go build main.go`
-    - Start command: `./main`
+     - Build command: `go build main.go`
+     - Start command: `./main`
+  4. Configure required settings and secrets in Render (Service settings → Environment).
+  5. Deploy — Render will build and start the service; check logs for startup errors.
+
+- Render (Backend - Java)
+
+  1. Create a new Web Service on Render and connect it to the repository.
+  2. Set the root directory to `Server/Java`.
+  3. Environment & Build:
+     - Build command: `mvn clean package -DskipTests`
+     - Start command: `java -jar target/shortify-1.0.0.jar`
   4. Configure required settings and secrets in Render (Service settings → Environment).
   5. Deploy — Render will build and start the service; check logs for startup errors.
 
 Tips:
 
-- Use Vercel for the Next.js frontend (serverless/edge‑optimized) and Render (or similar) for the Go backend.
+- Use Vercel for the Next.js frontend (serverless/edge‑optimized) and Render (or similar) for the Go/Java backend.
 - Keep production secrets in the platform's environment manager — never commit them.
 - If using webhooks (Clerk), configure callback URLs in Clerk to point to your deployed `POST /api/v1/user/webhook` endpoint.
 
@@ -167,7 +177,10 @@ Contributions welcome — open issues or submit PRs. Follow these steps:
 
 1. Fork the repo
 2. Create a feature branch
-3. Make changes and run `go build` and `npm run dev` locally
+3. Make changes and test locally:
+   - Go backend: `cd Server/Go && go build main.go`
+   - Java backend: `cd Server/Java && mvn compile`
+   - Frontend: `cd Client && npm run dev`
 4. Open a PR with a clear description
 
 ---
