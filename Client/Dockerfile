@@ -1,16 +1,41 @@
-## DockerFile: For "Nginx" Application ##
+## DockerFile: For "React + Vite" Application ##
 
-# Start from the latest "nginx" base image (alpine)
-FROM nginx:alpine
+# Build stage
+FROM node:18-alpine AS builder
 
-# Remove the default "Nginx" configuration 'file'
-RUN rm /usr/share/nginx/html/index.html
+# Set the 'app' as a 'CWD' inside the 'container'
+WORKDIR /app
 
-# Copy the custom 'index.html' to the "Nginx" web 'root'
-COPY index.html /usr/share/nginx/html/
+# Copy the 'package.json' and 'package-lock.json' files
+COPY package*.json ./
 
-# Expose the port "80" to 'access' the web 'page'
+# Install the 'dependencies'
+RUN npm ci
+
+# Copy the rest of the application
+COPY . .
+
+# Build the 'Vite' application
+RUN npm run build
+
+# Production stage using nginx
+FROM nginx:alpine AS runner
+
+# Copy the 'build' output from the 'builder' stage
+COPY --from=builder /app/dist /usr/share/nginx/html
+
+# Copy nginx configuration for SPA routing
+RUN echo 'server { \
+    listen 80; \
+    location / { \
+        root /usr/share/nginx/html; \
+        index index.html; \
+        try_files $uri $uri/ /index.html; \
+    } \
+}' > /etc/nginx/conf.d/default.conf
+
+# Expose the port "80" to the 'outside' world
 EXPOSE 80
 
-# Start the "Nginx" server
+# Run nginx
 CMD ["nginx", "-g", "daemon off;"]

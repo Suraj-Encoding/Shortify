@@ -1,7 +1,7 @@
 <!-- # "Shortify" Readme File # -->
 # 🕸️ Welcome to Shortify - Modern URL Shortener 🕸️
 
-Shortify is a modern, full‑stack URL shortening service built with Go/Java (backend), MongoDB (data store), Clerk (authentication), and Next.js (frontend). It's designed for rapid development and production readiness with clean APIs and a polished UI.
+Shortify is a modern, full‑stack URL shortening service built with Go/Java (backend), MongoDB (data store), Clerk (authentication), and React.js (frontend). It's designed for rapid development and production readiness with clean APIs and a polished UI.
 
 ---
 
@@ -20,7 +20,7 @@ Shortify is a modern, full‑stack URL shortening service built with Go/Java (ba
 - **Backend:** Go / Java (Spring Boot)
 - **Database:** MongoDB
 - **Auth:** Clerk
-- **Frontend:** Next.js
+- **Frontend:** React.js
 
 ---
 
@@ -30,7 +30,7 @@ Shortify is a modern, full‑stack URL shortening service built with Go/Java (ba
 - Fast redirect service for shortened links
 - User management and authentication via Clerk
 - MongoDB for reliable storage of users and links
-- Next.js frontend with responsive UI and Clerk integration
+- React.js frontend with responsive UI and Clerk integration
 - Dual backend support (Go and Java) with identical APIs
 
 ---
@@ -39,7 +39,7 @@ Shortify is a modern, full‑stack URL shortening service built with Go/Java (ba
 
 - `Server/Go/` — Go backend, API handlers, app logic and MongoDB integration
 - `Server/Java/` — Java Spring Boot backend (API-compatible with Go)
-- `Client/` — Next.js frontend, components, and Clerk auth routes
+- `Client/` — React.js frontend, components, and Clerk auth routes
 - `README.md` — This file
 
 ---
@@ -102,8 +102,13 @@ mvn spring-boot:run
 ```bash
 cd Client
 npm install
-npm run build 
 npm run dev
+```
+
+To build for production:
+
+```bash
+npm run build
 ```
 
 The frontend typically runs on `http://localhost:3000` and the backend on `http://localhost:3001` (configurable).
@@ -139,7 +144,7 @@ Below are quick deployment flows for the frontend (Vercel) and backend (Render).
   1. Create a Vercel project and connect it to this repository.
   2. Set the Project Root to `Client` (or import as a monorepo and point the app to `Client`).
   3. Build command: `npm run build`
-  4. Output directory: leave default (Next.js handled by Vercel).
+  4. Output directory: `dist`
   5. Configure required settings and secrets in Vercel (Dashboard → Settings → Environment Variables).
   6. Deploy — Vercel will run builds on every push.
 
@@ -165,7 +170,7 @@ Below are quick deployment flows for the frontend (Vercel) and backend (Render).
 
 Tips:
 
-- Use Vercel for the Next.js frontend (serverless/edge‑optimized) and Render (or similar) for the Go/Java backend.
+- Use Vercel for the React.js frontend and Render (or similar) for the Go/Java backend.
 - Keep production secrets in the platform's environment manager — never commit them.
 - If using webhooks (Clerk), configure callback URLs in Clerk to point to your deployed `POST /api/v1/user/webhook` endpoint.
 
