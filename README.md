@@ -1,7 +1,7 @@
 <!-- # "Shortify" Readme File # -->
 # 🕸️ Welcome to Shortify - Modern URL Shortener 🕸️
 
-Shortify is a modern, full‑stack URL shortening service built with Go (backend), MongoDB (data store), Clerk (authentication), and Next.js (frontend). It's designed for rapid development and production readiness with clean APIs and a polished UI.
+Shortify is a modern, full‑stack URL shortening service built with Go/Java (backend), MongoDB (data store), Clerk (authentication), and React.js (frontend). It's designed for rapid development and production readiness with clean APIs and a polished UI.
 
 ---
 
@@ -17,10 +17,10 @@ Shortify is a modern, full‑stack URL shortening service built with Go (backend
 
 ## Tech Stack
 
-- **Backend:** Go
+- **Backend:** Go / Java (Spring Boot)
 - **Database:** MongoDB
 - **Auth:** Clerk
-- **Frontend:** Next.js
+- **Frontend:** React.js
 
 ---
 
@@ -30,14 +30,16 @@ Shortify is a modern, full‑stack URL shortening service built with Go (backend
 - Fast redirect service for shortened links
 - User management and authentication via Clerk
 - MongoDB for reliable storage of users and links
-- Next.js frontend with responsive UI and Clerk integration
+- React.js frontend with responsive UI and Clerk integration
+- Dual backend support (Go and Java) with identical APIs
 
 ---
 
 ## Project Structure (high level)
 
-- `Server/` — Go backend, API handlers, app logic and MongoDB integration
-- `Client/` — Next.js frontend, components, and Clerk auth routes
+- `Server/Go/` — Go backend, API handlers, app logic and MongoDB integration
+- `Server/Java/` — Java Spring Boot backend (API-compatible with Go)
+- `Client/` — React.js frontend, components, and Clerk auth routes
 - `README.md` — This file
 
 ---
@@ -46,7 +48,8 @@ Shortify is a modern, full‑stack URL shortening service built with Go (backend
 
 Prerequisites:
 
-- Go 1.20+ installed
+- Go 1.20+ installed (for Go backend)
+- Java 17+ and Maven 3.6+ installed (for Java backend)
 - MongoDB accessible (local or hosted)
 - Clerk account and API keys (for auth)
 
@@ -62,19 +65,36 @@ git clone https://github.com/<your-github-username>/Shortify.git .
 
 Before running the app locally or deploying, make sure your runtime configuration is in place:
 
-- Local development: copy `Server/.env.example` to `Server/.env` and `Client/.env.example` to `Client/.env`, then open those files and fill in values specific to your environment. Keep sensitive values out of version control.
+- Local development: copy `Server/Go/.env.example` to `Server/Go/.env` (or `Server/Java/.env.example` to `Server/Java/.env`) and `Client/.env.example` to `Client/.env`, then open those files and fill in values specific to your environment. Keep sensitive values out of version control.
 
 - Production: configure required settings and secrets in your hosting platform's environment manager (Vercel, Render, etc.). Ensure callback/webhook URLs (for Clerk and other services) point to your deployed URLs.
 
-Use the example files in `Server/.env.example` and `Client/.env.example` as the authoritative list of keys to provide; the README avoids enumerating individual variable names to keep configuration details centralized in the example files.
+Use the example files in `Server/Go/.env.example`, `Server/Java/.env.example` and `Client/.env.example` as the authoritative list of keys to provide; the README avoids enumerating individual variable names to keep configuration details centralized in the example files.
 
-3. Run the backend
+3. Run the backend (choose one)
+
+**Option A: Go Backend**
 
 ```bash
-cd Server
+cd Server/Go
 go mod tidy
 go build main.go
 ./main
+```
+
+**Option B: Java Backend**
+
+```bash
+cd Server/Java
+mvn clean package -DskipTests
+java -jar target/shortify-1.0.0.jar
+```
+
+Or using Maven directly:
+
+```bash
+cd Server/Java
+mvn spring-boot:run
 ```
 
 4. Frontend: install and run
@@ -82,8 +102,13 @@ go build main.go
 ```bash
 cd Client
 npm install
-npm run build 
 npm run dev
+```
+
+To build for production:
+
+```bash
+npm run build
 ```
 
 The frontend typically runs on `http://localhost:3000` and the backend on `http://localhost:3001` (configurable).
@@ -97,6 +122,8 @@ The frontend typically runs on `http://localhost:3000` and the backend on `http:
   - User webhook: `POST /api/v1/user/webhook` (Clerk)
   - Update username: `PUT /api/v1/user/username`
   - Links CRUD: under `/api/v1/link`
+
+Note: Both Go and Java backends expose identical API endpoints and response formats. No frontend changes required when switching backends.
 
 ---
 
@@ -117,23 +144,33 @@ Below are quick deployment flows for the frontend (Vercel) and backend (Render).
   1. Create a Vercel project and connect it to this repository.
   2. Set the Project Root to `Client` (or import as a monorepo and point the app to `Client`).
   3. Build command: `npm run build`
-  4. Output directory: leave default (Next.js handled by Vercel).
+  4. Output directory: `dist`
   5. Configure required settings and secrets in Vercel (Dashboard → Settings → Environment Variables).
   6. Deploy — Vercel will run builds on every push.
 
-- Render (Backend)
+- Render (Backend - Go)
 
   1. Create a new Web Service on Render and connect it to the repository.
-  2. Set the root directory to `Server`.
+  2. Set the root directory to `Server/Go`.
   3. Environment & Build:
-    - Build command: `go build main.go`
-    - Start command: `./main`
+     - Build command: `go build main.go`
+     - Start command: `./main`
+  4. Configure required settings and secrets in Render (Service settings → Environment).
+  5. Deploy — Render will build and start the service; check logs for startup errors.
+
+- Render (Backend - Java)
+
+  1. Create a new Web Service on Render and connect it to the repository.
+  2. Set the root directory to `Server/Java`.
+  3. Environment & Build:
+     - Build command: `mvn clean package -DskipTests`
+     - Start command: `java -jar target/shortify-1.0.0.jar`
   4. Configure required settings and secrets in Render (Service settings → Environment).
   5. Deploy — Render will build and start the service; check logs for startup errors.
 
 Tips:
 
-- Use Vercel for the Next.js frontend (serverless/edge‑optimized) and Render (or similar) for the Go backend.
+- Use Vercel for the React.js frontend and Render (or similar) for the Go/Java backend.
 - Keep production secrets in the platform's environment manager — never commit them.
 - If using webhooks (Clerk), configure callback URLs in Clerk to point to your deployed `POST /api/v1/user/webhook` endpoint.
 
@@ -145,7 +182,10 @@ Contributions welcome — open issues or submit PRs. Follow these steps:
 
 1. Fork the repo
 2. Create a feature branch
-3. Make changes and run `go build` and `npm run dev` locally
+3. Make changes and test locally:
+   - Go backend: `cd Server/Go && go build main.go`
+   - Java backend: `cd Server/Java && mvn compile`
+   - Frontend: `cd Client && npm run dev`
 4. Open a PR with a clear description
 
 ---
